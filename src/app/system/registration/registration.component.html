@@ -1,0 +1,81 @@
+<!-- swal tabla informacion -->
+<swal class="swal-wide" #swalid1 title="Activar Plataforma" [swalOptions]="{customClass: 'clase'}" [showConfirmButton]="false">
+    <div *swalPortal>
+        <form [formGroup]="formFecha">
+            <div class="col-md-6 mb-3">
+                <label for="fechaNac">Fecha de Inicio</label>
+                <input formControlName="fechaInicio" type="date" placeholder="Fecha de Inicio" class="form-control" id="fechaI" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="fechaNac">Fecha de Fin</label>
+                <input formControlName="fechaFin" type="date" placeholder="Fecha de Fin" class="form-control" id="fechaF" required>
+            </div>
+        </form>
+        <button (click)="subirFechas()">Confirmar</button>
+    </div>
+</swal>
+
+<div class="p-3">
+    <div class="d-flex justify-content-between">
+        <a [routerLink]="['/home/registered-judges']" routerLinkActive="active" class="btn-judges-registered btn mb-2"><span><i class="fas fa-balance-scale"></i></span> Jueces registrados</a>
+        <a class="btn-judges-registered btn mb-2" (click)="mostrarSwal($event)"><span><i class="fas fa-balance-scale"></i></span> ESTABLECER FECHAS</a>
+    </div>
+    <div class="container-fluid color">
+        <div class="row ">
+            <div class="col-xs-12 col-md-6 d-flex align-items-center justify-content-center">
+                <div class="z  d-flex align-items-center justify-content-center">
+                    <img src="../../../assets/add_judge.svg" class="img" alt="">
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="tamano d-flex align-items-center justify-content-center p-5">
+                    <form [formGroup]="formsRegistroJuez">
+                        <h5 class="titulo font-weight-bold">Registrar Juez</h5>
+                        <div class="form-group">
+                            <label for="">Usuario:</label>
+                            <input type="text" class="form-control" formControlName="usuario" placeholder="Nombre de usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Nombre:</label>
+                            <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre del juez">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Sede:</label>
+                            <select #sd (change)="onChangesedeActual(sd.value)" formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? null: 'disabled'">
+                                <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="superUser">
+                            <label for="">Tipo:</label>
+                            <select  class="form-control" formControlName='rol'>
+                                <option value="juez">Juez</option>
+                                <option value="admin">Administrador de sede</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Categoria:</label>
+                            <select #s (change)="onChangecategoriaActual(s.value)" formControlName="id_categorias" class="form-control">
+                                <option value="1">Petit</option>
+                                <option value="2">Kids</option>
+                                <option value="3">Juvenil</option>
+                                <option value="4">Media superior</option>
+                                <option value="5">Superior</option>
+                                <option value="6">Posgrado</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="tipoJ">
+                            <label for="" >Proyectos:</label>
+                            <ng-multiselect-dropdown formControlName="ids_proyectos" [settings]="dropdownSettingsProyecto" [data]="proyectos" (onSelect)="addProyecto($event)" (onDeSelect)="dropProyecto($event)"></ng-multiselect-dropdown>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Contraseña:</label>
+                            <input type="password" class="form-control" formControlName="contrasena" placeholder="Contraseña">
+                        </div>
+                        
+                        <button [disabled]="!formsRegistroJuez.valid" class="btn btn-primary boton-iniciar" (click)="registrarJuez()">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

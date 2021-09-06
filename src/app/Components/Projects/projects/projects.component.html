@@ -1,0 +1,472 @@
+<!-- swal tabla informacion -->
+<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase'}">
+    <div *swalPortal>
+        <div>
+            <table class="table table-light" *ngFor="let info of informacionDeLosProyectos">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Nombre:
+                            </div>
+                        </th>
+                        <td>{{info.nombre}}</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Autores:
+                            </div>
+                        </th>
+                        <td>{{info.autores}}</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Asesores:
+                            </div>
+                        </th>
+                        <td>{{info.asesor}} </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Area:
+                            </div>
+                        </th>
+                        <td> {{info.area}} </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Categoria:
+                            </div>
+                        </th>
+                        <td> {{info.categorias}} </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Sede:
+                            </div>
+                        </th>
+                        <td> {{info.sede}} </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Resumen:
+                            </div>
+                        </th>
+                        <td> {{info.resumen}} </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="row">
+                                Calificación:
+                            </div>
+                        </th>
+                        <td> {{info.calificacion | number:'1.0-0'}} </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</swal>
+<!-- swal reproductor de video -->
+<swal class="swal-wide " #swalid2 title="Demostración del proyecto" [swalOptions]="{customClass: 'clase'}">
+    <div *swalPortal>
+        <div *ngIf="video">
+            <div class="contenedor-video">
+                <video width="400" controls>
+                    <source [src]="video" type="video/mp4" >
+                </video>
+            </div>
+        </div>
+
+    </div>
+</swal>
+<div class="desactivar d-flex align-items-center justify-content-center" *ngIf="sessionData.termino == 1">
+    <h1>PROYECTOS EVALUADOS</h1>
+</div>
+<div class="container-fluid pb-3">
+    <button class="btn-validar  mb-1" [disabled]="validacionProjectos != 1" (click)="updateValidationProjects()">Terminar evaluación
+    </button>
+    <div class="row">
+        <!-- columna Izquierda -->
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="CardPrincipal card mb-3">
+                <div class="card-header background-table">
+                    <h6 class="m-0">Todos los proyectos</h6>
+                </div>
+                <div class="qualified-all-projects card-body p-0">
+                    <table class="table table-hover">
+                        <thead class="thead-ligth">
+                            <tr>
+                                <th scope="col">Nombre del proyecto</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let i of allProjects">
+                                <td> <button class="btn btn-subboton-info mr-3" (click)="mostrarInfoTodosLosProyectos(i)">
+                                    <i class="fas fa-question-circle"></i>
+                                </button>{{i.nombre}}
+                                </td>
+                                <td>
+                                    <div *ngIf="i.status == '0'" class="custom-btn-danger text-center">Sin calificar</div>
+                                    <div *ngIf="i.status == '1'" class="custom-btn-success text-center">Calificado</div>
+                                </td>
+                                <td>
+                                    <button class="btn-edit-project btn-see-projects btn mr-1 mb-1" (click)="traerProyecto(i.id_proyectos)"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-edit-project btn-see-projects btn" (click)="pdf(i.pdf)"><i class="fas fa-file-pdf"></i></button>
+                                    <button class="btn-edit-project btn-see-projects btn" (click)="abrirReproductor($event, i.video)"><i class="fas fa-video"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- columna derecha -->
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="CardIzquierdo projects2 card">
+                <div class="firstHeader card-header">
+                    <h6 class="m-0">Opciones de proyecto</h6>
+                </div>
+                <div class="qualified-projects card-body scroll p-0">
+                    <table class="table" *ngIf="proyectoActual">
+                        <thead>
+                            <tr>
+                                <th class="font-weight-bold text-center">Proyecto</th>
+                                <th class="font-weight-bold text-center">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">{{proyectoActual.nombre}}</td>
+                                <td class="text-center">
+                                    <button class="custom-btn-success" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Calificar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- <button type="button" class="custom-btn-edit" (click)="isCollapsed = !isCollapsed"
+                                    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Editar</button> -->
+                    <div id="collapseExample" [ngbCollapse]="isCollapsed" *ngIf="proyectoActual">
+                        <div class="card-body p-0">
+                            <form [formGroup]="formPuntos">
+                                <table class="table table-hover table-secondary" [ngSwitch]="categoria">
+                                    <thead class="thead-ligth">
+                                        <tr>
+                                            <th scope="col">Punto</th>
+                                            <th scope="col">Calificación</th>
+                                            <th scope="col">Puntos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngSwitchCase="'petit'">
+                                        <tr>
+                                            <td>Calidad del resumen documental</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentación del prototipo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido2" max="40" formControlName="obtenido2">
+                                            </td>
+                                            <td>40</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identificación del problema</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido3" max="10" formControlName="obtenido3">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta de solución</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido4" max="20" formControlName="obtenido4">
+                                            </td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento creativo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
+                                            </td>
+                                            <td>20</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngSwitchCase="'kids'">
+                                        <tr>
+                                            <td>Calidad del resumen documental</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentación del prototipo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido2" max="40" formControlName="obtenido2">
+                                            </td>
+                                            <td>40</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identificación del problema</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido3" max="10" formControlName="obtenido3">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta de solución</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido4" max="20" formControlName="obtenido4">
+                                            </td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento creativo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
+                                            </td>
+                                            <td>20</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngSwitchCase="'juvenil'">
+                                        <tr>
+                                            <td>Calidad del resumen documental</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentación del prototipo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                            </td>
+                                            <td>30</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identificación del problema</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta de solución</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento creativo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
+                                            </td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento de innovación</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido6" max="20" formControlName="obtenido6">
+                                            </td>
+                                            <td>20</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngSwitchCase="'media superior'">
+                                        <tr>
+                                            <td>Calidad del resumen documental</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentación del prototipo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                            </td>
+                                            <td>30</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identificación del problema</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta de solución</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento creativo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento de innovación</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Factibilidad técnica-financiera</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Definicíon de mercado y comercialización</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngSwitchCase="'superior'">
+                                        <tr>
+                                            <td>Calidad del resumen documental</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentación del prototipo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                            </td>
+                                            <td>30</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identificación del problema</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta de solución</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento creativo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento de innovación</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Factibilidad técnica-financiera</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Definicíon de mercado y comercialización</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngSwitchCase="'posgrado'">
+                                        <tr>
+                                            <td>Calidad del resumen documental</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                            </td>
+                                            <td>10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Presentación del prototipo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                            </td>
+                                            <td>30</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Identificación del problema</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta de solución</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento creativo</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Elemento de innovación</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
+                                            </td>
+                                            <td>15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Factibilidad técnica-financiera</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Definicíon de mercado y comercialización</td>
+                                            <td>
+                                                <input min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
+                                            </td>
+                                            <td>5</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-end p-3">
+                                    <button class="btn btn-primary" (click)="guardarPuntos()" [disabled]="!formPuntos.valid">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="p-3">
+
+    <div class="subtitle">
+        <h4>Asesores registrados</h4>
+    </div>
+<hr>
+<table class="table table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido paterno</th>
+            <th>Apellido materno</th>
+            <th>Correo</th>
+            <th>Sede</th>
+            <th>Descripción</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+
+    <tr class="table" *ngFor="let i of asesores">
+        <td>{{i.nombre}}</td>
+        <td>{{i.ape_pat}}</td>
+        <td>{{i.ape_mat}}</td>
+        <td>{{i.email}}</td>
+        <td>{{i.sede}}</td>
+        <td>
+            <div class="scroll">
+                {{i.descripcion}}
+            </div>
+        </td>
+        <td class="d-flex">
+            <button class="btn btn-primary" (click)="saveAsPdf(i)"><i class="fas fa-download"></i></button>
+        </td>
+    </tr>
+</table>
+
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <h4>¿Desea eliminar <span *ngIf="asesorActual" class="text-name-remove">{{asesorActual.nombre}}</span>?</h4>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                        <button class="btn btn-secondary mr-4" data-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-danger" data-dismiss="modal" (click)="deleteAsesor()">Eliminar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <swal #swalid title="Editar Autor" [showConfirmButton] ="false">
+        <form *swalPortal [formGroup]="formAsesores">
+            <div class="form-group">
+                <label for="">Nombre:</label>
+                <input type="text" class="form-control" formControlName="nombres" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label for="">Apellido paterno:</label>
+                <input type="text" class="form-control" formControlName="a_paterno" placeholder="Apellido paterno">
+            </div>
+            <div class="form-group">
+                <label for="">Apellido materno:</label>
+                <input type="text" class="form-control" formControlName="a_materno" placeholder="Apellido materno">
+            </div>
+            <div class="form-group">
+                <label for="">Correo:</label>
+                <input type="email" class="form-control" formControlName="email" placeholder="Correo">
+            </div>
+            <div class="form-group">
+                <label for="">Sede:</label>
+                <select formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
+                    <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Descripción:</label>
+                <textarea formControlName="descripcion" class="form-control" id="Textarea1" rows="3" placeholder="Descripción"></textarea>
+            </div>
+            <button [disabled]="!formAsesores.valid" (click)="editarAsesor()" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        </form>
+    </swal>
+</div>
