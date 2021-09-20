@@ -34,6 +34,8 @@ import { GraForCatComponent } from './Graphics/gra-for-cat/gra-for-cat.component
 import { GraForAseComponent } from './Graphics/gra-for-ase/gra-for-ase.component';
 import { GraForPartComponent } from './Graphics/gra-for-part/gra-for-part.component';
 import { GraForProyComponent } from './Graphics/gra-for-proy/gra-for-proy.component';
+import { SedeComponent } from './Components/sede/sede.component';
+import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import { GraForProyComponent } from './Graphics/gra-for-proy/gra-for-proy.compon
     GraForAseComponent,
     GraForPartComponent,
     GraForProyComponent,
+    SedeComponent,
+    AdminRegisteredComponent,
   ],
   imports: [
     BrowserModule,

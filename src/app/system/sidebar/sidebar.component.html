@@ -81,6 +81,10 @@
 
 
             <li class="item">
+                <a *ngIf="admin" [routerLink]="['sede']" routerLinkActive="active" class="menu-btn">
+                    <i class="fas fa-balance-scale"></i><span> Sedes <i
+                            class="fas fa-chevron-right drop-down"></i></span>
+                </a>
                 <a *ngIf="admin" [routerLink]="['judges']" routerLinkActive="active" class="menu-btn">
                     <i class="fas fa-balance-scale"></i><span> Jueces <i
                             class="fas fa-chevron-right drop-down"></i></span>
@@ -89,12 +93,12 @@
                     <i class="fas fa-pencil-ruler"></i><span> Proyectos <i
                             class="fas fa-chevron-right drop-down"></i></span>
                 </a>
-                <!-- <a *ngIf="admin" [routerLink]="['advisers-registered']" routerLinkActive="active" class="menu-btn">
+                <a *ngIf="admin" [routerLink]="['advisers-registered']" routerLinkActive="active" class="menu-btn">
                     <i class="fas fa-users"></i><span> Asesores <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
                 <a *ngIf="admin" [routerLink]="['authors-registered']" routerLinkActive="active"  class="menu-btn">
                     <i class="fas fa-user-check"></i><span> Autores <i class="fas fa-chevron-right drop-down"></i></span>
-                </a> -->
+                </a>
 
                 <a *ngIf="admin" [routerLink]="['add-estadistics']" routerLinkActive="active" class="menu-btn">
                     <i class="fas fa-user-check"></i><span> Estadísticas <i class="fas fa-chevron-right drop-down"></i></span>

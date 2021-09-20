@@ -1,52 +1,46 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { JuecesService } from '../../services/jueces.service';
-import { UtilService } from 'src/app/services/util.service';
-import swal from 'sweetalert2';
-import { SedesService } from '../../services/sedes.service';
-import { Sedes } from '../../models/sedes.model';
-import { Session } from '../../models/session.model';
-import { Proyectos } from '../../models/proyectos.model';
+import { Proyectos } from 'src/app/models/proyectos.model';
 import { ProyectosService } from 'src/app/services/proyectos.service';
-import { JudgesRegisteredService } from '../../services/judges.service';
+import { UtilService } from '../../services/util.service';
+import { Session } from '../../models/session.model';
+import { Sedes } from '../../models/sedes.model';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { JuecesService } from 'src/app/services/jueces.service';
 import { forkJoin } from 'rxjs';
+import { SedesService } from '../../services/sedes.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import Swal from 'sweetalert2';
+import swal from 'sweetalert2';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
-
-
-
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  selector: 'app-sede',
+  templateUrl: './sede.component.html',
+  styleUrls: ['./sede.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class SedeComponent implements OnInit {
 
-  @ViewChild('swalid1') private swalid1: SwalComponent;
+  @ViewChild('swalid3') private swalid1: SwalComponent;
 
-  public isCollapsed = false;
-  sedes: Sedes[];
   sessionData: Session;
   proyectos: Proyectos[];
   proyectosSeleccionados: Proyectos[];
+  sedes: Sedes[];
   dropdownSettingsProyecto: IDropdownSettings;
+  superUser: boolean;
+  sedeActual = '1';
+  categoriaActua = '1';
   public formsRegistroJuez: FormGroup;
   formFecha: FormGroup;
-  superUser: boolean;
-  categoriaActua = '1';
   tipoJuez = '';
   tipoJ = false;
-  sedeActual = '1';
+
   constructor(
     public formBuilder: FormBuilder,
     private juecesService: JuecesService,
     private sedesService: SedesService,
-    private judgeRegistredService: JudgesRegisteredService,
     private proyectosService: ProyectosService,
     private utilService: UtilService
-    ) {
+  ) {
     this.proyectos = new Array<Proyectos>();
     this.proyectosSeleccionados = new Array<Proyectos>();
     this.sessionData = JSON.parse(localStorage.getItem('session'));
@@ -64,9 +58,10 @@ export class RegistrationComponent implements OnInit {
       fechaInicio: ['', Validators.required],
       fechaFin: ['', Validators.required]
     });
-  }
+   }
+
   ngOnInit(): void {
-    this.tipoJ = true;
+    this.tipoJ = false;
     this.superUser = this.sessionData.rol === 'superuser';
     if ( this.sessionData.rol === 'superuser') {
       forkJoin({
@@ -109,31 +104,47 @@ export class RegistrationComponent implements OnInit {
           };
         });
     }
-    }
-    registrarJuez() {
-      this.utilService.loading = true;
-      this.juecesService.registrarJuez(this.formsRegistroJuez.value).subscribe(
-        data => {
-          swal.fire({
-            icon: 'success',
-            title: 'Exito',
-            text: 'El juez se registro correctamente'
-          });
-          this.formsRegistroJuez.reset({
-            id_sedes: this.sessionData.id_sedes
-          });
-        },
-        err => {
-          swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Hubo un error al registrar el juez'
-          });
-          console.log(err);
-        }
-      ).add(() => {
-        this.utilService.loading = false;
-      });
+  }
+
+  registrarJuez() {
+    this.utilService.loading = true;
+    this.juecesService.registrarJuez(this.formsRegistroJuez.value).subscribe(
+      data => {
+        swal.fire({
+          icon: 'success',
+          title: 'Exito',
+          text: 'El juez se registro correctamente'
+        });
+        this.formsRegistroJuez.reset({
+          id_sedes: this.sessionData.id_sedes
+        });
+      },
+      err => {
+        swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al registrar el juez'
+        });
+        console.log(err);
+      }
+    ).add(() => {
+      this.utilService.loading = false;
+    });
+  }
+  onChangecategoriaActual(value) {
+    this.utilService._loading = true;
+    this.categoriaActua = value;
+    if ( this.sessionData.rol === 'superuser') {
+      this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
+        .subscribe( data => {
+          this.proyectos = data;
+        }).add(() => this.utilService._loading = false );
+      } else {
+        this.proyectosService.obtenerTodosLosProyectosCategoria(value)
+          .subscribe( data => {
+            this.proyectos = data;
+          }).add(() => this.utilService._loading = false);
+      }
   }
   addProyecto(item: any) {
     this.proyectosSeleccionados.push(item);
@@ -153,21 +164,6 @@ export class RegistrationComponent implements OnInit {
           this.proyectos = data;
         }).add(() => this.utilService._loading = false);
   }
-  onChangecategoriaActual(value) {
-    this.utilService._loading = true;
-    this.categoriaActua = value;
-    if ( this.sessionData.rol === 'superuser') {
-      this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
-        .subscribe( data => {
-          this.proyectos = data;
-        }).add(() => this.utilService._loading = false );
-      } else {
-        this.proyectosService.obtenerTodosLosProyectosCategoria(value)
-          .subscribe( data => {
-            this.proyectos = data;
-          }).add(() => this.utilService._loading = false);
-      }
-  }
   onChangeTipo(value) {
     this.utilService._loading = true;
     this.tipoJuez = value;
@@ -178,6 +174,7 @@ export class RegistrationComponent implements OnInit {
     }
     this.utilService._loading = false;
   }
+
   mostrarSwal(evt: any) {
     this.swalid1.fire();
   }
@@ -188,4 +185,5 @@ export class RegistrationComponent implements OnInit {
       }
      );
   }
+
 }
