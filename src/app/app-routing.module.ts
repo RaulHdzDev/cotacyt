@@ -10,6 +10,8 @@ import { ProjectsRegisteredComponent } from './Components/Projects/projects-regi
 import { AdvisersRegisteredComponent } from './Components/Advisers/advisers-registered/advisers-registered.component';
 import { AuthorsRegisteredComponent } from './Components/Authors/authors-registered/authors-registered.component';
 import { EstadisticsComponent } from './estadistics/estadistics.component';
+import { SedeComponent } from './Components/sede/sede.component';
+import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
 
 const routes: Routes = [
   {
@@ -34,7 +36,12 @@ const routes: Routes = [
       {
         path: 'registered-judges', component: JudgesComponent
       },
-
+      {
+        path: 'sede', component: SedeComponent
+      },
+      {
+        path: 'admins-registered', component: AdminRegisteredComponent
+      },
       {
         path: 'projects-registered', component: ProjectsRegisteredComponent
       },
