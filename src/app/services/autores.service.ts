@@ -17,6 +17,9 @@ export class AutoresService {
     return this.http.get<Autores[]>( this.servicesConfig.APP_ENDPOINT
       + 'api/autores/all?id_sedes=' + this.sessionData.id_sedes);
   }
+  postAutor( body: any ): Observable<any> {
+    return this.http.post(this.servicesConfig.APP_ENDPOINT + 'api/autores/nuevo', body);
+  }
   getAutoresSuperUser(): Observable<Autores[]> {
     return this.http.get<Autores[]>(this.servicesConfig.APP_ENDPOINT + '/api/autores/all-admin');
   }

@@ -10,6 +10,7 @@ import { ProjectsRegisteredComponent } from './Components/Projects/projects-regi
 import { AdvisersRegisteredComponent } from './Components/Advisers/advisers-registered/advisers-registered.component';
 import { AuthorsRegisteredComponent } from './Components/Authors/authors-registered/authors-registered.component';
 import { EstadisticsComponent } from './estadistics/estadistics.component';
+import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,9 @@ const routes: Routes = [
       },
       {
         path: 'authors-registered', component: AuthorsRegisteredComponent
+      },
+      {
+        path: 'nuevo-autor', component: AddAuthorsComponent
       }
     ]
   }
