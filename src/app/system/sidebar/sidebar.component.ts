@@ -23,15 +23,22 @@ export class SidebarComponent implements OnInit {
     this.categoria = 'Cargando...';
   }
   admin: boolean;
+  superuser: boolean;
   ngOnInit(): void {
     this.admin = false;
+    this.superuser = false;
     this.categoriasService.getCategorias().subscribe( data => {
       this.categoria = data.categoria;
-      if ( this.sessionData.rol === 'admin' || this.sessionData.rol === 'superuser' ) {
+      if ( this.sessionData.rol === 'admin') {
         this.admin = true;
+        this._utilService._cargo = true;
+      } else if(this.sessionData.rol === 'superuser') {
+        this.admin = true;
+        this.superuser = true;
         this._utilService._cargo = true;
       } else {
         this.admin = false;
+        this.superuser = false;
         this._utilService._cargo = false;
       }
     });

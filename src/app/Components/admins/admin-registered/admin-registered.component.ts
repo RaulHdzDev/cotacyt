@@ -95,7 +95,7 @@ export class AdminRegisteredComponent implements OnInit {
   }
   deleteJudge() {
     this.utilService._loading = true;
-    this.adminsService.deleteJudges(this.adminActual.id_jueces)
+    this.adminsService.deleteAdmin(this.adminActual.id_jueces)
       .subscribe(data => {
         Swal.fire({
           title: 'Se elimino correctamente',
