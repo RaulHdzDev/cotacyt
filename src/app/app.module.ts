@@ -34,9 +34,14 @@ import { GraForCatComponent } from './Graphics/gra-for-cat/gra-for-cat.component
 import { GraForAseComponent } from './Graphics/gra-for-ase/gra-for-ase.component';
 import { GraForPartComponent } from './Graphics/gra-for-part/gra-for-part.component';
 import { GraForProyComponent } from './Graphics/gra-for-proy/gra-for-proy.component';
+<<<<<<< HEAD
 import { SedeComponent } from './Components/sede/sede.component';
 import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
 
+=======
+import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
+import { FormAuthorComponent } from './Components/Authors/form-author/form-author.component';
+>>>>>>> b6acaea9445154e2b92cae32aa21df740d840e8b
 
 @NgModule({
   declarations: [
@@ -57,8 +62,13 @@ import { AdminRegisteredComponent } from './Components/admins/admin-registered/a
     GraForAseComponent,
     GraForPartComponent,
     GraForProyComponent,
+<<<<<<< HEAD
     SedeComponent,
     AdminRegisteredComponent,
+=======
+    AddAuthorsComponent,
+    FormAuthorComponent,
+>>>>>>> b6acaea9445154e2b92cae32aa21df740d840e8b
   ],
   imports: [
     BrowserModule,

@@ -36,15 +36,13 @@
             <td>{{autor.municipio}}</td>
             <td>{{autor.localidad}}</td>
             <td class="d-flex ">
-                <!-- <button (click)="openSwal(autor)" class="btn btn-edit mr-3" data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i></button> -->
-
-                <!-- <button (click)="setAutor(autor)" class="btn btn-danger mr-3" data-toggle="modal" data-target="#modalEliminar"><i class="fas fa-trash-alt"></i></button> -->
-
+                <button (click)="openSwal(autor)" class="btn btn-edit mr-3" data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i></button>
+                <button (click)="setAutor(autor)" class="btn btn-danger mr-3" data-toggle="modal" data-target="#modalEliminar"><i class="fas fa-trash-alt"></i></button>
                 <button class="btn btn-primary" (click)="saveAsPdf(autor, autores)"><i class="fas fa-download"></i></button>
             </td>
         </tr>
     </table>
-    <!-- Modal Eliminar
+    <!-- Modal Eliminar -->
     <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -59,64 +57,141 @@
                 </div>
             </div>
         </div>
-    </div> -->
-    <!-- <swal #swalid title="Editar Autor" [showConfirmButton]="false">
-        <form *swalPortal [formGroup]="formAutores">
-            <div class="form-group">
-                <label for="">Nombre:</label>
-                <input type="text" class="form-control" formControlName="nombres" placeholder="Nombre">
+    </div>
+    <swal #swalid title="Editar Autor" [showConfirmButton]="false" [swalOptions]="{width: '700px'}">
+        <div *swalPortal class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form class="row" [formGroup]="formEditAutor">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Nombre(s)<b style="color: red;">*</b></label>
+                            <input formControlName="name_author" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['name_author'].invalid && (formEditAutor.controls['name_author'].dirty || formEditAutor.controls['name_author'].touched)"
+                                class="form-text" style="color: red;">Nombre inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Apellido paterno<b style="color: red;">*</b></label>
+                            <input formControlName="last_name" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['last_name'].invalid && (formEditAutor.controls['last_name'].dirty || formEditAutor.controls['last_name'].touched)"
+                                class="form-text" style="color: red;">Apellido paterno inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Apellido materno<b style="color: red;">*</b></label>
+                            <input formControlName="second_last_name" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['second_last_name'].invalid && (formEditAutor.controls['second_last_name'].dirty || formEditAutor.controls['second_last_name'].touched)"
+                                class="form-text" style="color: red;">Apellido materno inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Domicilio<b style="color: red;">*</b></label>
+                            <input formControlName="address" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['address'].invalid && (formEditAutor.controls['address'].dirty || formEditAutor.controls['address'].touched)"
+                                class="form-text" style="color: red;">Dirección inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Colonia<b style="color: red;">*</b></label>
+                            <input formControlName="suburb" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['suburb'].invalid && (formEditAutor.controls['suburb'].dirty || formEditAutor.controls['suburb'].touched)"
+                                class="form-text" style="color: red;">Colonia inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Código postal<b style="color: red;">*</b></label>
+                            <input formControlName="postal_code" type="number" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['postal_code'].invalid && (formEditAutor.controls['postal_code'].dirty || formEditAutor.controls['postal_code'].touched)"
+                                class="form-text" style="color: red;">Código postal inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>CURP<b style="color: red;">*</b></label>
+                            <input style="text-transform:uppercase"  (keyup)="curpUpperCase()" formControlName="curp" type="text" class="form-control">
+                            <small class="form-text text-muted">Consulta tu CURP <a href="https://www.gob.mx/curp/"
+                                    target="_blank">aquí</a></small>
+                            <small
+                                *ngIf="formEditAutor.controls['curp'].invalid && (formEditAutor.controls['curp'].dirty || formEditAutor.controls['curp'].touched)"
+                                class="form-text" style="color: red;">CURP inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>RFC<b style="color: red;">*</b></label>
+                            <input (keyup)="rfcUpperCase()" style="text-transform:uppercase" formControlName="rfc" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['rfc'].invalid && (formEditAutor.controls['rfc'].dirty || formEditAutor.controls['rfc'].touched)"
+                                class="form-text" style="color: red;">RFC inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Teléfono de contacto<b style="color: red;">*</b></label>
+                            <input formControlName="phone_contact" type="number" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['phone_contact'].invalid && (formEditAutor.controls['phone_contact'].dirty || formEditAutor.controls['phone_contact'].touched)"
+                                class="form-text" style="color: red;">Teléfono inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Correo electrónico<b style="color: red;">*</b></label>
+                            <input formControlName="email" type="email" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['email'].invalid && (formEditAutor.controls['email'].dirty || formEditAutor.controls['email'].touched)"
+                                class="form-text" style="color: red;">Correo inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Municipio<b style="color: red;">*</b></label>
+                            <input formControlName="city" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['city'].invalid && (formEditAutor.controls['city'].dirty || formEditAutor.controls['city'].touched)"
+                                class="form-text" style="color: red;">Municipio inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Localidad<b style="color: red;">*</b></label>
+                            <input formControlName="locality" type="text" class="form-control">
+                            <small class="form-text text-muted">Ej. Ejido, Congregación, Ciudad, etc</small>
+                            <small
+                                *ngIf="formEditAutor.controls['locality'].invalid && (formEditAutor.controls['locality'].dirty || formEditAutor.controls['locality'].touched)"
+                                class="form-text" style="color: red;">Localidad inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Escuela o institución<b style="color: red;">*</b></label>
+                            <input formControlName="school" type="text" class="form-control">
+                            <small
+                                *ngIf="formEditAutor.controls['school'].invalid && (formEditAutor.controls['school'].dirty || formEditAutor.controls['school'].touched)"
+                                class="form-text" style="color: red;">Escuela o institución inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Nivel de íngles:<b style="color: red;">*</b></label>
+                            <select formControlName="levelEnglish" class="form-control">
+                                <option>0% - 40%</option>
+                                <option>41% - 60%</option>
+                                <option>61% - 80%</option>
+                                <option>81% - 100%</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Facebook</label>
+                            <input formControlName="facebook" type="text" class="form-control">
+                            <small class="form-text text-muted">Opcional</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <label>Twitter</label>
+                            <input formControlName="twitter" type="text" class="form-control">
+                            <small class="form-text text-muted">Opcional</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="">Proyecto:</label>
+                                <select formControlName="id_proyectos" class="form-control">
+                                    <option [value]="proyecto.id_proyectos" *ngFor="let proyecto of proyectos">
+                                        {{proyecto.nombre}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button (click)="editarAutor()" [disabled]="!formEditAutor.valid"
+                            class="btn btn-primary boton-iniciar">Editar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="">Apellido paterno:</label>
-                <input type="text" class="form-control" formControlName="a_paterno" placeholder="Apellido paterno">
-            </div>
-            <div class="form-group">
-                <label for="">Apellido materno:</label>
-                <input type="text" class="form-control" formControlName="a_materno" placeholder="Apellido materno">
-            </div>
-            <div class="form-group">
-                <label for="">Teléfono:</label>
-                <input type="text" class="form-control" formControlName="telefono" placeholder="Teléfono">
-            </div>
-
-            <div class="form-group">
-                <label for="">Correo:</label>
-                <input type="email" class="form-control" formControlName="email" placeholder="Correo">
-            </div>
-
-            <div class="form-group">
-                <label for="">Proyecto:</label>
-                <select formControlName="id_proyectos" class="form-control">
-                    <option [value]="proyecto.id_proyectos" *ngFor="let proyecto of proyectos">{{proyecto.nombre}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Sede:</label>
-                <select #sd (change)="onChangeSedeActual(sd.value)" formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
-                    <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Escuela:</label>
-                <select formControlName="id_escuelas" class="form-control">
-                    <option [value]="escuela.id_escuelas" *ngFor="let escuela of escuelas">{{escuela.escuela}}</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="">Municipio:</label>
-                <select formControlName="id_municipios" class="form-control">
-                    <option [value]="municipio.id_municipios" *ngFor="let municipio of municipios">{{municipio.municipio}}</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="">Localidad:</label>
-                <select formControlName="id_localidades" class="form-control">
-                    <option [value]="localidad.id_localidades" *ngFor="let localidad of localidades">{{localidad.localidad}}</option>
-                </select>
-            </div>
-            <button (click)="editarAutor()" [disabled]="!formAutores.valid" class="btn btn-primary" data-dismiss="modal">Editar</button>
-        </form>
-    </swal> -->
+        </div>
+    </swal>
 </div>
