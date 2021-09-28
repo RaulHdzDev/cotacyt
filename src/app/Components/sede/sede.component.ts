@@ -51,7 +51,7 @@ export class SedeComponent implements OnInit {
       nombre:        ['', [Validators.required, Validators.maxLength(100)]],
       id_sedes:      [this.sessionData.id_sedes],
       ids_proyectos: [''],
-      rol: ['juez'],
+      rol: ['admin'],
     });
     this.utilService._loading = true;
     this.formFecha = formBuilder.group({
@@ -113,17 +113,19 @@ export class SedeComponent implements OnInit {
         swal.fire({
           icon: 'success',
           title: 'Exito',
-          text: 'El juez se registro correctamente'
+          text: 'El coordinador se registro correctamente'
         });
         this.formsRegistroJuez.reset({
-          id_sedes: this.sessionData.id_sedes
+          id_sedes: this.sessionData.id_sedes,
+          id_categorias: 1,
+          rol: 'admin'
         });
       },
       err => {
         swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Hubo un error al registrar el juez'
+          text: 'Hubo un error al registrar el coordinador'
         });
         console.log(err);
       }
