@@ -41,7 +41,6 @@ export class ProjectsComponent implements OnInit {
   video: string;
   proyectosCalificados: ProyectosCalificados[];
   proyectosPorCalificar: ProyectosPorCalificar[];
-  util: Util = new Util;
   proyectoActual: Proyectos;
   formPuntos: FormGroup;
   valores: any;
@@ -62,7 +61,7 @@ export class ProjectsComponent implements OnInit {
     private proyectosService: ProyectosService,
     private formBuilder: FormBuilder,
     private calificarProyectoService: CalificarProyectoService,
-    private _utilService: UtilService,
+    private utilService: UtilService,
     private projectsService: ProjectsRegisteredService,
     private infoProject: ProyectosService,
     private projectsJudges: JuecesService,
@@ -83,10 +82,11 @@ export class ProjectsComponent implements OnInit {
     // Trae la categoria actual
     this.categoriasService.getCategorias().subscribe(data => {
       this.categoria = data.categoria;
+      this.categoria = this.categoria.toLowerCase();
       this.generarForm(this.categoria);
     });
 
-    this._utilService.loading = true;
+    this.utilService.loading = true;
   }
 
   ngOnInit(): void {
@@ -104,22 +104,21 @@ export class ProjectsComponent implements OnInit {
           console.log(err);
         }
       ).add(() => {
-        this._utilService._loading = false;
+        this.utilService._loading = false;
       });
   }
 
   abrirReproductor(evento: any, id) {
-    this.video = 'http://plataforma.cotacyt.gob.mx/creatividad/' + id;
-    this.swalReproductor.fire();
+    window.open(id, '_blank');
   }
 
   pdf(event) {
-    window.open('http://plataforma.cotacyt.gob.mx/creatividad/' + event, '_blank');
+    window.open('https://mante.hosting.acm.org/api-cecit-2021/uploads/' + event, '_blank');
   }
 
   traerProyecto(idProyecto: string) {
     this.isCollapsed = true;
-    this._utilService.loading = true;
+    this.utilService.loading = true;
     this.proyectosService.obtenerProyecto(idProyecto).subscribe(
       data => {
         this.proyectoActual = data;
@@ -128,6 +127,7 @@ export class ProjectsComponent implements OnInit {
             if (res[0].status === '1') {
               this.getCalificacionesProyecto(this.categoria, Number(this.proyectoActual.id_proyectos))
               .subscribe(calificaciones => {
+                this.categoria = this.categoria.toLowerCase();
                 switch (this.categoria) {
                   case 'petit':
                     this.formPuntos.patchValue({
@@ -142,6 +142,7 @@ export class ProjectsComponent implements OnInit {
                     this.obtenido3 = Number(calificaciones[0].obtenido3);
                     this.obtenido4 = Number(calificaciones[0].obtenido4);
                     this.obtenido5 = Number(calificaciones[0].obtenido5);
+                    console.log(this.formPuntos.value);
                     break;
                   case 'kids':
                     this.formPuntos.patchValue({
@@ -249,7 +250,7 @@ export class ProjectsComponent implements OnInit {
       },
       err => console.log(err)
     ).add(() => {
-      this._utilService.loading = false;
+      this.utilService.loading = false;
     });
   }
   getCalificacionesProyecto(categoria: string, idProyecto: number) {
@@ -263,10 +264,11 @@ export class ProjectsComponent implements OnInit {
   }
   guardarPuntos() {
     this.valores = this.formPuntos.value;
-    this._utilService.loading = true;
+    this.utilService.loading = true;
     console.log(this.categoria);
     this.proyectosService.getStatusProyecto(this.proyectoActual.id_proyectos)
       .subscribe((res) => {
+        this.categoria = this.categoria.toLowerCase();
         switch (this.categoria) {
           case 'petit':
             if (res[0].status === '1') {
@@ -313,7 +315,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
               this.proyectoActual = null;
             } else {
@@ -370,7 +372,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
               this.proyectoActual = null;
             }
@@ -420,7 +422,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             } else {
               this.sessionData.id_sedes === '8'
@@ -476,7 +478,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             }
             break;
@@ -527,7 +529,7 @@ export class ProjectsComponent implements OnInit {
                           icon: 'error'
                         });
                       });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             } else {
               this.calificarProyectoService.setCalificacionesJvenil(
@@ -561,7 +563,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             }
             break;
@@ -643,7 +645,7 @@ export class ProjectsComponent implements OnInit {
                     });
                   });
               }
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             } else {
               if (this.sessionData.id_sedes === '8') {
@@ -732,7 +734,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             }
             break;
@@ -811,7 +813,7 @@ export class ProjectsComponent implements OnInit {
                       });
                     });
               }
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             } else {
               if (this.sessionData.id_sedes === '8') {
@@ -897,7 +899,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             }
             break;
@@ -950,7 +952,7 @@ export class ProjectsComponent implements OnInit {
                           icon: 'error'
                         });
                       });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             } else {
               this.sessionData.id_sedes === '8'
@@ -1010,7 +1012,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this._utilService.loading = false;
+              this.utilService.loading = false;
               this.ngOnInit();
             }
             break;
@@ -1023,6 +1025,7 @@ export class ProjectsComponent implements OnInit {
   }
   generarForm(categoria: string) {
     const expReg = RegExp('^[0-9]+$');
+    categoria = categoria.toLowerCase();
     switch (categoria) {
       case 'petit':
         this.formPuntos = this.formBuilder.group({
@@ -1095,6 +1098,7 @@ export class ProjectsComponent implements OnInit {
 
 
   mostrarInfoTodosLosProyectos(proyecto: ProjectRegistered) {
+    this.utilService._loading = true;
     if ( this.sessionData.rol === 'admin') {
       this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
         data => {
@@ -1102,7 +1106,7 @@ export class ProjectsComponent implements OnInit {
         },
         err => console.log(err)
         ).add(() => {
-          this._utilService._loading = false;
+          this.utilService._loading = false;
         });
       } else {
         this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
@@ -1111,7 +1115,7 @@ export class ProjectsComponent implements OnInit {
           },
           err => console.log(err)
           ).add(() => {
-            this._utilService._loading = false;
+            this.utilService._loading = false;
           });
         }
     this.swalInformacion.fire();
