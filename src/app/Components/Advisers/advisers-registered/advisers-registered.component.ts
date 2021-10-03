@@ -12,6 +12,11 @@ import { Session } from '../../../models/session.model';
 import { jsPDF } from 'jspdf';
 import '../../../../assets/fonts/Helvetica.ttf';
 import { TitleCasePipe } from '@angular/common';
+import { RegexService } from '../../../services/regex.service';
+import { ProyectosService } from 'src/app/services/proyectos.service';
+import { ProjectsRegisteredService } from 'src/app/services/project-registered.service';
+import { ProjectRegistered } from 'src/app/models/project-regis.model';
+import { Proyectos } from 'src/app/models/proyectos.model';
 
 
 @Component({
@@ -25,6 +30,7 @@ export class AdvisersRegisteredComponent implements OnInit {
   public asesores: Array<Asesores>;
   asesorActual: Asesores;
   formAsesores: FormGroup;
+  proyectos: Proyectos[] | ProjectRegistered[];
   sessionData: Session;
   sedes: Sedes[];
   superUser: boolean;
@@ -33,17 +39,31 @@ export class AdvisersRegisteredComponent implements OnInit {
     private utilService: UtilService,
     private sedesService: SedesService,
     private formBuilder: FormBuilder,
-    private titlecasePipe: TitleCasePipe
+    private titlecasePipe: TitleCasePipe,
+    private regexService: RegexService,
+    private proyectosService: ProyectosService,
+    private projectsRegistredService: ProjectsRegisteredService,
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.utilService.loading = true;
     this.formAsesores = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      ape_pat: ['', [Validators.required]],
-      ape_mat: [''],
-      email: ['', [Validators.required, Validators.email]],
-      id_sedes: this.sessionData.id_sedes,
-      descripcion: ['', [Validators.required]],
+      id_proyectos: ['', [Validators.required]],
+      adviser_name: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      last_name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
+      second_last_name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
+      address: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      suburb: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      postal_code: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode()), Validators.minLength(2)]],
+      curp: ['', [Validators.required, Validators.pattern(this.regexService.regexCURP()), Validators.minLength(2)]],
+      rfc: ['', [Validators.required, Validators.pattern(this.regexService.regexRFC()), Validators.minLength(2)]],
+      phone_contact: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone()), Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.maxLength(60), Validators.email, Validators.minLength(2)]],
+      city: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      locality: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      school_institute: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
+      facebook: ['', [Validators.maxLength(50), Validators.minLength(2)]],
+      twitter: ['', [Validators.maxLength(30), Validators.minLength(2)]],
+      participation_description: ['', [Validators.required, Validators.maxLength(1000), Validators.minLength(2)]],
     });
     if (this.sessionData.rol === 'superuser') {
       this.superUser = false;
@@ -57,11 +77,16 @@ export class AdvisersRegisteredComponent implements OnInit {
       asesores: this.superUser
         ? this.asesoresService.getAsesores()
         : this.asesoresService.getAsesoresSuperUser(),
+        proyectos: this.superUser
+        ? this.proyectosService.obtenerTodosLosProyectos(this.sessionData.id_sedes)
+        : this.projectsRegistredService.obtenerTodosLosProyectosDetalles(),
       sedes: this.sedesService.getSedes()
     }).subscribe(
       data => {
         this.asesores = data.asesores;
+        console.log(this.asesores);
         this.sedes = data.sedes;
+        this.proyectos = data.proyectos;
       }
     ).add(() => {
       this.utilService._loading = false;
@@ -91,15 +116,33 @@ export class AdvisersRegisteredComponent implements OnInit {
         });
   }
   openSwal(asesor: Asesores) {
+    this.utilService._loading = true;
     this.asesorActual = asesor;
-    this.formAsesores.patchValue({
-      nombre: asesor.nombre,
-      ape_pat: asesor.ape_pat,
-      ape_mat: asesor.ape_mat,
-      email: asesor.email,
-      id_sedes: this.sessionData.id_sedes,
-      descripcion: asesor.descripcion,
-    });
+    this.formAsesores.controls.address.disable();
+    this.formAsesores.controls.suburb.disable();
+    this.formAsesores.controls.postal_code.disable();
+    this.formAsesores.controls.city.disable();
+    this.formAsesores.controls.locality.disable();
+    this.formAsesores.controls.school_institute.disable();
+    this.formAsesores.controls.facebook.disable();
+    this.formAsesores.controls.twitter.disable();
+    this.formAsesores.get('adviser_name').setValue(this.asesorActual.nombre);
+    this.formAsesores.get('last_name').setValue(this.asesorActual.ape_pat);
+    this.formAsesores.get('second_last_name').setValue(this.asesorActual.ape_mat);
+    this.formAsesores.get('address').setValue(this.asesorActual.domicilio);
+    this.formAsesores.get('suburb').setValue(this.asesorActual.colonia);
+    this.formAsesores.get('postal_code').setValue(this.asesorActual.cp);
+    this.formAsesores.get('curp').setValue(this.asesorActual.curp);
+    this.formAsesores.get('rfc').setValue(this.asesorActual.rfc);
+    this.formAsesores.get('phone_contact').setValue(this.asesorActual.telefono);
+    this.formAsesores.get('email').setValue(this.asesorActual.email);
+    this.formAsesores.get('city').setValue(this.asesorActual.municipio);
+    this.formAsesores.get('locality').setValue(this.asesorActual.localidad);
+    this.formAsesores.get('school_institute').setValue(this.asesorActual.escuela);
+    this.formAsesores.get('facebook').setValue(this.asesorActual.facebook);
+    this.formAsesores.get('twitter').setValue(this.asesorActual.twitter);
+    this.formAsesores.get('participation_description').setValue(this.asesorActual.descripcion);
+    this.utilService._loading = false;
     this.swalEdit.fire();
   }
   editarAsesor() {
@@ -121,6 +164,15 @@ export class AdvisersRegisteredComponent implements OnInit {
         }).add(() => {
           this.utilService._loading = false;
         });
+  }
+  uploadAdviserIneImg(ev: any): void {
+
+  }
+  curpUpperCase(): void {
+    this.formAsesores.get('curp').setValue(this.formAsesores.get('curp').value.toUpperCase());
+  }
+  rfcUpperCase(): void {
+    this.formAsesores.get('rfc').setValue(this.formAsesores.get('rfc').value.toUpperCase());
   }
   saveAsPdf(asesor: any) {
     this.asesorActual = asesor;

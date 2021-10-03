@@ -10,12 +10,10 @@ import { ProjectsRegisteredComponent } from './Components/Projects/projects-regi
 import { AdvisersRegisteredComponent } from './Components/Advisers/advisers-registered/advisers-registered.component';
 import { AuthorsRegisteredComponent } from './Components/Authors/authors-registered/authors-registered.component';
 import { EstadisticsComponent } from './estadistics/estadistics.component';
-<<<<<<< HEAD
 import { SedeComponent } from './Components/sede/sede.component';
 import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
-=======
 import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
->>>>>>> b6acaea9445154e2b92cae32aa21df740d840e8b
+import { AddAdviserComponent } from './Components/Advisers/add-adviser/add-adviser.component';
 
 const routes: Routes = [
   {
@@ -60,6 +58,9 @@ const routes: Routes = [
       },
       {
         path: 'nuevo-autor', component: AddAuthorsComponent
+      },
+      {
+        path: 'nuevo-asesor', component: AddAdviserComponent
       }
     ]
   }
