@@ -43,20 +43,21 @@ export class AuthorsRegisteredComponent implements OnInit {
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.formEditAutor = this.fb.group({
-      name_author: ['', [Validators.required, Validators.maxLength(30)]],
-      last_name: ['', [Validators.required, Validators.maxLength(20)]],
-      second_last_name: ['', [Validators.required, Validators.maxLength(20)]],
-      address: ['', [Validators.required, Validators.maxLength(80)]],
-      suburb: ['', [Validators.required, Validators.maxLength(80)]],
-      postal_code: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode())]],
+      id_autores: [''],
+      nombre: ['', [Validators.required, Validators.maxLength(30)]],
+      ape_pat: ['', [Validators.required, Validators.maxLength(20)]],
+      ape_mat: ['', [Validators.required, Validators.maxLength(20)]],
+      domicilio: ['', [Validators.required, Validators.maxLength(80)]],
+      colonia: ['', [Validators.required, Validators.maxLength(80)]],
+      cp: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode())]],
       curp: ['', [Validators.required, Validators.pattern(this.regexService.regexCURP())]],
       rfc: ['', [Validators.required, Validators.pattern(this.regexService.regexRFC())]],
-      phone_contact: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone())]],
+      telefono: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone())]],
       email: ['', [Validators.required, Validators.maxLength(60), Validators.email]],
-      city: ['', [Validators.required, Validators.maxLength(30)]],
-      locality: ['', [Validators.required, Validators.maxLength(30)]],
-      school: ['', [Validators.required, Validators.maxLength(100)]],
-      levelEnglish: ['', [Validators.required]],
+      municipio: ['', [Validators.required, Validators.maxLength(30)]],
+      localidad: ['', [Validators.required, Validators.maxLength(30)]],
+      escuela: ['', [Validators.required, Validators.maxLength(100)]],
+      nivel_ingles: ['', [Validators.required]],
       facebook: ['', [Validators.maxLength(60)]],
       twitter: ['', [Validators.maxLength(30)]],
       id_proyectos: ['', [Validators.required]]
@@ -127,31 +128,21 @@ export class AuthorsRegisteredComponent implements OnInit {
           this.proyectos = data;
         }
       ).add(() => this.utils._loading = false);
-    this.formEditAutor.controls.address.disable();
-    this.formEditAutor.controls.suburb.disable();
-    this.formEditAutor.controls.postal_code.disable();
-    this.formEditAutor.controls.phone_contact.disable();
-    this.formEditAutor.controls.email.disable();
-    this.formEditAutor.controls.city.disable();
-    this.formEditAutor.controls.locality.disable();
-    this.formEditAutor.controls.school.disable();
-    this.formEditAutor.controls.levelEnglish.disable();
-    this.formEditAutor.controls.facebook.disable();
-    this.formEditAutor.controls.twitter.disable();
-    this.formEditAutor.get('name_author').setValue(this.autorActual.nombre);
-    this.formEditAutor.get('last_name').setValue(this.autorActual.ape_pat);
-    this.formEditAutor.get('second_last_name').setValue(this.autorActual.ape_mat);
-    this.formEditAutor.get('address').setValue(this.autorActual.domicilio);
-    this.formEditAutor.get('suburb').setValue(this.autorActual.colonia);
-    this.formEditAutor.get('postal_code').setValue(this.autorActual.cp);
+    this.formEditAutor.get('id_autores').setValue(this.autorActual.id_autores);
+    this.formEditAutor.get('nombre').setValue(this.autorActual.nombre);
+    this.formEditAutor.get('ape_pat').setValue(this.autorActual.ape_pat);
+    this.formEditAutor.get('ape_mat').setValue(this.autorActual.ape_mat);
+    this.formEditAutor.get('domicilio').setValue(this.autorActual.domicilio);
+    this.formEditAutor.get('colonia').setValue(this.autorActual.colonia);
+    this.formEditAutor.get('cp').setValue(this.autorActual.cp);
     this.formEditAutor.get('curp').setValue(this.autorActual.curp);
     this.formEditAutor.get('rfc').setValue(this.autorActual.rfc);
-    this.formEditAutor.get('phone_contact').setValue(this.autorActual.telefono);
+    this.formEditAutor.get('telefono').setValue(this.autorActual.telefono);
     this.formEditAutor.get('email').setValue(this.autorActual.email);
-    this.formEditAutor.get('city').setValue(this.autorActual.municipio);
-    this.formEditAutor.get('locality').setValue(this.autorActual.localidad);
-    this.formEditAutor.get('school').setValue(this.autorActual.escuela);
-    this.formEditAutor.get('levelEnglish').setValue(this.autorActual.nivel_ingles);
+    this.formEditAutor.get('municipio').setValue(this.autorActual.municipio);
+    this.formEditAutor.get('localidad').setValue(this.autorActual.localidad);
+    this.formEditAutor.get('escuela').setValue(this.autorActual.escuela);
+    this.formEditAutor.get('nivel_ingles').setValue(this.autorActual.nivel_ingles);
     this.formEditAutor.get('facebook').setValue(this.autorActual.facebook);
     this.formEditAutor.get('twitter').setValue(this.autorActual.twitter);
     this.formEditAutor.get('id_proyectos').setValue(this.autorActual.id_proyectos);
@@ -160,7 +151,8 @@ export class AuthorsRegisteredComponent implements OnInit {
 
   editarAutor() {
     this.utils._loading = true;
-    this.autoresService.updateAutor(this.formEditAutor.value, this.autorActual.id_autores)
+    console.log(this.formEditAutor.value);
+    this.autoresService.updateAutor(this.formEditAutor.value)
       .subscribe(
         data => {
           Swal.fire({

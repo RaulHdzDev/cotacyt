@@ -8,44 +8,44 @@
                 <form class="row" [formGroup]="formRegistroAsesor">
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Nombre(s)<b style="color: red;">*</b></label>
-                        <input formControlName="adviser_name" type="text" class="form-control">
+                        <input formControlName="nombre" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['adviser_name'].invalid && (formRegistroAsesor.controls['adviser_name'].dirty || formRegistroAsesor.controls['adviser_name'].touched)"
+                            *ngIf="formRegistroAsesor.controls['nombre'].invalid && (formRegistroAsesor.controls['nombre'].dirty || formRegistroAsesor.controls['nombre'].touched)"
                             class="form-text" style="color: red;">Nombre inválido</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Apellido paterno<b style="color: red;">*</b></label>
-                        <input formControlName="last_name" type="text" class="form-control">
+                        <input formControlName="ape_pat" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['last_name'].invalid && (formRegistroAsesor.controls['last_name'].dirty || formRegistroAsesor.controls['last_name'].touched)"
+                            *ngIf="formRegistroAsesor.controls['ape_pat'].invalid && (formRegistroAsesor.controls['ape_pat'].dirty || formRegistroAsesor.controls['ape_pat'].touched)"
                             class="form-text" style="color: red;">Apellido paterno inválido</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Apellido materno<b style="color: red;">*</b></label>
-                        <input formControlName="second_last_name" type="text" class="form-control">
+                        <input formControlName="ape_mat" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['second_last_name'].invalid && (formRegistroAsesor.controls['second_last_name'].dirty || formRegistroAsesor.controls['second_last_name'].touched)"
+                            *ngIf="formRegistroAsesor.controls['ape_mat'].invalid && (formRegistroAsesor.controls['ape_mat'].dirty || formRegistroAsesor.controls['ape_mat'].touched)"
                             class="form-text" style="color: red;">Apellido materno inválido</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Domicilio<b style="color: red;">*</b></label>
-                        <input formControlName="address" type="text" class="form-control">
+                        <input formControlName="domicilio" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['second_last_name'].invalid && (formRegistroAsesor.controls['second_last_name'].dirty || formRegistroAsesor.controls['second_last_name'].touched)"
+                            *ngIf="formRegistroAsesor.controls['domicilio'].invalid && (formRegistroAsesor.controls['domicilio'].dirty || formRegistroAsesor.controls['domicilio'].touched)"
                             class="form-text" style="color: red;">Dirección inválida</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Colonia<b style="color: red;">*</b></label>
-                        <input formControlName="suburb" type="text" class="form-control">
+                        <input formControlName="colonia" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['suburb'].invalid && (formRegistroAsesor.controls['suburb'].dirty || formRegistroAsesor.controls['suburb'].touched)"
+                            *ngIf="formRegistroAsesor.controls['colonia'].invalid && (formRegistroAsesor.controls['colonia'].dirty || formRegistroAsesor.controls['colonia'].touched)"
                             class="form-text" style="color: red;">Colonia inválida</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Código postal<b style="color: red;">*</b></label>
-                        <input formControlName="postal_code" type="number" class="form-control">
+                        <input formControlName="cp" type="number" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['postal_code'].invalid && (formRegistroAsesor.controls['postal_code'].dirty || formRegistroAsesor.controls['postal_code'].touched)"
+                            *ngIf="formRegistroAsesor.controls['cp'].invalid && (formRegistroAsesor.controls['cp'].dirty || formRegistroAsesor.controls['cp'].touched)"
                             class="form-text" style="color: red;">Código postal inválido</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -66,9 +66,9 @@
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Teléfono de contacto<b style="color: red;">*</b></label>
-                        <input formControlName="phone_contact" type="number" class="form-control">
+                        <input formControlName="telefono" type="number" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['phone_contact'].invalid && (formRegistroAsesor.controls['phone_contact'].dirty || formRegistroAsesor.controls['phone_contact'].touched)"
+                            *ngIf="formRegistroAsesor.controls['telefono'].invalid && (formRegistroAsesor.controls['telefono'].dirty || formRegistroAsesor.controls['telefono'].touched)"
                             class="form-text" style="color: red;">Teléfono inválido</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -80,24 +80,25 @@
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Municipio<b style="color: red;">*</b></label>
-                        <input formControlName="city" type="text" class="form-control">
+                        <input formControlName="municipio" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['city'].invalid && (formRegistroAsesor.controls['city'].dirty || formRegistroAsesor.controls['city'].touched)"
+                            *ngIf="formRegistroAsesor.controls['municipio'].invalid && (formRegistroAsesor.controls['municipio'].dirty || formRegistroAsesor.controls['municipio'].touched)"
                             class="form-text" style="color: red;">Municipio inválido</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Localidad<b style="color: red;">*</b></label>
-                        <input formControlName="locality" type="text" class="form-control">
-                        <small class="form-text text-muted">Ej. Ejido, Congregación, Ciudad, etc</small>
+                        <input formControlName="localidad" type="text" class="form-control">
+                        <small class="form-text text-mute
+                        d">Ej. Ejido, Congregación, Ciudad, etc</small>
                         <small
-                            *ngIf="formRegistroAsesor.controls['locality'].invalid && (formRegistroAsesor.controls['locality'].dirty || formRegistroAsesor.controls['locality'].touched)"
+                            *ngIf="formRegistroAsesor.controls['localidad'].invalid && (formRegistroAsesor.controls['localidad'].dirty || formRegistroAsesor.controls['localidad'].touched)"
                             class="form-text" style="color: red;">Localidad inválida</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
                         <label>Escuela o institución<b style="color: red;">*</b></label>
-                        <input formControlName="school_institute" type="text" class="form-control">
+                        <input formControlName="escuela" type="text" class="form-control">
                         <small
-                            *ngIf="formRegistroAsesor.controls['school_institute'].invalid && (formRegistroAsesor.controls['school_institute'].dirty || formRegistroAsesor.controls['school_institute'].touched)"
+                            *ngIf="formRegistroAsesor.controls['escuela'].invalid && (formRegistroAsesor.controls['escuela'].dirty || formRegistroAsesor.controls['escuela'].touched)"
                             class="form-text" style="color: red;">Escuela o institución inválida</small>
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-12">
@@ -110,28 +111,15 @@
                         <input formControlName="twitter" type="text" class="form-control">
                         <small class="form-text text-muted">Opcional</small>
                     </div>
-                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                        <label>Adjuntar credencial de elector<b style="color: red;">*</b></label>
-                        <input type="file" (change)="uploadAdviserIneImg($event.target.files)" class="form-control" #image_ine>
-                    </div>
                     <div class="form-group col-12">
                         <label>Descripción de su participación en el desarrollo del proyecto<b
                                 style="color: red;">*</b></label>
-                        <textarea formControlName="participation_description" type="text" class="form-control"
+                        <textarea formControlName="descripcion" type="text" class="form-control"
                             style="max-height: 200px; min-height: 100px;"> </textarea>
                         <small class="form-text text-muted">Máximo 1000 caracteres</small>
                         <small
-                            *ngIf="formRegistroAsesor.controls['participation_description'].invalid && (formRegistroAsesor.controls['participation_description'].dirty || formRegistroAsesor.controls['participation_description'].touched)"
+                            *ngIf="formRegistroAsesor.controls['descripcion'].invalid && (formRegistroAsesor.controls['descripcion'].dirty || formRegistroAsesor.controls['descripcion'].touched)"
                             class="form-text" style="color: red;">Descripción inválida</small>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="">Proyecto:</label>
-                            <select formControlName="id_proyectos" class="form-control">
-                                <option [value]="proyecto.id_proyectos" *ngFor="let proyecto of proyectos">
-                                    {{proyecto.nombre}}</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="col-12">
                         <button (click)="registrarAsesor()" [disabled]="!formRegistroAsesor.valid"

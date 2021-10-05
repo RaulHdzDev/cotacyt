@@ -30,4 +30,10 @@ export class AsesoresService {
     console.log(idAsesor);
     return this.http.put( this.servicesConfig.APP_ENDPOINT + 'api/asesores/modificar/' + idAsesor, body);
   }
+  uploadAdviserImgIne(body: any): Observable<any> {
+    return this.http.post('https://mante.hosting.acm.org/api-cecit-2021/assessor/upload-image', body, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
 }

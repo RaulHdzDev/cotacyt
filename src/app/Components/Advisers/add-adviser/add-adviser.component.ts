@@ -19,58 +19,37 @@ import { Proyectos } from 'src/app/models/proyectos.model';
 })
 export class AddAdviserComponent implements OnInit {
   formRegistroAsesor: FormGroup;
-  sedes: Sedes[];
-  superUser: boolean;
-  proyectos: Proyectos[] | ProjectRegistered[];
   sessionData: Session;
   constructor(
     private asesoresService: AsesoresService,
     private formBuilder: FormBuilder,
     private utilService: UtilService,
     private regexService: RegexService,
-    private proyectosService: ProyectosService,
-    private projectsRegistredService: ProjectsRegisteredService
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.formRegistroAsesor = this.formBuilder.group({
-      id_proyectos: ['', [Validators.required]],
-      adviser_name: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
-      last_name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
-      second_last_name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
-      address: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
-      suburb: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
-      postal_code: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode()), Validators.minLength(2)]],
+      id_proyectos: ['0'],
+      nombre: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      ape_pat: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
+      ape_mat: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
+      domicilio: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      colonia: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      cp: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode()), Validators.minLength(2)]],
       curp: ['', [Validators.required, Validators.pattern(this.regexService.regexCURP()), Validators.minLength(2)]],
       rfc: ['', [Validators.required, Validators.pattern(this.regexService.regexRFC()), Validators.minLength(2)]],
-      phone_contact: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone()), Validators.minLength(2)]],
+      telefono: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone()), Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.maxLength(60), Validators.email, Validators.minLength(2)]],
-      city: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
-      locality: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
-      school_institute: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
+      municipio: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      localidad: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      escuela: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
       facebook: ['', [Validators.maxLength(50), Validators.minLength(2)]],
       twitter: ['', [Validators.maxLength(30), Validators.minLength(2)]],
-      participation_description: ['', [Validators.required, Validators.maxLength(1000), Validators.minLength(2)]],
+      descripcion: ['', [Validators.required, Validators.maxLength(1000), Validators.minLength(2)]],
     });
-    this.utilService._loading = true;
   }
 
   ngOnInit(): void {
-    if (this.sessionData.rol === 'superuser') {
-      this.superUser = false;
-    } else {
-      this.superUser = true;
-    }
-    forkJoin({
-        proyectos: this.superUser
-        ? this.proyectosService.obtenerTodosLosProyectos(this.sessionData.id_sedes)
-        : this.projectsRegistredService.obtenerTodosLosProyectosDetalles(),
-    }).subscribe(
-      data => {
-        this.proyectos = data.proyectos;
-      }
-    ).add(() => {
-      this.utilService._loading = false;
-    });
+
   }
   curpUpperCase(): void {
     this.formRegistroAsesor.get('curp').setValue(this.formRegistroAsesor.get('curp').value.toUpperCase());
@@ -93,7 +72,7 @@ export class AddAdviserComponent implements OnInit {
             text: 'El asesor se registró correctamente',
           });
           this.formRegistroAsesor.reset({
-            id_sedes: this.sessionData.id_sedes
+            id_proyectos: ['0']
           });
         },
         (err) => {

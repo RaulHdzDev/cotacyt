@@ -26,8 +26,8 @@ export class AutoresService {
   deleteAutores(idAutores: string): Observable<any> {
     return this.http.delete( this.servicesConfig.APP_ENDPOINT + 'api/autores/eliminar/' + idAutores);
   }
-  updateAutor(body: any, idAutor: string) {
-    return this.http.put( this.servicesConfig.APP_ENDPOINT + 'api/autores/modificar/' + idAutor, body);
+  updateAutor(body: any) {
+    return this.http.put( this.servicesConfig.APP_ENDPOINT + 'api/autores/modificar', body);
   }
   getAutor(idAutor: string): Observable<AutorIds> {
     return this.http.get<AutorIds>( this.servicesConfig.APP_ENDPOINT + 'api/autores/' + idAutor);
