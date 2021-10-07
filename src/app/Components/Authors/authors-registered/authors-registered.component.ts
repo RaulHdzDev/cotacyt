@@ -195,7 +195,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc = new jsPDF('p', 'in', 'letter');
         doc.addImage('assets/image/ConstanciaParticipantesMante.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
@@ -203,8 +203,6 @@ export class AuthorsRegisteredComponent implements OnInit {
           doc.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc.setFontSize(14);
-          doc.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-          doc.addImage('assets/image/DirectorMante.png', 'png', 5.7, 8.2, 1.4, 1.1);
           doc.setFont('Helvetica');
           doc.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
@@ -216,15 +214,13 @@ export class AuthorsRegisteredComponent implements OnInit {
             doc.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.text(nombreTemp3, 4.2, 8.50, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc.addImage('assets/image/DirectorMante.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            
             doc.setFont('Helvetica');
             doc.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
             doc.text(this.autorActual.proyecto, 4.2, 8, { align: 'center' });
             doc.setFontSize(14);
-            doc.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc.addImage('assets/image/DirectorMante.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            
             doc.setFont('Helvetica');
             doc.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           }
@@ -234,16 +230,14 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc1 = new jsPDF('p', 'in', 'letter');
         doc1.addImage('assets/image/ConstanciaParticipantesReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc1.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc1.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc1.text('', 0, 0).setFontSize(14);
-          doc1.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc1.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc1.text(nombreTemp, 4.4, 7.6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc1.text(nombreTemp2, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc1.setFontSize(14);
-          doc1.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-          doc1.addImage('assets/image/DirectorReynosa.png', 'png', 5.7, 8.2, 1.4, 1.1);
           doc1.setFont('Helvetica');
           doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
@@ -252,18 +246,14 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc1.text('', 0, 0).setFontSize(14);
-            doc1.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc1.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc1.text(nombreTemp3, 4.2, 8.50, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc1.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc1.addImage('assets/image/DirectorReynosa.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            doc1.text(nombreTemp, 4.6, 7.6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc1.text(nombreTemp2, 4.2, 7.7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc1.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc1.setFont('Helvetica');
             doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc1.text(this.autorActual.proyecto, 4.2, 8, { align: 'center' });
+            doc1.text(this.autorActual.proyecto, 4.2, 7.7, { align: 'center' });
             doc1.setFontSize(14);
-            doc1.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc1.addImage('assets/image/DirectorReynosa.png', 'png', 5.7, 8.2, 1.4, 1.1);
             doc1.setFont('Helvetica');
             doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           }
@@ -272,16 +262,13 @@ export class AuthorsRegisteredComponent implements OnInit {
       case '3':
         const doc2 = new jsPDF('p', 'in', 'letter');
         doc2.addImage('assets/image/ConstanciaParticipantesMatamoros.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc2.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc2.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc2.text('', 0, 0).setFontSize(14);
-          doc2.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc2.text(nombreTemp, 4.6, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc2.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-
-          doc2.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-          doc2.addImage('assets/image/DirectorMatamoros.png', 'png', 5.7, 8.2, 1.4, 1.1);
           doc2.setFont('Helvetica');
           doc2.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
@@ -290,18 +277,16 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc2.text('', 0, 0).setFontSize(14);
-            doc2.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc2.text(nombreTemp, 4.6, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc2.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc2.text(nombreTemp3, 4.2, 8.50, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc2.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc2.addImage('assets/image/DirectorMatamoros.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            
             doc2.setFont('Helvetica');
             doc2.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
             doc2.text(this.autorActual.proyecto, 4.2, 8, { align: 'center' });
             doc2.setFontSize(14);
-            doc2.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc2.addImage('assets/image/DirectorMatamoros.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            
             doc2.setFont('Helvetica');
             doc2.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           }
@@ -310,7 +295,7 @@ export class AuthorsRegisteredComponent implements OnInit {
       case '4':
         const doc3 = new jsPDF('p', 'in', 'letter');
         doc3.addImage('assets/image/ConstanciaParticipantesMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc3.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc3.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
@@ -343,45 +328,9 @@ export class AuthorsRegisteredComponent implements OnInit {
         }
         break;
       case '5':
-        const doc4 = new jsPDF('p', 'in', 'letter');
-        doc4.addImage('assets/image/ConstanciaParticipantesJaumave.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc4.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
-          doc4.text('', 0, 0).setFontSize(14);
-          doc4.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc4.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc4.setFontSize(14);
-
-          doc4.setFont('Helvetica');
-          doc4.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
-        } else {
-          if (this.autorActual.proyecto.length > 100) {
-            const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-            const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
-            const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
-            doc4.text('', 0, 0).setFontSize(14);
-            doc4.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc4.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc4.text(nombreTemp3, 4.2, 8.50, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-
-            doc4.setFont('Helvetica');
-            doc4.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
-          } else {
-            doc4.text(this.autorActual.proyecto, 4.2, 8, { align: 'center' });
-            doc4.setFontSize(14);
-
-            doc4.setFont('Helvetica');
-            doc4.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
-          }
-        }
-        break;
-
-      case '6':
         const doc5 = new jsPDF('p', 'in', 'letter');
         doc5.addImage('assets/image/ConstanciaParticipantesNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc5.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc5.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
@@ -413,10 +362,10 @@ export class AuthorsRegisteredComponent implements OnInit {
           }
         }
         break;
-      case '7':
+      case '6':
         const doc6 = new jsPDF('p', 'in', 'letter');
         doc6.addImage('assets/image/ConstanciaParticipantesVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc6.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc6.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
@@ -424,8 +373,7 @@ export class AuthorsRegisteredComponent implements OnInit {
           doc6.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc6.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc6.setFontSize(14);
-          doc6.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-          doc6.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8.2, 1.4, 1.1);
+          
           doc6.setFont('Helvetica');
           doc6.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
@@ -437,15 +385,13 @@ export class AuthorsRegisteredComponent implements OnInit {
             doc6.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc6.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc6.text(nombreTemp3, 4.2, 8.50, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc6.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc6.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            
             doc6.setFont('Helvetica');
             doc6.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
             doc6.text(this.autorActual.proyecto, 4.2, 8, { align: 'center' });
             doc6.setFontSize(14);
-            doc6.addImage('assets/image/DirectorGeneral.png', 'png', 1.5, 7.9, 1.4, 1.4);
-            doc6.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8.2, 1.4, 1.1);
+            
             doc6.setFont('Helvetica');
             doc6.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           }
@@ -462,7 +408,7 @@ export class AuthorsRegisteredComponent implements OnInit {
           doc7.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+          
           doc7.setFont('Helvetica');
           doc7.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
@@ -474,13 +420,13 @@ export class AuthorsRegisteredComponent implements OnInit {
             doc7.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc7.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc7.text(nombreTemp3, 4.2, 8.50, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+            
             doc7.setFont('Helvetica');
             doc7.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
             doc7.text(this.autorActual.proyecto, 4.2, 8, { align: 'center' });
             doc7.setFontSize(14);
-            doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+            
             doc7.setFont('Helvetica');
             doc7.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           }
