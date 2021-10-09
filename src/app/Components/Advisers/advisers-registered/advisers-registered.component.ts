@@ -18,6 +18,7 @@ import { ProjectsRegisteredService } from 'src/app/services/project-registered.s
 import { ProjectRegistered } from 'src/app/models/project-regis.model';
 import { Proyectos } from 'src/app/models/proyectos.model';
 import { HttpEventType } from '@angular/common/http';
+import { Autor } from 'src/app/models/author.model';
 
 
 @Component({
