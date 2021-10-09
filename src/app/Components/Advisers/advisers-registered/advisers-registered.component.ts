@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AsesoresService } from '../../../services/asesores.service';
 import { Asesores } from '../../../models/asesores.model';
 import { UtilService } from '../../../services/util.service';
@@ -12,6 +12,12 @@ import { Session } from '../../../models/session.model';
 import { jsPDF } from 'jspdf';
 import '../../../../assets/fonts/Helvetica.ttf';
 import { TitleCasePipe } from '@angular/common';
+import { RegexService } from '../../../services/regex.service';
+import { ProyectosService } from 'src/app/services/proyectos.service';
+import { ProjectsRegisteredService } from 'src/app/services/project-registered.service';
+import { ProjectRegistered } from 'src/app/models/project-regis.model';
+import { Proyectos } from 'src/app/models/proyectos.model';
+import { HttpEventType } from '@angular/common/http';
 
 
 @Component({
@@ -25,25 +31,45 @@ export class AdvisersRegisteredComponent implements OnInit {
   public asesores: Array<Asesores>;
   asesorActual: Asesores;
   formAsesores: FormGroup;
+  proyectos: Proyectos[] | ProjectRegistered[];
   sessionData: Session;
   sedes: Sedes[];
   superUser: boolean;
+  @ViewChild('image_ine', {
+    read: ElementRef,
+  })
+  imageIne: ElementRef;
   constructor(
     private asesoresService: AsesoresService,
     private utilService: UtilService,
     private sedesService: SedesService,
     private formBuilder: FormBuilder,
-    private titlecasePipe: TitleCasePipe
+    private titlecasePipe: TitleCasePipe,
+    private regexService: RegexService,
+    private proyectosService: ProyectosService,
+    private projectsRegistredService: ProjectsRegisteredService,
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.utilService.loading = true;
     this.formAsesores = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
-      ape_pat: ['', [Validators.required]],
-      ape_mat: [''],
-      email: ['', [Validators.required, Validators.email]],
-      id_sedes: this.sessionData.id_sedes,
-      descripcion: ['', [Validators.required]],
+      id_proyectos_nuevo: ['0'],
+      id_proyectos_anterior: ['0'],
+      nombre: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      ape_pat: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
+      ape_mat: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
+      domicilio: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      colonia: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      cp: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode()), Validators.minLength(2)]],
+      curp: ['', [Validators.required, Validators.pattern(this.regexService.regexCURP()), Validators.minLength(2)]],
+      rfc: ['', [Validators.required, Validators.pattern(this.regexService.regexRFC()), Validators.minLength(2)]],
+      telefono: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone()), Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.maxLength(60), Validators.email, Validators.minLength(2)]],
+      municipio: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      localidad: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
+      escuela: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(2)]],
+      facebook: ['', [Validators.maxLength(50), Validators.minLength(2)]],
+      twitter: ['', [Validators.maxLength(30), Validators.minLength(2)]],
+      descripcion: ['', [Validators.required, Validators.maxLength(1000), Validators.minLength(2)]],
     });
     if (this.sessionData.rol === 'superuser') {
       this.superUser = false;
@@ -57,11 +83,16 @@ export class AdvisersRegisteredComponent implements OnInit {
       asesores: this.superUser
         ? this.asesoresService.getAsesores()
         : this.asesoresService.getAsesoresSuperUser(),
+      proyectos: this.superUser
+        ? this.proyectosService.obtenerTodosLosProyectos(this.sessionData.id_sedes)
+        : this.projectsRegistredService.obtenerTodosLosProyectosDetalles(),
       sedes: this.sedesService.getSedes()
     }).subscribe(
       data => {
         this.asesores = data.asesores;
+        console.log(this.asesores);
         this.sedes = data.sedes;
+        this.proyectos = data.proyectos;
       }
     ).add(() => {
       this.utilService._loading = false;
@@ -91,15 +122,25 @@ export class AdvisersRegisteredComponent implements OnInit {
         });
   }
   openSwal(asesor: Asesores) {
+    this.utilService._loading = true;
     this.asesorActual = asesor;
-    this.formAsesores.patchValue({
-      nombre: asesor.nombre,
-      ape_pat: asesor.ape_pat,
-      ape_mat: asesor.ape_mat,
-      email: asesor.email,
-      id_sedes: this.sessionData.id_sedes,
-      descripcion: asesor.descripcion,
-    });
+    this.formAsesores.get('nombre').setValue(this.asesorActual.nombre);
+    this.formAsesores.get('ape_pat').setValue(this.asesorActual.ape_pat);
+    this.formAsesores.get('ape_mat').setValue(this.asesorActual.ape_mat);
+    this.formAsesores.get('domicilio').setValue(this.asesorActual.domicilio);
+    this.formAsesores.get('colonia').setValue(this.asesorActual.colonia);
+    this.formAsesores.get('cp').setValue(this.asesorActual.cp);
+    this.formAsesores.get('curp').setValue(this.asesorActual.curp);
+    this.formAsesores.get('rfc').setValue(this.asesorActual.rfc);
+    this.formAsesores.get('telefono').setValue(this.asesorActual.telefono);
+    this.formAsesores.get('email').setValue(this.asesorActual.email);
+    this.formAsesores.get('municipio').setValue(this.asesorActual.municipio);
+    this.formAsesores.get('localidad').setValue(this.asesorActual.localidad);
+    this.formAsesores.get('escuela').setValue(this.asesorActual.escuela);
+    this.formAsesores.get('facebook').setValue(this.asesorActual.facebook);
+    this.formAsesores.get('twitter').setValue(this.asesorActual.twitter);
+    this.formAsesores.get('descripcion').setValue(this.asesorActual.descripcion);
+    this.utilService._loading = false;
     this.swalEdit.fire();
   }
   editarAsesor() {
@@ -112,6 +153,10 @@ export class AdvisersRegisteredComponent implements OnInit {
             icon: 'success'
           });
           this.ngOnInit();
+          this.formAsesores.reset({
+            id_proyectos_nuevo: ['0'],
+            id_proyectos_anterior: ['0'],
+          });
         }, err => {
           console.log(err);
           Swal.fire({
@@ -121,6 +166,49 @@ export class AdvisersRegisteredComponent implements OnInit {
         }).add(() => {
           this.utilService._loading = false;
         });
+  }
+  uploadAdviserIneImg(ev: any): void {
+    const imageIne = this.imageIne.nativeElement.files[0];
+    if (imageIne) {
+      this.utilService._loading = true;
+      this.utilService.loadingProgress = true;
+      const fr: FormData = new FormData();
+      fr.append('curp', this.asesorActual.curp);
+      fr.append('image_ine', imageIne);
+      this.asesoresService
+        .uploadAdviserImgIne(fr)
+        .subscribe((data) => {
+          if (data.type === HttpEventType.UploadProgress) {
+            const total = data.total;
+            this.utilService.progress = Math.round(
+              (100 * data.loaded) / total
+            );
+          }
+          if (data.type === HttpEventType.Response) {
+            const response = data.body;
+            console.log(response);
+            if (!response.error) {
+              Swal.fire(
+                'Exito',
+                'Se subio la imagen correctamente',
+                'success'
+              ).then(() => {
+                window.location.reload();
+              });
+            }
+          }
+        })
+        .add(() => {
+          this.utilService._loading = false;
+          this.utilService.loadingProgress = false;
+        });
+    }
+  }
+  curpUpperCase(): void {
+    this.formAsesores.get('curp').setValue(this.formAsesores.get('curp').value.toUpperCase());
+  }
+  rfcUpperCase(): void {
+    this.formAsesores.get('rfc').setValue(this.formAsesores.get('rfc').value.toUpperCase());
   }
   saveAsPdf(asesor: any) {
     this.asesorActual = asesor;
@@ -174,11 +262,11 @@ export class AdvisersRegisteredComponent implements OnInit {
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
-          + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
-          + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
-          .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
+            + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.9, { align: 'center' })
+            .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
             const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
             const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
@@ -215,11 +303,11 @@ export class AdvisersRegisteredComponent implements OnInit {
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
-          + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
-          + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
-          .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
+            + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.9, { align: 'center' })
+            .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
             const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
             const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);

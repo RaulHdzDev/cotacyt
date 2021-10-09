@@ -332,6 +332,7 @@ export class DashboardComponent implements OnInit {
   }
   // mostrar informacion de proyecto seleccionado
   mostrarInfoCalificados(proyecto: ProyectosCalificados) {
+    this.utilsService._loading = true;
     if (this.sessionData.rol === 'admin') {
       this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
         data => {
@@ -357,6 +358,7 @@ export class DashboardComponent implements OnInit {
 
   // mostrar informacion de proyecto seleccionado
   mostrarInfoPorCalificar(proyecto: ProyectosPorCalificar) {
+    this.utilsService._loading = true;
     if (this.sessionData.rol === 'admin') {
       this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
         data => {

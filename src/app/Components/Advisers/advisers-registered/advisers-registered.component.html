@@ -29,6 +29,9 @@
             </div>
         </td>
         <td class="d-flex">
+            <button (click)="openSwal(i)" class="btn btn-edit mr-3"><i class="fas fa-edit"></i></button>
+            <button (click)="setAsesor(i)" class="btn btn-danger mr-3" data-toggle="modal" data-target="#modalEliminar"><i
+                class="fas fa-trash-alt"></i></button>
             <button class="btn btn-primary" (click)="saveAsPdf(i)"><i class="fas fa-download"></i></button>
         </td>
     </tr>
@@ -53,35 +56,140 @@
             </div>
         </div>
     </div>
-    <swal #swalid title="Editar Autor" [showConfirmButton] ="false">
-        <form *swalPortal [formGroup]="formAsesores">
-            <div class="form-group">
-                <label for="">Nombre:</label>
-                <input type="text" class="form-control" formControlName="nombres" placeholder="Nombre">
+    <swal #swalid title="Editar Autor" [showConfirmButton] ="false" [swalOptions]="{width: '700px'}">
+        <div *swalPortal class="container-fluid">
+            <div class="row justify-content-center align-content-center">
+                <div class="col-12 d-flex justify-content-center">
+                    <form class="row" [formGroup]="formAsesores">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Nombre(s)<b style="color: red;">*</b></label>
+                            <input formControlName="nombre" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['nombre'].invalid && (formAsesores.controls['nombre'].dirty || formAsesores.controls['nombre'].touched)"
+                                class="form-text" style="color: red;">Nombre inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Apellido paterno<b style="color: red;">*</b></label>
+                            <input formControlName="ape_pat" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['ape_pat'].invalid && (formAsesores.controls['ape_pat'].dirty || formAsesores.controls['ape_pat'].touched)"
+                                class="form-text" style="color: red;">Apellido paterno inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Apellido materno<b style="color: red;">*</b></label>
+                            <input formControlName="ape_mat" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['ape_mat'].invalid && (formAsesores.controls['ape_mat'].dirty || formAsesores.controls['ape_mat'].touched)"
+                                class="form-text" style="color: red;">Apellido materno inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Domicilio<b style="color: red;">*</b></label>
+                            <input readonly formControlName="domicilio" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['domicilio'].invalid && (formAsesores.controls['domicilio'].dirty || formAsesores.controls['domicilio'].touched)"
+                                class="form-text" style="color: red;">Dirección inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Colonia<b style="color: red;">*</b></label>
+                            <input readonly formControlName="colonia" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['colonia'].invalid && (formAsesores.controls['colonia'].dirty || formAsesores.controls['colonia'].touched)"
+                                class="form-text" style="color: red;">Colonia inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Código postal<b style="color: red;">*</b></label>
+                            <input readonly formControlName="cp" type="number" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['cp'].invalid && (formAsesores.controls['cp'].dirty || formAsesores.controls['cp'].touched)"
+                                class="form-text" style="color: red;">Código postal inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>CURP<b style="color: red;">*</b></label>
+                            <input style="text-transform:uppercase" (keyup)="curpUpperCase()" formControlName="curp" type="text" class="form-control">
+                            <small class="form-text text-muted">Consulta tu CURP <a href="https://www.gob.mx/curp/"
+                                    target="_blank">aquí</a></small>
+                            <small
+                                *ngIf="formAsesores.controls['curp'].invalid && (formAsesores.controls['curp'].dirty || formAsesores.controls['curp'].touched)"
+                                class="form-text" style="color: red;">CURP inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>RFC<b style="color: red;">*</b></label>
+                            <input style="text-transform:uppercase" (keyup)="rfcUpperCase()" formControlName="rfc" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['rfc'].invalid && (formAsesores.controls['rfc'].dirty || formAsesores.controls['rfc'].touched)"
+                                class="form-text" style="color: red;">RFC inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Teléfono de contacto<b style="color: red;">*</b></label>
+                            <input  formControlName="telefono" type="number" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['telefono'].invalid && (formAsesores.controls['telefono'].dirty || formAsesores.controls['telefono'].touched)"
+                                class="form-text" style="color: red;">Teléfono inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Correo electrónico<b style="color: red;">*</b></label>
+                            <input formControlName="email" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['email'].invalid && (formAsesores.controls['email'].dirty || formAsesores.controls['email'].touched)"
+                                class="form-text" style="color: red;">Correo inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Municipio<b style="color: red;">*</b></label>
+                            <input readonly formControlName="municipio" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['municipio'].invalid && (formAsesores.controls['municipio'].dirty || formAsesores.controls['municipio'].touched)"
+                                class="form-text" style="color: red;">Municipio inválido</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Localidad<b style="color: red;">*</b></label>
+                            <input readonly formControlName="localidad" type="text" class="form-control">
+                            <small class="form-text text-muted">Ej. Ejido, Congregación, Ciudad, etc</small>
+                            <small
+                                *ngIf="formAsesores.controls['localidad'].invalid && (formAsesores.controls['localidad'].dirty || formAsesores.controls['localidad'].touched)"
+                                class="form-text" style="color: red;">Localidad inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Escuela o institución<b style="color: red;">*</b></label>
+                            <input readonly formControlName="escuela" type="text" class="form-control">
+                            <small
+                                *ngIf="formAsesores.controls['escuela'].invalid && (formAsesores.controls['escuela'].dirty || formAsesores.controls['escuela'].touched)"
+                                class="form-text" style="color: red;">Escuela o institución inválida</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Facebook</label>
+                            <input readonly formControlName="facebook" type="text" class="form-control">
+                            <small class="form-text text-muted">Opcional</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Twitter</label>
+                            <input readonly formControlName="twitter" type="text" class="form-control">
+                            <small class="form-text text-muted">Opcional</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                            <label>Adjuntar credencial de elector<b style="color: red;">*</b></label>
+                            <input type="file" (change)="uploadAdviserIneImg($event.target.files)" class="form-control" #image_ine>
+                            <div *ngIf="asesorActual">
+                                <a *ngIf="asesorActual.img_ine" href="{{'https://mante.hosting.acm.org/api-cecit-2021/uploads' + asesorActual.img_ine}}" target="_blank" class="form-text" style="color: blue;">Ver imagen actual</a>
+                                <small *ngIf="asesorActual.img_ine === '' || asesorActual.img_ine === null" class="form-text" style="color: red;">Ninguna imagen guardada</small>
+                            </div>
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Descripción de su participación en el desarrollo del proyecto<b
+                                    style="color: red;">*</b></label>
+                            <textarea formControlName="descripcion" type="text" class="form-control"
+                                style="max-height: 200px; min-height: 100px;"> </textarea>
+                            <small class="form-text text-muted">Máximo 1000 caracteres</small>
+                            <small
+                                *ngIf="formAsesores.controls['descripcion'].invalid && (formAsesores.controls['descripcion'].dirty || formAsesores.controls['descripcion'].touched)"
+                                class="form-text" style="color: red;">Descripción inválida</small>
+                        </div>
+                        <div class="col-12">
+                            <button (click)="editarAsesor()" [disabled]="!formAsesores.valid"
+                            class="btn btn-primary boton-iniciar">Registrar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="">Apellido paterno:</label>
-                <input type="text" class="form-control" formControlName="a_paterno" placeholder="Apellido paterno">
-            </div>
-            <div class="form-group">
-                <label for="">Apellido materno:</label>
-                <input type="text" class="form-control" formControlName="a_materno" placeholder="Apellido materno">
-            </div>
-            <div class="form-group">
-                <label for="">Correo:</label>
-                <input type="email" class="form-control" formControlName="email" placeholder="Correo">
-            </div>
-            <div class="form-group">
-                <label for="">Sede:</label>
-                <select formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
-                    <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Descripción:</label>
-                <textarea formControlName="descripcion" class="form-control" id="Textarea1" rows="3" placeholder="Descripción"></textarea>
-            </div>
-            <button [disabled]="!formAsesores.valid" (click)="editarAsesor()" class="btn btn-primary" data-dismiss="modal">Editar</button>
-        </form>
+        </div>
     </swal>
 </div>

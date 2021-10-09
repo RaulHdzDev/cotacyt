@@ -1,5 +1,5 @@
 <!-- swal tabla informacion -->
-<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase'}">
+<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
     <div *swalPortal>
         <div>
             <table class="table table-light" *ngFor="let info of informacionDeLosProyectos">
@@ -74,7 +74,7 @@
     </div>
 </swal>
 <!-- swal reproductor de video -->
-<swal class="swal-wide " #swalid2 title="Demostración del proyecto" [swalOptions]="{customClass: 'clase'}">
+<!-- <swal class="swal-wide " #swalid2 title="Demostración del proyecto" [swalOptions]="{customClass: 'clase'}">
     <div *swalPortal>
         <div *ngIf="video">
             <div class="contenedor-video">
@@ -85,7 +85,7 @@
         </div>
 
     </div>
-</swal>
+</swal> -->
 <div class="desactivar d-flex align-items-center justify-content-center" *ngIf="sessionData.termino == 1">
     <h1>PROYECTOS EVALUADOS</h1>
 </div>

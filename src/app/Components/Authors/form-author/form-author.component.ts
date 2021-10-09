@@ -36,20 +36,20 @@ export class FormAuthorComponent implements OnInit {
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.formRegistroAutores = this.formBuilder.group({
-      name_author: ['', [Validators.required, Validators.maxLength(30)]],
-      last_name: ['', [Validators.required, Validators.maxLength(20)]],
-      second_last_name: ['', [Validators.required, Validators.maxLength(20)]],
-      address: ['', [Validators.required, Validators.maxLength(80)]],
-      suburb: ['', [Validators.required, Validators.maxLength(80)]],
-      postal_code: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode())]],
+      nombre: ['', [Validators.required, Validators.maxLength(30)]],
+      ape_pat: ['', [Validators.required, Validators.maxLength(20)]],
+      ape_mat: ['', [Validators.required, Validators.maxLength(20)]],
+      domicilio: ['', [Validators.required, Validators.maxLength(80)]],
+      colonia: ['', [Validators.required, Validators.maxLength(80)]],
+      cp: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode())]],
       curp: ['', [Validators.required, Validators.pattern(this.regexService.regexCURP())]],
       rfc: ['', [Validators.required, Validators.pattern(this.regexService.regexRFC())]],
-      phone_contact: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone())]],
+      telefono: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone())]],
       email: ['', [Validators.required, Validators.maxLength(60), Validators.email]],
-      city: ['', [Validators.required, Validators.maxLength(30)]],
-      locality: ['', [Validators.required, Validators.maxLength(30)]],
-      school: ['', [Validators.required, Validators.maxLength(100)]],
-      levelEnglish: ['', [Validators.required]],
+      municipio: ['', [Validators.required, Validators.maxLength(30)]],
+      localidad: ['', [Validators.required, Validators.maxLength(30)]],
+      escuela: ['', [Validators.required, Validators.maxLength(100)]],
+      nivel_ingles: ['', [Validators.required]],
       facebook: ['', [Validators.maxLength(60)]],
       twitter: ['', [Validators.maxLength(30)]],
       id_proyectos: ['', [Validators.required]]
@@ -80,6 +80,7 @@ export class FormAuthorComponent implements OnInit {
     } );
   }
   reigstrarAutor() {
+    this.utilService._loading = true;
     this.autoresService.postAutor( this.formRegistroAutores.value )
     .subscribe(
       _ => {
@@ -88,9 +89,7 @@ export class FormAuthorComponent implements OnInit {
           title: 'Exito',
           text: 'El proyecto se registró correctamente'
         });
-        this.formRegistroAutores.reset({
-          id_sedes: this.sessionData.id_sedes,
-        });
+        this.formRegistroAutores.reset();
       },
       err => {
         console.log(err);
