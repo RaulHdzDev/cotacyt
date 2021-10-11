@@ -32,7 +32,7 @@ export class EstadisticsComponent implements OnInit {
   public barChartColors: Color[] = [
     { backgroundColor: '#97c83c'},
   ];
-  public barChartLabels: Label[] = ['El Mante', 'Jaumave', 'Madero', 'Matamoros', 'Nuevo Laredo', 'Reynosa', 'Victoria'];
+  public barChartLabels: Label[] = ['El Mante', 'Madero', 'Matamoros', 'Nuevo Laredo', 'Reynosa', 'Victoria'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
   public barChartPlugins = [pluginDataLabels];
@@ -51,15 +51,13 @@ export class EstadisticsComponent implements OnInit {
       data => {
         this.estadisticas = data;
         const sede1 = data['El Mante'];
-        const sede2 = data['Jaumave'];
         const sede3 = data['Madero'];
         const sede4 = data['Matamoros'];
         const sede5 = data['Nuevo Laredo'];
         const sede6 = data['Reynosa'];
         const sede7 = data['Victoria'];
-        
         this.barChartData = [{
-          data: [sede1, sede2, sede3, sede4, sede5, sede6, sede7],
+          data: [sede1, sede3, sede4, sede5, sede6, sede7],
           label: 'Proyectos Por Sede'
         }];
       },
