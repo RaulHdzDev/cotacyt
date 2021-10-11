@@ -7,5 +7,5 @@ export interface ProjectRegistered {
     nombre: string;
     resumen: string;
     asesor: string;
-
+    folio: string;
 }
