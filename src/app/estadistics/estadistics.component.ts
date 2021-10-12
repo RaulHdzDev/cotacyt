@@ -4,6 +4,7 @@ import plugin, * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import jsPDF from 'jspdf';
 import { Color, defaultColors, Label } from 'ng2-charts';
 import { EstadisticasService } from '../services/estadisticas.service';
+import { UtilService } from '../services/util.service';
 
 
 @Component({
@@ -40,9 +41,11 @@ export class EstadisticsComponent implements OnInit {
 
   estadisticas:[];
 
-  constructor(private estadisticasService: EstadisticasService) { }
+  constructor(private estadisticasService: EstadisticasService, private utilService: UtilService) { }
 
   ngOnInit(): void {
+    setTimeout(() => this.utilService._loading = true);
+    setTimeout(() => this.utilService._loading = false, 2000);
     this.barChartData = [{
       data: [],
       label: 'Proyectos por sede'
@@ -85,7 +88,7 @@ export class EstadisticsComponent implements OnInit {
     var doc = new jsPDF('landscape');
     doc.setFontSize(20);
     doc.addImage('assets/logotamColor.png', 'png', 9, 7, 57, 28);
-    doc.addImage('assets/cecit.png','png', 243, 5, 50, 40).setFont('Caviar').setFontSize(18).setTextColor('#646464');
+    doc.addImage('assets/cecit.png', 'png', 243, 5, 50, 40).setFont('Caviar').setFontSize(18).setTextColor('#646464');
     doc.text('Consejo Tamaulipeco de Ciencia y Tecnología', 91, 37);
     doc.addImage(canvasImg, 'JPEG', 15, 50, 260, 135 );
     doc.save('Proyectos-Por-Sede.pdf');
