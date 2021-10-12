@@ -56,12 +56,12 @@ const routes: Routes = [
       {
         path: 'authors-registered', component: AuthorsRegisteredComponent
       },
-      {
-        path: 'nuevo-autor', component: AddAuthorsComponent
-      },
-      {
-        path: 'nuevo-asesor', component: AddAdviserComponent
-      }
+      // {
+      //   path: 'nuevo-autor', component: AddAuthorsComponent
+      // },
+      // {
+      //   path: 'nuevo-asesor', component: AddAdviserComponent
+      // }
     ]
   }
 ];
