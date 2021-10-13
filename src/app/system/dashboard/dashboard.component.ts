@@ -1001,11 +1001,11 @@ export class DashboardComponent implements OnInit {
       const doc7 = new jsPDF('p', 'in', 'letter');
       doc7.addImage('assets/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
         if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
         } else {
           if (nombresAutores.length == 3) {
             doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
@@ -1018,8 +1018,8 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
@@ -1029,14 +1029,14 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
           doc7.setFont('Helvetica');
           doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
         } else {
-          doc7.text(nombre, 4.2, 7.8, { align: "center" });
+          doc7.text(nombre, 4.2, 7.3, { align: "center" });
           doc7.setFont('Helvetica');
           doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
         }
@@ -1053,11 +1053,11 @@ export class DashboardComponent implements OnInit {
       doc7.addImage('assets/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
 
       if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
         if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
         } else {
           if (nombresAutores.length == 3) {
             doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
@@ -1070,10 +1070,8 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFont('Helvetica');
         doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
       } else {
@@ -1082,17 +1080,13 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-          doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFont('Helvetica');
           doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
         } else {
-          doc7.text(nombre, 4.2, 7.8, { align: "center" });
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-          doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+          doc7.text(nombre, 4.2, 7.3, { align: "center" });
           doc7.setFont('Helvetica');
           doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
         }
@@ -1130,7 +1124,7 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
@@ -1141,7 +1135,7 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
@@ -1182,7 +1176,7 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
         doc7.setFont('Helvetica');
@@ -1193,7 +1187,7 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
@@ -1221,11 +1215,11 @@ export class DashboardComponent implements OnInit {
       const doc7 = new jsPDF('p', 'in', 'letter');
       doc7.addImage('assets/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
         if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
         } else {
           if (nombresAutores.length == 3) {
             doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
@@ -1238,8 +1232,8 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
@@ -1249,14 +1243,14 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
           doc7.setFont('Helvetica');
           doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
         } else {
-          doc7.text(nombre, 4.2, 7.8, { align: "center" });
+          doc7.text(nombre, 4.2, 7.3, { align: "center" });
           doc7.setFont('Helvetica');
           doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
         }
@@ -1272,11 +1266,11 @@ export class DashboardComponent implements OnInit {
       const doc7 = new jsPDF('p', 'in', 'letter');
       doc7.addImage('assets/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
       } else {
         if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
         } else {
           if (nombresAutores.length == 3) {
             doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
@@ -1289,10 +1283,8 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFont('Helvetica');
         doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
       } else {
@@ -1301,17 +1293,13 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-          doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFont('Helvetica');
           doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
         } else {
-          doc7.text(nombre, 4.2, 7.8, { align: "center" });
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-          doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+          doc7.text(nombre, 4.2, 7.3, { align: "center" });
           doc7.setFont('Helvetica');
           doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
         }
@@ -1347,7 +1335,7 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
@@ -1358,7 +1346,7 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
@@ -1398,7 +1386,7 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
         doc7.setFont('Helvetica');
@@ -1409,7 +1397,7 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
@@ -1436,11 +1424,11 @@ export class DashboardComponent implements OnInit {
       const doc7 = new jsPDF('p', 'in', 'letter');
       doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
         if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
         } else {
           if (nombresAutores.length == 3) {
             doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
@@ -1453,8 +1441,8 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
@@ -1464,14 +1452,14 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
           doc7.setFont('Helvetica');
           doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
         } else {
-          doc7.text(nombre, 4.2, 7.8, { align: "center" });
+          doc7.text(nombre, 4.2, 7.3, { align: "center" });
           doc7.setFont('Helvetica');
           doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
         }
@@ -1487,11 +1475,11 @@ export class DashboardComponent implements OnInit {
       const doc7 = new jsPDF('p', 'in', 'letter');
       doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
       if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
         if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
         } else {
           if (nombresAutores.length == 3) {
             doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
@@ -1504,10 +1492,8 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFont('Helvetica');
         doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
       } else {
@@ -1516,17 +1502,13 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-          doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFont('Helvetica');
           doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
         } else {
-          doc7.text(nombre, 4.2, 7.8, { align: "center" });
-          doc7.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-          doc7.addImage('assets/image/Director' + sede2 + '.png', 'png', 5.8, 8, 1.2, 1.2);
+          doc7.text(nombre, 4.2, 7.3, { align: "center" });
           doc7.setFont('Helvetica');
           doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
         }
@@ -1565,7 +1547,7 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
@@ -1576,7 +1558,7 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
@@ -1619,7 +1601,7 @@ export class DashboardComponent implements OnInit {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
         doc7.setFont('Helvetica');
@@ -1630,7 +1612,7 @@ export class DashboardComponent implements OnInit {
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.5, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.text(nombreTemp3, 4.2, 8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
