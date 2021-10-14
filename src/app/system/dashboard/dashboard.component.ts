@@ -1136,7 +1136,7 @@ export class DashboardComponent implements OnInit {
   }
   secondPlace({ nombre = '' }, autores: any[], sede: string, sede2: string = '', categoriaSede: string) {
     let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'jaumave' || sede === 'nuevo-laredo') {
+    if (sede === 'madero' || sede === 'nuevo-laredo') {
       if (!autores) {
         swal.fire({
           icon: 'error',
@@ -1404,7 +1404,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+      doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
