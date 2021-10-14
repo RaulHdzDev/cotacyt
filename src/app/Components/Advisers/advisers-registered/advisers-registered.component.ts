@@ -230,7 +230,7 @@ export class AdvisersRegisteredComponent implements OnInit {
             const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
             const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
             doc.text('', 0, 0).setFontSize(14);
-            doc.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
           
