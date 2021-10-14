@@ -192,8 +192,8 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc.text('', 0, 0).setFontSize(14);
-          doc.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc.setFontSize(14);
           doc.setFont('Helvetica');
           doc.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
@@ -203,14 +203,14 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc.text('', 0, 0).setFontSize(14);
-            doc.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp3, 4.2, 7.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc.text(nombreTemp3, 4.2, 7.80, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             
             doc.setFont('Helvetica');
             doc.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc.text(this.autorActual.proyecto, 4.2, 7, { align: 'center' });
+            doc.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc.setFontSize(14);
             
             doc.setFont('Helvetica');
@@ -227,8 +227,8 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc1.text('', 0, 0).setFontSize(14);
-          doc1.text(nombreTemp, 4.4, 7.6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc1.text(nombreTemp2, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc1.text(nombreTemp, 4.4, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc1.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc1.setFontSize(14);
           doc1.setFont('Helvetica');
           doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
@@ -244,7 +244,7 @@ export class AuthorsRegisteredComponent implements OnInit {
             doc1.setFont('Helvetica');
             doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc1.text(this.autorActual.proyecto, 4.2, 7.7, { align: 'center' });
+            doc1.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc1.setFontSize(14);
             doc1.setFont('Helvetica');
             doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
@@ -260,7 +260,7 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc2.text('', 0, 0).setFontSize(14);
           doc2.text(nombreTemp, 4.6, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc2.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc2.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc2.setFont('Helvetica');
           doc2.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
@@ -270,13 +270,13 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc2.text('', 0, 0).setFontSize(14);
             doc2.text(nombreTemp, 4.6, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc2.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc2.text(nombreTemp3, 4.2, 7.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc2.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc2.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             
             doc2.setFont('Helvetica');
             doc2.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc2.text(this.autorActual.proyecto, 4.2, 7, { align: 'center' });
+            doc2.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc2.setFontSize(14);
             
             doc2.setFont('Helvetica');
@@ -292,8 +292,8 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc3.text('', 0, 0).setFontSize(14);
-          doc3.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc3.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc3.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc3.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc3.setFontSize(14);
 
           doc3.setFont('Helvetica');
@@ -304,14 +304,14 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc3.text('', 0, 0).setFontSize(14);
-            doc3.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc3.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc3.text(nombreTemp3, 4.2, 7.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc3.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc3.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc3.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
 
             doc3.setFont('Helvetica');
             doc3.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc3.text(this.autorActual.proyecto, 4.2, 7, { align: 'center' });
+            doc3.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc3.setFontSize(14);
 
             doc3.setFont('Helvetica');
@@ -327,8 +327,8 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc5.text('', 0, 0).setFontSize(14);
-          doc5.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc5.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc5.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc5.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc5.setFontSize(14);
 
           doc5.setFont('Helvetica');
@@ -339,14 +339,14 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc5.text('', 0, 0).setFontSize(14);
-            doc5.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc5.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc5.text(nombreTemp3, 4.2, 7.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc5.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc5.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc5.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
 
             doc5.setFont('Helvetica');
             doc5.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc5.text(this.autorActual.proyecto, 4.2, 7, { align: 'center' });
+            doc5.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc5.setFontSize(14);
 
             doc5.setFont('Helvetica');
@@ -362,8 +362,8 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc6.text('', 0, 0).setFontSize(14);
-          doc6.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc6.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc6.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc6.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc6.setFontSize(14);
           
           doc6.setFont('Helvetica');
@@ -374,14 +374,14 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc6.text('', 0, 0).setFontSize(14);
-            doc6.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc6.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc6.text(nombreTemp3, 4.2, 7.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc6.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc6.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc6.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             
             doc6.setFont('Helvetica');
             doc6.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc6.text(this.autorActual.proyecto, 4.2, 7, { align: 'center' });
+            doc6.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc6.setFontSize(14);
             
             doc6.setFont('Helvetica');
@@ -397,8 +397,8 @@ export class AuthorsRegisteredComponent implements OnInit {
           const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
           
           doc7.setFont('Helvetica');
@@ -409,14 +409,14 @@ export class AuthorsRegisteredComponent implements OnInit {
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
             doc7.text('', 0, 0).setFontSize(14);
-            doc7.text(nombreTemp, 4.2, 7, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombreTemp2, 4.2, 7.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombreTemp3, 4.2, 7.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc7.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc7.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc7.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             
             doc7.setFont('Helvetica');
             doc7.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
           } else {
-            doc7.text(this.autorActual.proyecto, 4.2, 7, { align: 'center' });
+            doc7.text(this.autorActual.proyecto, 4.2, 7.3, { align: 'center' });
             doc7.setFontSize(14);
             
             doc7.setFont('Helvetica');
