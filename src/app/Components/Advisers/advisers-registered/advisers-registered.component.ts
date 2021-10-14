@@ -55,6 +55,7 @@ export class AdvisersRegisteredComponent implements OnInit {
     this.formAsesores = this.formBuilder.group({
       id_proyectos_nuevo: ['0'],
       id_proyectos_anterior: ['0'],
+      id_asesores: [''],
       nombre: ['', [Validators.required, Validators.maxLength(30), Validators.minLength(2)]],
       ape_pat: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
       ape_mat: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(2)]],
@@ -141,12 +142,13 @@ export class AdvisersRegisteredComponent implements OnInit {
     this.formAsesores.get('facebook').setValue(this.asesorActual.facebook);
     this.formAsesores.get('twitter').setValue(this.asesorActual.twitter);
     this.formAsesores.get('descripcion').setValue(this.asesorActual.descripcion);
+    this.formAsesores.get('id_asesores').setValue(this.asesorActual.id_asesores);
     this.utilService._loading = false;
     this.swalEdit.fire();
   }
   editarAsesor() {
     this.utilService._loading = true;
-    this.asesoresService.updateAsesor(this.formAsesores.value, this.asesorActual.id_asesores)
+    this.asesoresService.updateAsesor(this.formAsesores.value)
       .subscribe(
         data => {
           Swal.fire({
