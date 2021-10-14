@@ -157,8 +157,8 @@ export class AdvisersRegisteredComponent implements OnInit {
           });
           this.ngOnInit();
           this.formAsesores.reset({
-            id_proyectos_nuevo: ['0'],
-            id_proyectos_anterior: ['0'],
+            id_proyectos_nuevo: '0',
+            id_proyectos_anterior: '0',
           });
         }, err => {
           console.log(err);
