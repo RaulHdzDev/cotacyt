@@ -188,17 +188,17 @@ export class AuthorsRegisteredComponent implements OnInit {
         doc.addImage('assets/image/ConstanciaParticipantesMante.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+          //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc.text('', 0, 0).setFontSize(14);
-          doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc.setFontSize(14);
           doc.setFont('Helvetica');
           doc.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
@@ -223,17 +223,17 @@ export class AuthorsRegisteredComponent implements OnInit {
         doc1.addImage('assets/image/ConstanciaParticipantesReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc1.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+          //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc1.text('', 0, 0).setFontSize(14);
-          doc1.text(nombreTemp, 4.4, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc1.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc1.text(nombreTemp2, 4.4, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc1.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc1.setFontSize(14);
           doc1.setFont('Helvetica');
           doc1.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
@@ -255,16 +255,16 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc2 = new jsPDF('p', 'in', 'letter');
         doc2.addImage('assets/image/ConstanciaParticipantesMatamoros.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc2.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+          //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc2.text('', 0, 0).setFontSize(14);
-          doc2.text(nombreTemp, 4.6, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc2.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc2.text(nombreTemp2, 4.6, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc2.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc2.setFont('Helvetica');
           doc2.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
@@ -288,18 +288,18 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc3 = new jsPDF('p', 'in', 'letter');
         doc3.addImage('assets/image/ConstanciaParticipantesMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc3.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+          //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc3.text('', 0, 0).setFontSize(14);
-          doc3.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc3.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc3.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc3.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc3.setFontSize(14);
 
           doc3.setFont('Helvetica');
           doc3.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
@@ -323,18 +323,18 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc5 = new jsPDF('p', 'in', 'letter');
         doc5.addImage('assets/image/ConstanciaParticipantesNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc5.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+          //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc5.text('', 0, 0).setFontSize(14);
-          doc5.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc5.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc5.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc5.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc5.setFontSize(14);
 
           doc5.setFont('Helvetica');
           doc5.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
@@ -358,18 +358,18 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc6 = new jsPDF('p', 'in', 'letter');
         doc6.addImage('assets/image/ConstanciaParticipantesVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc6.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+          //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc6.text('', 0, 0).setFontSize(14);
-          doc6.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc6.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc6.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc6.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc6.setFontSize(14);
           
           doc6.setFont('Helvetica');
           doc6.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);
@@ -393,18 +393,18 @@ export class AuthorsRegisteredComponent implements OnInit {
         const doc7 = new jsPDF('p', 'in', 'letter');
         doc7.addImage('assets/image/ConstanciaParticipantesEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc7.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
-        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 100) {
-          const nombreTemp = this.autorActual.proyecto.substr(0, 50);
-          const nombreTemp2 = this.autorActual.proyecto.substr(50, this.autorActual.proyecto.length);
+        if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
+         // const nombreTemp = this.autorActual.proyecto.substr(0, 50);
+          const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);
           doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          doc7.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          //doc7.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           doc7.setFontSize(14);
           
           doc7.setFont('Helvetica');
           doc7.save('Constancia Autor ' + this.autorActual.nombre + '_' + this.autorActual.ape_pat + '_' + this.autorActual.ape_mat + '.pdf');
         } else {
-          if (this.autorActual.proyecto.length > 100) {
+          if (this.autorActual.proyecto.length > 120) {
             const nombreTemp = this.autorActual.proyecto.substr(0, 50);
             const nombreTemp2 = this.autorActual.proyecto.substr(50, 50);
             const nombreTemp3 = this.autorActual.proyecto.substr(100, this.autorActual.proyecto.length);

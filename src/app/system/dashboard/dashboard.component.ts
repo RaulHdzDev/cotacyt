@@ -945,7 +945,7 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
+      if (nombre.length >= 30 && nombre.length <= 120) {
         let nombreTemp = nombre.substr(0, 50);
         let nombreTemp2 = nombre.substr(50, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
@@ -955,7 +955,7 @@ export class DashboardComponent implements OnInit {
         doc7.setFont('Helvetica');
         doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -997,16 +997,16 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFont('Helvetica');
         doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1051,17 +1051,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1103,17 +1103,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
         doc7.setFont('Helvetica');
         doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1159,17 +1159,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1210,16 +1210,16 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFont('Helvetica');
         doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1262,17 +1262,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1313,17 +1313,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
         doc7.setFont('Helvetica');
         doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1368,17 +1368,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1419,16 +1419,16 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFont('Helvetica');
         doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1474,17 +1474,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.setFontSize(14);
         doc7.setFont('Helvetica');
         doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);
@@ -1528,17 +1528,17 @@ export class DashboardComponent implements OnInit {
           }
         }
       }
-      if (nombre.length >= 30 && nombre.length <= 100) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
+      if (nombre.length >= 30 && nombre.length <= 120) {
+        //let nombreTemp = nombre.substr(0, 50);
+        let nombreTemp2 = nombre.substr(0, nombre.length);
         doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(nombreTemp2, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
         doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
         doc7.setFont('Helvetica');
         doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
       } else {
-        if (nombre.length > 100) {
+        if (nombre.length > 120) {
           let nombreTemp = nombre.substr(0, 50);
           let nombreTemp2 = nombre.substr(50, 50);
           let nombreTemp3 = nombre.substr(100, nombre.length);

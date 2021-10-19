@@ -228,18 +228,18 @@ export class AdvisersRegisteredComponent implements OnInit {
           + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
           + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
           .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
-            const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
+            //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
             doc.text('', 0, 0).setFontSize(14);
-            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
           
             doc.setFont('Helvetica');
             doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               const nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
@@ -270,17 +270,17 @@ export class AdvisersRegisteredComponent implements OnInit {
             + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
             + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.9, { align: 'center' })
             .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
-            const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
+            //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
             
             doc.setFont('Helvetica');
             doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               const nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
@@ -311,17 +311,17 @@ export class AdvisersRegisteredComponent implements OnInit {
             + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
             + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
             .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
-            const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
+            //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
             
             doc.setFont('Helvetica');
             doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
@@ -349,17 +349,17 @@ export class AdvisersRegisteredComponent implements OnInit {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
-            let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
+            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
            
             doc.setFont('Helvetica');
             doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
@@ -387,17 +387,17 @@ export class AdvisersRegisteredComponent implements OnInit {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
-            let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
+            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
             
             doc.setFont('Helvetica');
             doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
@@ -424,17 +424,17 @@ export class AdvisersRegisteredComponent implements OnInit {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
-            let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
+            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
             
             doc.setFont('Helvetica');
             doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
@@ -461,7 +461,7 @@ export class AdvisersRegisteredComponent implements OnInit {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 100) {
+          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
             let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
             let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
             doc.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
@@ -471,7 +471,7 @@ export class AdvisersRegisteredComponent implements OnInit {
             doc.setFont('Helvetica');
             doc.save('Constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
-            if (asesor.proyectos[i].proyecto.length > 100) {
+            if (asesor.proyectos[i].proyecto.length > 120) {
               let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
