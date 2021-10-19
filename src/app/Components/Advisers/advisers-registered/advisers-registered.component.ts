@@ -268,7 +268,7 @@ export class AdvisersRegisteredComponent implements OnInit {
             .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
             + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
-            + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.9, { align: 'center' })
+            + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
             .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
             //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
