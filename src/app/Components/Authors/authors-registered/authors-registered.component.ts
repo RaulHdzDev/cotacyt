@@ -392,7 +392,7 @@ export class AuthorsRegisteredComponent implements OnInit {
       case '8':
         const doc7 = new jsPDF('p', 'in', 'letter');
         doc7.addImage('assets/image/ConstanciaParticipantesEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc7.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6.6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
+        doc7.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
          // const nombreTemp = this.autorActual.proyecto.substr(0, 50);
           const nombreTemp2 = this.autorActual.proyecto.substr(0, this.autorActual.proyecto.length);

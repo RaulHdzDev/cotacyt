@@ -326,8 +326,8 @@ export class JudgesComponent implements OnInit {
         const doc7 = new jsPDF('p', 'in', 'letter');
         doc7.addImage('assets/image/ReconocimientoJuradoEstatal.jpg', 'jpg', 0, 0, 8.5, 11)
         .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
+        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.35, {align: 'center'});
+        //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
         // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
         doc7.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
         break;
@@ -337,17 +337,17 @@ export class JudgesComponent implements OnInit {
         doc8.addImage('assets/image/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
         .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+        //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
         // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-        doc8.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
+        doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
         } else {
           if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'media superior') {
             doc8.addImage('assets/image/ReconocimientoJuradoInternacionalMS.jpg', 'jpg', 0, 0, 8.5, 11)
             .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
             doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-            doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+            //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
             // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-            doc8.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
+            doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
           } else {
             swal.fire({
               title: 'No se encontro la constancia',

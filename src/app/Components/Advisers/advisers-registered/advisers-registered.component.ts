@@ -456,43 +456,43 @@ export class AdvisersRegisteredComponent implements OnInit {
 
         }
         break;
-       /* case '8':
+       case 'Estatal':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
           doc.addImage('assets/image/certificadoAsesorEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.9, { align: 'center' }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
+          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.08, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.text(nombreTemp2, 4.2, 8.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
+            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
+            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
             doc.setFontSize(14);
-            doc.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.75, 1.7, 1.7);
+            
             doc.setFont('Helvetica');
-            doc.save('Constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
+            doc.save('constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
           } else {
             if (asesor.proyectos[i].proyecto.length > 120) {
               let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
               let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
               let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 8.25, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 8.5, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
+              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
               doc.setFontSize(14);
-              doc.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.75, 1.7, 1.7);
+              
               doc.setFont('Helvetica');
-              doc.save('Constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
+              doc.save('constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
             } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 8, { align: 'center' });
+              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
               doc.setFontSize(14);
-              doc.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.75, 1.7, 1.7);
+              
               doc.setFont('Helvetica');
               doc.save('constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
             }
           }
 
         }
-        break;*/
+        break;
       default:
         console.log('sede no encontrada');
         Swal.fire({
