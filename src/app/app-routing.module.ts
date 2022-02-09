@@ -12,6 +12,8 @@ import { AuthorsRegisteredComponent } from './Components/Authors/authors-registe
 import { EstadisticsComponent } from './estadistics/estadistics.component';
 import { SedeComponent } from './Components/sede/sede.component';
 import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
+import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
+import { AddAdviserComponent } from './Components/Advisers/add-adviser/add-adviser.component';
 
 const routes: Routes = [
   {
@@ -53,7 +55,13 @@ const routes: Routes = [
       },
       {
         path: 'authors-registered', component: AuthorsRegisteredComponent
-      }
+      },
+      // {
+      //   path: 'nuevo-autor', component: AddAuthorsComponent
+      // },
+      // {
+      //   path: 'nuevo-asesor', component: AddAdviserComponent
+      // }
     ]
   }
 ];

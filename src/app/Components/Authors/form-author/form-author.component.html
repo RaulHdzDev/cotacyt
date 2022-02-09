@@ -1,0 +1,134 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <form class="row" [formGroup]="formRegistroAutores">
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Nombre(s)<b style="color: red;">*</b></label>
+                    <input formControlName="nombre" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['nombre'].invalid && (formRegistroAutores.controls['nombre'].dirty || formRegistroAutores.controls['nombre'].touched)"
+                        class="form-text" style="color: red;">Nombre inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Apellido paterno<b style="color: red;">*</b></label>
+                    <input formControlName="ape_pat" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['ape_pat'].invalid && (formRegistroAutores.controls['ape_pat'].dirty || formRegistroAutores.controls['ape_pat'].touched)"
+                        class="form-text" style="color: red;">Apellido paterno inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Apellido materno<b style="color: red;">*</b></label>
+                    <input formControlName="ape_mat" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['ape_mat'].invalid && (formRegistroAutores.controls['ape_mat'].dirty || formRegistroAutores.controls['ape_mat'].touched)"
+                        class="form-text" style="color: red;">Apellido materno inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Domicilio<b style="color: red;">*</b></label>
+                    <input formControlName="domicilio" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['domicilio'].invalid && (formRegistroAutores.controls['domicilio'].dirty || formRegistroAutores.controls['domicilio'].touched)"
+                        class="form-text" style="color: red;">Dirección inválida</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Colonia<b style="color: red;">*</b></label>
+                    <input formControlName="colonia" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['colonia'].invalid && (formRegistroAutores.controls['colonia'].dirty || formRegistroAutores.controls['colonia'].touched)"
+                        class="form-text" style="color: red;">Colonia inválida</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Código postal<b style="color: red;">*</b></label>
+                    <input formControlName="cp" type="number" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['cp'].invalid && (formRegistroAutores.controls['cp'].dirty || formRegistroAutores.controls['cp'].touched)"
+                        class="form-text" style="color: red;">Código postal inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>CURP<b style="color: red;">*</b></label>
+                    <input style="text-transform:uppercase"  (keyup)="curpUpperCase()" formControlName="curp" type="text" class="form-control">
+                    <small class="form-text text-muted">Consulta tu CURP <a href="https://www.gob.mx/curp/"
+                            target="_blank">aquí</a></small>
+                    <small
+                        *ngIf="formRegistroAutores.controls['curp'].invalid && (formRegistroAutores.controls['curp'].dirty || formRegistroAutores.controls['curp'].touched)"
+                        class="form-text" style="color: red;">CURP inválida</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>RFC<b style="color: red;">*</b></label>
+                    <input (keyup)="rfcUpperCase()" style="text-transform:uppercase" formControlName="rfc" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['rfc'].invalid && (formRegistroAutores.controls['rfc'].dirty || formRegistroAutores.controls['rfc'].touched)"
+                        class="form-text" style="color: red;">RFC inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Teléfono de contacto<b style="color: red;">*</b></label>
+                    <input formControlName="telefono" type="number" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['telefono'].invalid && (formRegistroAutores.controls['telefono'].dirty || formRegistroAutores.controls['telefono'].touched)"
+                        class="form-text" style="color: red;">Teléfono inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Correo electrónico<b style="color: red;">*</b></label>
+                    <input formControlName="email" type="email" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['email'].invalid && (formRegistroAutores.controls['email'].dirty || formRegistroAutores.controls['email'].touched)"
+                        class="form-text" style="color: red;">Correo inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Municipio<b style="color: red;">*</b></label>
+                    <input formControlName="municipio" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['municipio'].invalid && (formRegistroAutores.controls['municipio'].dirty || formRegistroAutores.controls['municipio'].touched)"
+                        class="form-text" style="color: red;">Municipio inválido</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Localidad<b style="color: red;">*</b></label>
+                    <input formControlName="localidad" type="text" class="form-control">
+                    <small class="form-text text-muted">Ej. Ejido, Congregación, Ciudad, etc</small>
+                    <small
+                        *ngIf="formRegistroAutores.controls['localidad'].invalid && (formRegistroAutores.controls['localidad'].dirty || formRegistroAutores.controls['localidad'].touched)"
+                        class="form-text" style="color: red;">Localidad inválida</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Escuela o institución<b style="color: red;">*</b></label>
+                    <input formControlName="escuela" type="text" class="form-control">
+                    <small
+                        *ngIf="formRegistroAutores.controls['escuela'].invalid && (formRegistroAutores.controls['escuela'].dirty || formRegistroAutores.controls['escuela'].touched)"
+                        class="form-text" style="color: red;">Escuela o institución inválida</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                    <label>Nivel de íngles:<b style="color: red;">*</b></label>
+                    <select formControlName="nivel_ingles" class="form-control">
+                        <option>0% - 40%</option>
+                        <option>41% - 60%</option>
+                        <option>61% - 80%</option>
+                        <option>81% - 100%</option>
+                    </select>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Facebook</label>
+                    <input formControlName="facebook" type="text" class="form-control">
+                    <small class="form-text text-muted">Opcional</small>
+                </div>
+                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label>Twitter</label>
+                    <input formControlName="twitter" type="text" class="form-control">
+                    <small class="form-text text-muted">Opcional</small>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">Proyecto:</label>
+                        <select formControlName="id_proyectos" class="form-control">
+                            <option [value]="proyecto.id_proyectos" *ngFor="let proyecto of proyectos">
+                                {{proyecto.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button (click)="reigstrarAutor()" [disabled]="!formRegistroAutores.valid"
+                    class="btn btn-primary boton-iniciar">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

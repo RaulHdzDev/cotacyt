@@ -1,5 +1,5 @@
 <!-- swal tabla informacion -->
-<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase'}">
+<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
     <div *swalPortal>
         <div>
             <table *ngFor="let info of informacionDeLosProyectos" class="table table-light">
@@ -156,7 +156,8 @@
                                     <div class="row justify-content-center mb-2">
 
                                             <select #sc (change)="onChangeCategoria(sc.value)" class="custom-select">
-                                                <option selected="true" value="1" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
+                                                <option selected="true">Elegir categoria</option>
+                                                <option  value="1" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
                                                 <option value="2" *ngIf="sessionData.id_sedes!=='9'">Kids</option>
                                                 <option value="3" *ngIf="sessionData.id_sedes!=='9'">Juvenil</option>
                                                 <option value="4">Media superior</option>

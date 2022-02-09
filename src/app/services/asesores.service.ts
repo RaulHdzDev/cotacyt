@@ -23,8 +23,16 @@ export class AsesoresService {
   deleteAsesor(idAsesor: string) {
     return this.http.delete(this.servicesConfig.APP_ENDPOINT + 'api/asesores/eliminar/' + idAsesor);
   }
-  updateAsesor( body: any, idAsesor: string ): Observable<any> {
-    console.log(idAsesor);
-    return this.http.put( this.servicesConfig.APP_ENDPOINT + 'api/asesores/modificar/' + idAsesor, body);
+  postAsesor(body: any): Observable<any> {
+    return this.http.post( this.servicesConfig.APP_ENDPOINT + 'api/asesores/nuevo', body );
+  }
+  updateAsesor( body: any ): Observable<any> {
+    return this.http.put( this.servicesConfig.APP_ENDPOINT + 'api/asesores/modificar', body);
+  }
+  uploadAdviserImgIne(body: any): Observable<any> {
+    return this.http.post('https://mante.hosting.acm.org/api-cecit-2021/assessor/upload-image', body, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

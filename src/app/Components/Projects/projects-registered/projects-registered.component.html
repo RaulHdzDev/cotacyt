@@ -8,6 +8,7 @@
     <table class="table table-lg table-hover table-responsive-lg">
         <thead class="background-table">
             <tr>
+                <th>Folio</th>
                 <th>Nombre</th>
                 <th>Asesor</th>
                 <th>Autores</th>
@@ -19,6 +20,7 @@
             </tr>
         </thead>
         <tr class="table" *ngFor="let proyecto of proyectos">
+            <td>{{proyecto.folio}}</td>
             <td>{{proyecto.nombre}}</td>
             <td>{{proyecto.asesor}}</td>
             <td>

@@ -36,7 +36,10 @@ import { GraForPartComponent } from './Graphics/gra-for-part/gra-for-part.compon
 import { GraForProyComponent } from './Graphics/gra-for-proy/gra-for-proy.component';
 import { SedeComponent } from './Components/sede/sede.component';
 import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
+import { AddAdviserComponent } from './Components/Advisers/add-adviser/add-adviser.component';
 
+import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
+import { FormAuthorComponent } from './Components/Authors/form-author/form-author.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { AdminRegisteredComponent } from './Components/admins/admin-registered/a
     GraForProyComponent,
     SedeComponent,
     AdminRegisteredComponent,
+    AddAdviserComponent,
+    AddAuthorsComponent,
+    FormAuthorComponent,
   ],
   imports: [
     BrowserModule,

@@ -21,10 +21,11 @@ export class CalificacionesService {
       this.servicesConfig.APP_ENDPOINT + 'api/calificaciones-generales');
   }
   proyectosEstadisticasJuez(): Observable<Calificaciones[]> {
-    if (this.sessionData.id_sedes === '8') {
-      return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
-        + 'api/calificaciones/categoria-estatales?id_categorias=' + this.sessionData.id_categorias);
-    } else if (this.sessionData.id_sedes === '9') {
+    // if (this.sessionData.id_sedes === '8') {
+    //   return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
+    //     + 'api/calificaciones/categoria-estatales?id_categorias=' + this.sessionData.id_categorias);
+    // } else
+    if (this.sessionData.id_sedes === '9') {
       return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
         + 'api/calificaciones/categoria-internacionales?id_categorias=' + this.sessionData.id_categorias);
     } else {
@@ -34,10 +35,11 @@ export class CalificacionesService {
     }
   }
   proyectosEstadisticasAdmin(): Observable<Calificaciones[]> {
-    if (this.sessionData.id_sedes === '8') {
-      return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
-        + 'api/calificaciones-generales-por-sede-estatales');
-    } else if (this.sessionData.id_sedes === '9') {
+    // if (this.sessionData.id_sedes === '8') {
+    //   return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
+    //     + 'api/calificaciones-generales-por-sede-estatales');
+    // } else 
+    if (this.sessionData.id_sedes === '9') {
       return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
         + 'api/calificaciones-generales-por-sede-internacionales');
     } else {
@@ -47,11 +49,12 @@ export class CalificacionesService {
   }
   // obtener calificaciones por categorias
   listaDeCalificaciones(idCategoria: string): Observable < CalificacionesPorCategoria[]> {
-    if (this.sessionData.id_sedes === '8') {
-      return this.http.get < CalificacionesPorCategoria[]>(
-        this.servicesConfig.APP_ENDPOINT
-        + 'api/calificaciones-generales-por-categoria-estatales');
-    } else if (this.sessionData.id_sedes === '9') {
+    // if (this.sessionData.id_sedes === '8') {
+    //   return this.http.get < CalificacionesPorCategoria[]>(
+    //     this.servicesConfig.APP_ENDPOINT
+    //     + 'api/calificaciones-generales-por-categoria-estatales');
+    // } else
+    if (this.sessionData.id_sedes === '9') {
       return this.http.get < CalificacionesPorCategoria[]>(
         this.servicesConfig.APP_ENDPOINT
         + 'api/calificaciones-generales-por-categoria-internacionales');
@@ -64,11 +67,12 @@ export class CalificacionesService {
     }
   }
   listaDeCalificacionesAdmin(idCategoria: string, idSedes: string): Observable < CalificacionesPorCategoria[]>{
-    if (this.sessionData.id_sedes === '8') {
-      return this.http.get < CalificacionesPorCategoria[]>(
-        this.servicesConfig.APP_ENDPOINT
-        + 'api/calificaciones-generales-por-categoria-estatales');
-    } else if (this.sessionData.id_sedes === '9') {
+    // if (this.sessionData.id_sedes === '8') {
+    //   return this.http.get < CalificacionesPorCategoria[]>(
+    //     this.servicesConfig.APP_ENDPOINT
+    //     + 'api/calificaciones-generales-por-categoria-estatales');
+    // } else
+    if (this.sessionData.id_sedes === '9') {
       return this.http.get < CalificacionesPorCategoria[]>(
         this.servicesConfig.APP_ENDPOINT
         + 'api/calificaciones-generales-por-categoria-internacionales');

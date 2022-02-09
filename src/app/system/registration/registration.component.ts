@@ -120,7 +120,8 @@ export class RegistrationComponent implements OnInit {
             text: 'El juez se registro correctamente'
           });
           this.formsRegistroJuez.reset({
-            id_sedes: this.sessionData.id_sedes
+            id_sedes: this.sessionData.id_sedes,
+            rol: 'juez'
           });
         },
         err => {

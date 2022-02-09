@@ -15,6 +15,7 @@ export class CalificarProyectoService {
   }
 
   getCalificaciones(categoria: string, idProyecto: number): Observable<any> {
+    categoria = categoria.toLowerCase();
     switch ( categoria ) {
       case 'petit':
         return this.http.get(this.servicesConfig.APP_ENDPOINT

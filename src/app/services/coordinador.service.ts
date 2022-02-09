@@ -24,8 +24,8 @@ export class CoordinadorService {
     return this.http.get<JudgesRegistered[]>(this.servicesConfig.APP_ENDPOINT
       + 'api/jueces/all/details?id_sedes=' + this.sessionData.id_sedes);
   }
-  deleteJudges( idJuedge: string): Observable<any> {
-    return this.http.delete(this.servicesConfig.APP_ENDPOINT + 'api/jueces/eliminar/' + idJuedge);
+  deleteAdmin( idAdmin: string): Observable<any> {
+    return this.http.delete(this.servicesConfig.APP_ENDPOINT + 'api/jueces/eliminar/' + idAdmin);
   }
   updateJudge( body: any) {
     return this.http.put(this.servicesConfig.APP_ENDPOINT + 'api/jueces/modificar', body);
