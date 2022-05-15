@@ -76,13 +76,21 @@ export class JudgesComponent implements OnInit {
       singleSelection: false,
       idField: 'id_proyectos',
       textField: 'nombre',
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      selectAllText: 'Seleccionar todo',
+      noDataAvailablePlaceholderText: 'No hay proyectos',
+      searchPlaceholderText: 'Buscar',
+      unSelectAllText: 'Deseleccionar todo',
     };
     this.settingsProyectosNuevos = {
       singleSelection: false,
       idField: 'id_proyectos',
       textField: 'nombre',
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      selectAllText: 'Seleccionar todo',
+      noDataAvailablePlaceholderText: 'No hay proyectos',
+      searchPlaceholderText: 'Buscar',
+      unSelectAllText: 'Deseleccionar todo',
     };
     if (this.sessionData.rol === 'superuser') {
       forkJoin({
@@ -149,7 +157,7 @@ export class JudgesComponent implements OnInit {
       proyectos: this.superUser
       ? this.proyectosService.obtenerTodosLosProyectosCategoria(this.juezActual.id_categorias)
       : this.proyectosService.obtenerProyectosSuperUser(this.juezActual.id_categorias),
-      proyectosViejos: this.proyectosService.obtenerProyectosSelect(this.juezActual.id_categorias)
+      proyectosViejos: this.proyectosService.obtenerProyectosSelect(this.juezActual.id_jueces)
     }).subscribe(
       data => {
         this.proyectos = data.proyectos;
@@ -163,7 +171,7 @@ export class JudgesComponent implements OnInit {
       contrasena: this.juezActual.contrasena,
       nombre: this.juezActual.nombre,
       id_sedes: this.sessionData.id_sedes,
-      id_categorias: this.verificarCat(this.juezActual.categoria)
+      id_categorias: this.juezActual.id_categorias
     })
     : this.formJuez.patchValue({
       id_jueces: this.juezActual.id_jueces,
@@ -171,11 +179,12 @@ export class JudgesComponent implements OnInit {
       contrasena: this.juezActual.contrasena,
       nombre: this.juezActual.nombre,
       id_sedes: this.juezActual.id_sedes,
-      id_categorias: this.verificarCat(this.juezActual.categoria)
+      id_categorias: this.juezActual.id_categorias
     });
     this.swalEdit.fire().then(
       res => {
         if (res.dismiss === Swal.DismissReason.backdrop) {
+          console.log('se vacio');
           this.vaciarInfo();
         }
       },
@@ -185,6 +194,8 @@ export class JudgesComponent implements OnInit {
     );
   }
   vaciarInfo() {
+    this.formJuez.get('ids_proyectos_viejos').setValue([]);
+    this.formJuez.get('ids_proyectos_nuevos').setValue([]);
     this.proyectosNuevos = [];
     this.proyectosViejos = [];
     this.proyectos = [];
