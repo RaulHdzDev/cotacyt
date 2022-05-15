@@ -5,7 +5,7 @@ export interface ProjectRegistered {
     categoria: string;
     sede: string;
     nombre: string;
-    resumen: string;
+    descripcion: string;
     asesor: string;
     folio: string;
 }
