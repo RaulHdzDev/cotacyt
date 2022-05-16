@@ -55,14 +55,14 @@ export class JudgesComponent implements OnInit {
     this.proyectosViejos = new Array<any>();
     this.utilService.loading = true;
     this.formJuez = this.formBuilder.group({
-      id_jueces:            [''],
-      id_categorias:        ['', [Validators.required]],
-      id_sedes:             ['', [Validators.required]],
-      usuario:              ['', [Validators.required]],
-      contrasena:           ['', [Validators.required]],
+      id_jueces: [''],
+      id_categorias: ['', [Validators.required]],
+      id_sedes: ['', [Validators.required]],
+      usuario: ['', [Validators.required]],
+      contrasena: ['', [Validators.required]],
       ids_proyectos_viejos: [''],
       ids_proyectos_nuevos: [''],
-      nombre:               ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
     });
   }
 
@@ -155,32 +155,42 @@ export class JudgesComponent implements OnInit {
     this.utilService._loading = true;
     forkJoin({
       proyectos: this.superUser
-      ? this.proyectosService.obtenerTodosLosProyectosCategoria(this.juezActual.id_categorias)
-      : this.proyectosService.obtenerProyectosSuperUser(this.juezActual.id_categorias),
+        ? this.proyectosService.obtenerTodosLosProyectosCategoria(this.juezActual.id_categorias)
+        : this.proyectosService.obtenerProyectosSuperUser(this.juezActual.id_categorias),
       proyectosViejos: this.proyectosService.obtenerProyectosSelect(this.juezActual.id_jueces)
     }).subscribe(
       data => {
         this.proyectos = data.proyectos;
+        for (let index = 0; index < data.proyectos.length; index++) {
+          for (const i of Object.keys(data.proyectosViejos)) {
+            if (data.proyectosViejos[i].id_proyectos === data.proyectos[index].id_proyectos) {
+              console.log('se elimino', data.proyectos[index].id_proyectos);
+              this.proyectos.splice(this.proyectos.indexOf(data.proyectos[index]), 1);
+              index--;
+              break;
+            }
+          }
+        }
         this.proyectosViejos = data.proyectosViejos;
       }
     ).add(() => this.utilService._loading = false);
     this.superUser
-    ? this.formJuez.patchValue({
-      id_jueces: this.juezActual.id_jueces,
-      usuario: this.juezActual.usuario,
-      contrasena: this.juezActual.contrasena,
-      nombre: this.juezActual.nombre,
-      id_sedes: this.sessionData.id_sedes,
-      id_categorias: this.juezActual.id_categorias
-    })
-    : this.formJuez.patchValue({
-      id_jueces: this.juezActual.id_jueces,
-      usuario: this.juezActual.usuario,
-      contrasena: this.juezActual.contrasena,
-      nombre: this.juezActual.nombre,
-      id_sedes: this.juezActual.id_sedes,
-      id_categorias: this.juezActual.id_categorias
-    });
+      ? this.formJuez.patchValue({
+        id_jueces: this.juezActual.id_jueces,
+        usuario: this.juezActual.usuario,
+        contrasena: this.juezActual.contrasena,
+        nombre: this.juezActual.nombre,
+        id_sedes: this.sessionData.id_sedes,
+        id_categorias: this.juezActual.id_categorias
+      })
+      : this.formJuez.patchValue({
+        id_jueces: this.juezActual.id_jueces,
+        usuario: this.juezActual.usuario,
+        contrasena: this.juezActual.contrasena,
+        nombre: this.juezActual.nombre,
+        id_sedes: this.juezActual.id_sedes,
+        id_categorias: this.juezActual.id_categorias
+      });
     this.swalEdit.fire().then(
       res => {
         if (res.dismiss === Swal.DismissReason.backdrop) {
@@ -222,7 +232,7 @@ export class JudgesComponent implements OnInit {
         });
   }
   dropProyectoViejo(item) {
-    this.proyectosViejos.map( (res, index) => {
+    this.proyectosViejos.map((res, index) => {
       if (res.id_proyectos === item.id_proyectos) {
         this.proyectosViejos.splice(index, 1);
       }
@@ -232,7 +242,7 @@ export class JudgesComponent implements OnInit {
     this.proyectosViejos.push(item);
   }
   dropProyectoNuevo(item) {
-    this.proyectosNuevos.map( (res, index) => {
+    this.proyectosNuevos.map((res, index) => {
       if (res.id_proyectos === item.id_proyectos) {
         this.proyectosNuevos.splice(index, 1);
       }
@@ -245,23 +255,23 @@ export class JudgesComponent implements OnInit {
     this.utilService._loading = true;
     this.sedeActual = value;
     this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActual, value)
-    .subscribe( data => {
-      this.proyectos = data;
-    }).add(() => this.utilService._loading = false);
+      .subscribe(data => {
+        this.proyectos = data;
+      }).add(() => this.utilService._loading = false);
   }
   onChangeCategoriaActual(value) {
     this.utilService._loading = true;
     this.categoriaActual = value;
     if (this.sessionData.rol === 'superuser') {
       this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
-      .subscribe( data => {
-        this.proyectos = data;
-      }).add(() => this.utilService._loading = false);
+        .subscribe(data => {
+          this.proyectos = data;
+        }).add(() => this.utilService._loading = false);
     } else {
       this.proyectosService.obtenerTodosLosProyectosCategoria(value)
-      .subscribe( data => {
-        this.proyectos = data;
-      }).add(() => this.utilService._loading = false);
+        .subscribe(data => {
+          this.proyectos = data;
+        }).add(() => this.utilService._loading = false);
     }
   }
   verificarCat(categoria: string) {
@@ -286,8 +296,8 @@ export class JudgesComponent implements OnInit {
       case 'El Mante':
         const doc = new jsPDF('p', 'in', 'letter');
         doc.addImage('assets/image/ReconocimientoJuradoMante.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
         // doc.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
         // doc.addImage('assets/image/DirectorMante.png', 'png', 5.7, 8, 1.3, 1);
         doc.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
@@ -295,8 +305,8 @@ export class JudgesComponent implements OnInit {
       case 'Reynosa':
         const doc1 = new jsPDF('p', 'in', 'letter');
         doc1.addImage('assets/image/ReconocimientoJuradoReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc1.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc1.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
         // doc1.addImage('assets/image/DirectorReynosa.png', 'png', 5.7, 7.8, 1.3, 1.3);
         // doc1.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
         doc1.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
@@ -304,8 +314,8 @@ export class JudgesComponent implements OnInit {
       case 'Matamoros':
         const doc2 = new jsPDF('p', 'in', 'letter');
         doc2.addImage('assets/image/ReconocimientoJuradoMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc2.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc2.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6, { align: 'center' });
         // doc2.addImage('assets/image/DirectorMatamoros.png', 'png', 5.7, 8, 1.3, 1);
         // doc2.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
         doc2.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
@@ -313,22 +323,22 @@ export class JudgesComponent implements OnInit {
       case 'Madero':
         const doc3 = new jsPDF('p', 'in', 'letter');
         doc3.addImage('assets/image/ReconocimientoJuradoMadero.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc3.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc3.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
         doc3.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Nuevo Laredo':
         const doc5 = new jsPDF('p', 'in', 'letter');
         doc5.addImage('assets/image/ReconocimientoJuradoNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc5.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc5.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
         doc5.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Victoria':
         const doc6 = new jsPDF('p', 'in', 'letter');
         doc6.addImage('assets/image/ReconocimientoJuradoVictoria.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc6.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc6.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
         // doc6.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
         // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
         doc6.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
@@ -336,8 +346,8 @@ export class JudgesComponent implements OnInit {
       case 'Estatal':
         const doc7 = new jsPDF('p', 'in', 'letter');
         doc7.addImage('assets/image/ReconocimientoJuradoEstatal.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.35, {align: 'center'});
+          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.35, { align: 'center' });
         //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
         // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
         doc7.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
@@ -345,17 +355,17 @@ export class JudgesComponent implements OnInit {
       case 'Internacional':
         const doc8 = new jsPDF('p', 'in', 'letter');
         if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'superior') {
-        doc8.addImage('assets/image/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-        // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-        doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
+          doc8.addImage('assets/image/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
+            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+          doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
+          //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+          // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
+          doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
         } else {
           if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'media superior') {
             doc8.addImage('assets/image/ReconocimientoJuradoInternacionalMS.jpg', 'jpg', 0, 0, 8.5, 11)
-            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-            doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+              .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+            doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
             //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
             // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
             doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
