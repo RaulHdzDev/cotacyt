@@ -92,7 +92,6 @@ export class AdvisersRegisteredComponent implements OnInit {
     }).subscribe(
       data => {
         this.asesores = data.asesores;
-        console.log(this.asesores);
         this.sedes = data.sedes;
         this.proyectos = data.proyectos;
       }
@@ -189,7 +188,6 @@ export class AdvisersRegisteredComponent implements OnInit {
           }
           if (data.type === HttpEventType.Response) {
             const response = data.body;
-            console.log(response);
             if (!response.error) {
               Swal.fire(
                 'Exito',

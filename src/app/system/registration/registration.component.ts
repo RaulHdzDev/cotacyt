@@ -85,7 +85,10 @@ export class RegistrationComponent implements OnInit {
             idField: 'id_proyectos',
             textField: 'nombre',
             allowSearchFilter: true,
-            noDataAvailablePlaceholderText: 'No hay proyectos'
+            noDataAvailablePlaceholderText: 'No hay proyectos',
+            searchPlaceholderText: 'Buscar',
+            selectAllText: 'Seleccionar todo',
+            unSelectAllText: 'Deseleccionar todo'
           };
         });
     } else {
