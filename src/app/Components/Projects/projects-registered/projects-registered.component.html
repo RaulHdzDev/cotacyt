@@ -16,7 +16,7 @@
                 <th>Categorias</th>
                 <th>Sede</th>
                 <th>Información</th>
-                <!-- <th>Opciones</th> -->
+                <th>Opciones</th>
             </tr>
         </thead>
         <tr class="table" *ngFor="let proyecto of proyectos">
@@ -37,11 +37,11 @@
                 </div>
             </td>
             <td class="d-flex">
-                <!-- <button (click)="openSwal(proyecto)" class="btn btn-edit mr-2" data-toggle="modal" data-target="#modalEditar"><i
+                <button (click)="openSwal(proyecto)" class="btn btn-edit mr-2" data-toggle="modal" data-target="#modalEditar"><i
                         class="fas fa-edit"></i></button>
                 <button (click)="setProyectoActual(proyecto)" class="btn btn-danger" data-toggle="modal" data-target="#modalEliminar"><i
-                        class="fas fa-trash-alt"></i></button> -->
-                <!--<button class="btn btn-primary" (click)="saveAsPdf(proyecto)"><i class="fas fa-download"></i></button>-->
+                        class="fas fa-trash-alt"></i></button>
+                <!-- <button class="btn btn-primary" (click)="saveAsPdf(proyecto)"><i class="fas fa-download"></i></button> -->
             </td>
         </tr>
     </table>
@@ -72,20 +72,12 @@
             <div class="form-group">
                 <label for="">Asesor:</label>
                 <select formControlName="id_asesores" class="form-control">
-                    <option [value]="asesor.id_asesores" *ngFor="let asesor of asesores">{{asesor.nombres}}</option>
+                    <option [value]="asesor.id_asesores" *ngFor="let asesor of asesores">{{asesor.nombre + ' ' + asesor.ape_pat + ' ' + asesor.ape_mat}}</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="">Seleccione los autores a quitar:</label>
-                <ng-multiselect-dropdown formControlName="ids_autores_viejos" [settings]="settingsAutoresViejos" [data]="autoresViejos" (onSelect)="addAutorViejo($event)" (onDeSelect)="dropAutorViejo($event)"></ng-multiselect-dropdown>
-            </div>
-            <div class="form-group">
-                <label for="">Seleccione los nuevos autores:</label>
-                <ng-multiselect-dropdown formControlName="ids_autores_nuevos" [settings]="settingsAutoresNuevos" [data]="autores" (onSelect)="addAutor($event)" (onDeSelect)="dropAutor($event)"></ng-multiselect-dropdown>
-            </div>
-            <div class="form-group">
                 <label for="">Sede:</label>
-                <select #sd (change)="onChangeSedeActual(sd.value)" formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
+                <select #sd  formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
                     <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
                 </select>
             </div>
@@ -103,7 +95,7 @@
             </div>
             <div class="form-group">
                 <label for="">Resumen:</label>
-                <textarea formControlName="resumen" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Resumen del proyecto"></textarea>
+                <textarea formControlName="descripcion" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Resumen del proyecto"></textarea>
             </div>
             <button (click)="editarProyecto()" [disabled]="!formProyecto.valid" class="btn btn-primary">Editar</button>
         </form>

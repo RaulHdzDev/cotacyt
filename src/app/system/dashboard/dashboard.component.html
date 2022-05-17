@@ -291,7 +291,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let proyectos of estadisticasDeProyectos">
+                                        <tr *ngFor="let proyectos of estadisticasDeProyectos | sort: 'proyectos.totales'">
                                             <td>{{proyectos.nombre}}</td>
                                             <td>
                                                 <div class="progress mb-3" style="height:20px;">

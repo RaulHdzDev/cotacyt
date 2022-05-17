@@ -5,7 +5,7 @@ export interface Proyectos {
     id_categorias: string;
     id_sedes: string;
     nombre: string;
-    resumen: string;
+    descripcion: string;
     status: string;
 }
 

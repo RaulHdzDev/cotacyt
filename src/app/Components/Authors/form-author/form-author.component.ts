@@ -111,7 +111,7 @@ export class FormAuthorComponent implements OnInit {
   }
   saveAsPdf() {
     const doc = new jsPDF();
-    doc.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+    doc.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
     doc.text(this.sessionData.nombre, 65, 185);
     doc.setFontSize(16);
     doc.setFont('Arial');

@@ -4,7 +4,7 @@
         <div class=" sidebar-menu">
             <!-- logo tamaulipas -->
             <div class="profile">
-                <img src="../../../assets/logotam.png" alt="">
+                <img src="../../../assets/cotacytResources/loginImages/logotam.png" alt="">
                 <!-- <p>Hola, Bienvenido</p> -->
                 <p>CP. <span>{{sessionData['nombre']}}</span></p>
                 <hr>
@@ -57,7 +57,7 @@
         <div class="sidebar-menu">
             <!-- logo tamaulipas -->
             <div class="profile">
-                <img src="../../../assets/logotam.png" alt="">
+                <img src="../../../assets/cotacytResources/loginImages/logotam.png" alt="">
                 <!-- <p>Hola, Bienvenido</p> -->
                 <p><span>{{sessionData['nombre']}}</span></p>
                 <hr>
@@ -101,7 +101,10 @@
                 </a>
 
                 <a *ngIf="admin" [routerLink]="['add-estadistics']" routerLinkActive="active" class="menu-btn">
-                    <i class="fas fa-user-check"></i><span> Estadísticas <i class="fas fa-chevron-right drop-down"></i></span>
+                    <i class="fas fa-chart-line"></i><span> Estadísticas <i class="fas fa-chevron-right drop-down"></i></span>
+                </a>
+                <a *ngIf="superuser" [routerLink]="['periodos']" routerLinkActive="active" class="menu-btn">
+                    <i class="far fa-calendar-alt"></i><span> Configuracion <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
 
                 <a class="menu-btn" (click)="cerrarSesion()" style="cursor: pointer;">

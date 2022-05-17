@@ -40,6 +40,8 @@ import { AddAdviserComponent } from './Components/Advisers/add-adviser/add-advis
 
 import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
 import { FormAuthorComponent } from './Components/Authors/form-author/form-author.component';
+import { SortPipe } from './pipes/sort.pipe';
+import { PeriodoComponent } from './Components/periodo/periodo.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { FormAuthorComponent } from './Components/Authors/form-author/form-autho
     AddAdviserComponent,
     AddAuthorsComponent,
     FormAuthorComponent,
+    SortPipe,
+    PeriodoComponent,
   ],
   imports: [
     BrowserModule,

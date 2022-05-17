@@ -10,7 +10,7 @@ import { SedesService } from '../../../services/sedes.service';
 import { forkJoin } from 'rxjs';
 import { Session } from '../../../models/session.model';
 import { jsPDF } from 'jspdf';
-import '../../../../assets/fonts/Helvetica.ttf';
+import '../../../../assets/cotacytResources/fonts/Helvetica.ttf';
 import { TitleCasePipe } from '@angular/common';
 import { RegexService } from '../../../services/regex.service';
 import { ProyectosService } from 'src/app/services/proyectos.service';
@@ -92,7 +92,6 @@ export class AdvisersRegisteredComponent implements OnInit {
     }).subscribe(
       data => {
         this.asesores = data.asesores;
-        console.log(this.asesores);
         this.sedes = data.sedes;
         this.proyectos = data.proyectos;
       }
@@ -189,7 +188,6 @@ export class AdvisersRegisteredComponent implements OnInit {
           }
           if (data.type === HttpEventType.Response) {
             const response = data.body;
-            console.log(response);
             if (!response.error) {
               Swal.fire(
                 'Exito',
@@ -222,7 +220,7 @@ export class AdvisersRegisteredComponent implements OnInit {
       case 'El Mante':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorManteN.jpg', 'jpg', 0, 0, 8.5, 11)
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorManteN.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
           + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
@@ -264,7 +262,7 @@ export class AdvisersRegisteredComponent implements OnInit {
       case 'Reynosa':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
             .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
             + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
@@ -305,7 +303,7 @@ export class AdvisersRegisteredComponent implements OnInit {
       case 'Matamoros':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
             .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
             + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
@@ -347,7 +345,7 @@ export class AdvisersRegisteredComponent implements OnInit {
       case 'Madero':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
             //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
@@ -385,7 +383,7 @@ export class AdvisersRegisteredComponent implements OnInit {
       case 'Nuevo Laredo':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
             //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
@@ -422,7 +420,7 @@ export class AdvisersRegisteredComponent implements OnInit {
       case 'Victoria':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
             //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
@@ -459,7 +457,7 @@ export class AdvisersRegisteredComponent implements OnInit {
        case 'Estatal':
         for (let i = 0; i < asesor.proyectos.length; i++) {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/certificadoAsesorEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.08, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
           if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
             //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);

@@ -34,7 +34,7 @@
                 </div>
             </td>
             <td>{{juez.usuario}}</td>
-            <td>{{juez.contrasena}}</td>
+            <td style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{juez.contrasena}}</td>
             <td class="d-flex">
                 <button (click)="open(juez)" class="btn btn-edit mr-3" data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i></button>
 
@@ -77,11 +77,11 @@
             </div>
             <div class="form-group">
                 <label for="">Seleccione los proyectos a quitar:</label>
-                <ng-multiselect-dropdown formControlName="ids_proyectos_viejos" [settings]="settingsProyectosViejos" [data]="proyectosViejos" (onSelect)="addProyectoViejo($event)" (onDeSelect)="dropProyectoViejo($event)"></ng-multiselect-dropdown>
+                <ng-multiselect-dropdown placeholder="seleccionar" formControlName="ids_proyectos_viejos" [settings]="settingsProyectosViejos" [data]="proyectosViejos" (onSelect)="addProyectoViejo($event)" (onDeSelect)="dropProyectoViejo($event)"></ng-multiselect-dropdown>
             </div>
             <div class="form-group">
                 <label for="">Seleccione los proyectos nuevos:</label>
-                <ng-multiselect-dropdown formControlName="ids_proyectos_nuevos" [settings]="settingsProyectosNuevos" [data]="proyectos" (onSelect)="addProyectoNuevo($event)" (onDeSelect)="dropProyectoNuevo($event)"></ng-multiselect-dropdown>
+                <ng-multiselect-dropdown placeholder="seleccionar" formControlName="ids_proyectos_nuevos" [settings]="settingsProyectosNuevos" [data]="proyectos" (onSelect)="addProyectoNuevo($event)" (onDeSelect)="dropProyectoNuevo($event)"></ng-multiselect-dropdown>
             </div>
             <div class="form-group">
                 <label for="">Usuario:</label>
