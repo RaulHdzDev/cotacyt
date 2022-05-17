@@ -10,7 +10,7 @@ import { SedesService } from '../../../services/sedes.service';
 import { forkJoin } from 'rxjs';
 import { Session } from '../../../models/session.model';
 import { jsPDF } from 'jspdf';
-import '../../../../assets/fonts/Helvetica.ttf';
+import '../../../../assets/cotacytResources/fonts/Helvetica.ttf';
 import { Proyectos, ProyectSelect } from '../../../models/proyectos.model';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ProyectosService } from '../../../services/proyectos.service';
@@ -295,79 +295,79 @@ export class JudgesComponent implements OnInit {
     switch (this.juezActual.sede) {
       case 'El Mante':
         const doc = new jsPDF('p', 'in', 'letter');
-        doc.addImage('assets/image/ReconocimientoJuradoMante.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
-        // doc.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        // doc.addImage('assets/image/DirectorMante.png', 'png', 5.7, 8, 1.3, 1);
+        doc.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoMante.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+        // doc.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
+        // doc.addImage('assets/cotacytResources/image/DirectorMante.png', 'png', 5.7, 8, 1.3, 1);
         doc.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Reynosa':
         const doc1 = new jsPDF('p', 'in', 'letter');
-        doc1.addImage('assets/image/ReconocimientoJuradoReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc1.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
-        // doc1.addImage('assets/image/DirectorReynosa.png', 'png', 5.7, 7.8, 1.3, 1.3);
-        // doc1.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
+        doc1.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc1.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+        // doc1.addImage('assets/cotacytResources/image/DirectorReynosa.png', 'png', 5.7, 7.8, 1.3, 1.3);
+        // doc1.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
         doc1.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Matamoros':
         const doc2 = new jsPDF('p', 'in', 'letter');
-        doc2.addImage('assets/image/ReconocimientoJuradoMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc2.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6, { align: 'center' });
-        // doc2.addImage('assets/image/DirectorMatamoros.png', 'png', 5.7, 8, 1.3, 1);
-        // doc2.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
+        doc2.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc2.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6, {align: 'center'});
+        // doc2.addImage('assets/cotacytResources/image/DirectorMatamoros.png', 'png', 5.7, 8, 1.3, 1);
+        // doc2.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
         doc2.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Madero':
         const doc3 = new jsPDF('p', 'in', 'letter');
-        doc3.addImage('assets/image/ReconocimientoJuradoMadero.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc3.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
+        doc3.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoMadero.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc3.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
         doc3.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Nuevo Laredo':
         const doc5 = new jsPDF('p', 'in', 'letter');
-        doc5.addImage('assets/image/ReconocimientoJuradoNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc5.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
+        doc5.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc5.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
         doc5.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Victoria':
         const doc6 = new jsPDF('p', 'in', 'letter');
-        doc6.addImage('assets/image/ReconocimientoJuradoVictoria.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc6.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
-        // doc6.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
+        doc6.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoVictoria.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc6.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+        // doc6.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
+        // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
         doc6.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
         break;
       case 'Estatal':
         const doc7 = new jsPDF('p', 'in', 'letter');
-        doc7.addImage('assets/image/ReconocimientoJuradoEstatal.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.35, { align: 'center' });
-        //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
-        // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
+        doc7.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoEstatal.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.35, {align: 'center'});
+        //doc7.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
+        // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
         doc7.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
         break;
       case 'Internacional':
         const doc8 = new jsPDF('p', 'in', 'letter');
         if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'superior') {
-          doc8.addImage('assets/image/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
-            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
-          //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-          // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-          doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
+        doc8.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
+        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+        //doc8.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+        // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
+        doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
         } else {
           if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'media superior') {
-            doc8.addImage('assets/image/ReconocimientoJuradoInternacionalMS.jpg', 'jpg', 0, 0, 8.5, 11)
-              .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-            doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, { align: 'center' });
-            //doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-            // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
+            doc8.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoInternacionalMS.jpg', 'jpg', 0, 0, 8.5, 11)
+            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+            doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
+            //doc8.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
+            // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
             doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
           } else {
             swal.fire({

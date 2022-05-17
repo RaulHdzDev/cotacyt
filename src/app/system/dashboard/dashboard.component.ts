@@ -19,8 +19,8 @@ import { CalificacionesPorCategoria } from '../../models/calificaciones.model';
 import { InformacionDeLosProyectos } from '../../models/proyectos.model';
 import { ProyectosService } from '../../services/proyectos.service';
 import { jsPDF } from "jspdf";
-import '../../../assets/fonts/Helvetica.ttf';
-import '../../../assets/fonts/Caviar.ttf';
+import '../../../assets/cotacytResources/fonts/Helvetica.ttf';
+import '../../../assets/cotacytResources/fonts/Caviar.ttf';
 import { SedesService } from '../../services/sedes.service';
 import { Sedes } from 'src/app/models/sedes.model';
 import Swal from 'sweetalert2';
@@ -932,7 +932,7 @@ export class DashboardComponent implements OnInit {
       }
 
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -983,7 +983,7 @@ export class DashboardComponent implements OnInit {
       }
 
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
 
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
@@ -1038,7 +1038,7 @@ export class DashboardComponent implements OnInit {
       }
 
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(19).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(19).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1089,7 +1089,7 @@ export class DashboardComponent implements OnInit {
       }
 
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(19).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(19).setTextColor('#646464');
 
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
@@ -1146,7 +1146,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1197,7 +1197,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1249,7 +1249,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1300,7 +1300,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1355,7 +1355,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1406,7 +1406,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1459,7 +1459,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
       } else {
@@ -1512,7 +1512,7 @@ export class DashboardComponent implements OnInit {
         });
       }
       const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
       if (nombresAutores.length == 1) {
         doc7.text('',0,0).setFontSize(19);
         doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
@@ -1597,8 +1597,8 @@ export class DashboardComponent implements OnInit {
             }
             contador6 += 11;
             i = contador6;
-            doc1.addImage('assets/logotamColor.png', 'png', 14, 13, 48, 24);
-            doc1.addImage('assets/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
+            doc1.addImage('assets/cotacytResources/loginImages/logotamColor.png', 'png', 14, 13, 48, 24);
+            doc1.addImage('assets/cotacytResources/loginImages/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
             doc1.text('Consejo Tamaulipeco de Ciencia y Tecnología', 150, 34, { align: "center" }).setFont('Caviar').setFontSize(18).setTextColor('#646464');
             doc1.text('Lista de Proyectos Categoría Petit Sede ' + sedePetit2 + '', 151, 46, { align: "center" }).setFont('Caviar').setFontSize(14).setTextColor('#646464');
             doc1.text('Proyecto', 35, 75);
@@ -1643,8 +1643,8 @@ export class DashboardComponent implements OnInit {
             }
             contador5 += 11;
             i = contador5;
-            doc8.addImage('assets/logotamColor.png', 'png', 12, 13, 38, 17);
-            doc8.addImage('assets/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
+            doc8.addImage('assets/cotacytResources/loginImages/logotamColor.png', 'png', 12, 13, 38, 17);
+            doc8.addImage('assets/cotacytResources/loginImages/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
             doc8.text('Consejo Tamaulipeco de Ciencia y Tecnología', 150, 34, { align: "center" }).setFont('Caviar').setFontSize(18).setTextColor('#646464');
             doc8.text('Lista de Proyectos Categoría Kids Sede ' + sedeKids + '', 151, 46, { align: "center" }).setFont('Caviar').setFontSize(14).setTextColor('#646464');
             doc8.text('Proyecto', 35, 75);
@@ -1689,8 +1689,8 @@ export class DashboardComponent implements OnInit {
             }
             contador4 += 11;
             i = contador4;
-            doc7.addImage('assets/logotamColor.png', 'png', 14, 13, 48, 24);
-            doc7.addImage('assets/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
+            doc7.addImage('assets/cotacytResources/loginImages/logotamColor.png', 'png', 14, 13, 48, 24);
+            doc7.addImage('assets/cotacytResources/loginImages/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
             doc7.text('Consejo Tamaulipeco de Ciencia y Tecnología', 150, 34, { align: "center" }).setFont('Caviar').setFontSize(18).setTextColor('#646464');
             doc7.text('Lista de Proyectos Categoría Juvenil Sede ' + sedeJuvenil + '', 151, 46, { align: "center" }).setFont('Caviar').setFontSize(14).setTextColor('#646464');
             doc7.text('Proyecto', 35, 75);
@@ -1735,8 +1735,8 @@ export class DashboardComponent implements OnInit {
             }
             contador3 += 11;
             i = contador3;
-            doc2.addImage('assets/logotamColor.png', 'png', 14, 13, 48, 24);
-            doc2.addImage('assets/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
+            doc2.addImage('assets/cotacytResources/loginImages/logotamColor.png', 'png', 14, 13, 48, 24);
+            doc2.addImage('assets/cotacytResources/loginImages/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
             doc2.text('Consejo Tamaulipeco de Ciencia y Tecnología', 150, 34, { align: "center" }).setFont('Caviar').setFontSize(18).setTextColor('#646464');
             doc2.text('Lista de Proyectos Categoría Media-Superior Sede ' + sedeMS + '', 151, 46, { align: "center" }).setFont('Caviar').setFontSize(14).setTextColor('#646464');
             doc2.text('Proyecto', 35, 75);
@@ -1782,8 +1782,8 @@ export class DashboardComponent implements OnInit {
             }
             contador += 11;
             i = contador;
-            doc3.addImage('assets/logotamColor.png', 'png', 14, 13, 48, 24);
-            doc3.addImage('assets/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
+            doc3.addImage('assets/cotacytResources/loginImages/logotamColor.png', 'png', 14, 13, 48, 24);
+            doc3.addImage('assets/cotacytResources/loginImages/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
             doc3.text('Consejo Tamaulipeco de Ciencia y Tecnología', 150, 34, { align: "center" }).setFont('Caviar').setFontSize(18).setTextColor('#646464');
             doc3.text('Lista de Proyectos Categoría Superior Sede ' + sedeSuperior + '', 151, 46, { align: "center" }).setFont('Caviar').setFontSize(14).setTextColor('#646464');
             doc3.text('Proyecto', 35, 75);
@@ -1825,8 +1825,8 @@ export class DashboardComponent implements OnInit {
             }
             contador2 += 11;
             i = contador2;
-            doc4.addImage('assets/logotamColor.png', 'png', 14, 13, 48, 24);
-            doc4.addImage('assets/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
+            doc4.addImage('assets/cotacytResources/loginImages/logotamColor.png', 'png', 14, 13, 48, 24);
+            doc4.addImage('assets/cotacytResources/loginImages/cecit.png', 'png', 243, 8, 39, 39).setFont('Caviar').setFontSize(20).setTextColor('#646464');
             doc4.text('Consejo Tamaulipeco de Ciencia y Tecnología', 150, 34, { align: "center" }).setFont('Caviar').setFontSize(18).setTextColor('#646464');
             doc4.text('Lista de Proyectos Categoría Posgrado Sede ' + sedePosgrado + '', 151, 46, { align: "center" }).setFont('Caviar').setFontSize(14).setTextColor('#646464');
             doc4.text('Proyecto', 35, 75);

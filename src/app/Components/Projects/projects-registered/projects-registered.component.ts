@@ -251,7 +251,7 @@ export class ProjectsRegisteredComponent implements OnInit {
     switch (this.proyectoActual.sede) {
       case 'El mante':
         const doc = new jsPDF();
-        doc.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+        doc.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
         doc.text(this.proyectoActual.asesor, 65, 185);
         if (this.proyectoActual.nombre.length >= 30 && this.proyectoActual.nombre.length <= 60) {
           let nombreTemp = this.proyectoActual.nombre.substr(0, 30);
@@ -280,7 +280,7 @@ export class ProjectsRegisteredComponent implements OnInit {
         break;
       case 'Reynosa':
         const doc1 = new jsPDF();
-        doc1.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+        doc1.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
         doc1.text(this.proyectoActual.asesor, 65, 185);
         doc1.text(this.proyectoActual.nombre, 80, 225);
         doc1.setFontSize(16);
@@ -289,7 +289,7 @@ export class ProjectsRegisteredComponent implements OnInit {
         break;
       case 'Matamoros':
         const doc2 = new jsPDF();
-        doc2.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+        doc2.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
         doc2.text(this.proyectoActual.asesor, 65, 185);
         doc2.text(this.proyectoActual.nombre, 80, 225);
         doc2.setFontSize(16);
@@ -298,7 +298,7 @@ export class ProjectsRegisteredComponent implements OnInit {
         break;
       case 'Madero':
         const doc3 = new jsPDF();
-        doc3.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+        doc3.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
         doc3.text(this.proyectoActual.asesor, 65, 185);
         doc3.text(this.proyectoActual.nombre, 80, 225);
         doc3.setFontSize(16);
@@ -307,7 +307,7 @@ export class ProjectsRegisteredComponent implements OnInit {
         break;
       case 'Jaumave':
         const doc4 = new jsPDF();
-        doc4.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+        doc4.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
         doc4.text(this.proyectoActual.asesor, 65, 185);
         doc4.text(this.proyectoActual.nombre, 80, 225);
         doc4.setFontSize(16);
@@ -316,7 +316,7 @@ export class ProjectsRegisteredComponent implements OnInit {
         break;
       case 'Nuevo Laredo':
         const doc5 = new jsPDF();
-        doc5.addImage('assets/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
+        doc5.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
         doc5.text(this.proyectoActual.asesor, 65, 185);
         doc5.text(this.proyectoActual.nombre, 80, 225);
         doc5.setFontSize(16);
