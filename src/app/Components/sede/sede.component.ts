@@ -181,7 +181,7 @@ export class SedeComponent implements OnInit {
     this.swalid1.fire();
   }
   subirFechas() {
-    this.sedesService.fechas( this.sessionData.id_sedes, this.formFecha.value.fechaInicio, this.formFecha.value.fechaFin).subscribe(
+    this.sedesService.fechasJ( this.sessionData.id_sedes, this.formFecha.value.fechaInicio, this.formFecha.value.fechaFin).subscribe(
       data => {
         this.swalid1.dismiss();
       }

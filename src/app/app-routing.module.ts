@@ -14,6 +14,7 @@ import { SedeComponent } from './Components/sede/sede.component';
 import { AdminRegisteredComponent } from './Components/admins/admin-registered/admin-registered.component';
 import { AddAuthorsComponent } from './Components/Authors/add-authors/add-authors.component';
 import { AddAdviserComponent } from './Components/Advisers/add-adviser/add-adviser.component';
+import { PeriodoComponent } from './Components/periodo/periodo.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,9 @@ const routes: Routes = [
       },
       {
         path: 'authors-registered', component: AuthorsRegisteredComponent
+      },
+      {
+        path: 'periodos', component: PeriodoComponent
       },
       // {
       //   path: 'nuevo-autor', component: AddAuthorsComponent
