@@ -11,7 +11,7 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
 import { Session } from '../../../models/session.model';
 import { jsPDF } from 'jspdf';
-import '../../../../assets/fonts/Helvetica.ttf';
+import '../../../../assets/cotacytResources/fonts/Helvetica.ttf';
 import { TitleCasePipe } from '@angular/common';
 import { RegexService } from '../../../services/regex.service';
 import { ProjectsRegisteredService } from '../../../services/project-registered.service';
@@ -185,7 +185,7 @@ export class AuthorsRegisteredComponent implements OnInit {
     switch (this.autorActual.id_sedes) {
       case '1':
         const doc = new jsPDF('p', 'in', 'letter');
-        doc.addImage('assets/image/ConstanciaParticipantesMante.jpg', 'jpg', 0, 0, 8.5, 11)
+        doc.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesMante.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
@@ -220,7 +220,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         break;
       case '2':
         const doc1 = new jsPDF('p', 'in', 'letter');
-        doc1.addImage('assets/image/ConstanciaParticipantesReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
+        doc1.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc1.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
@@ -253,7 +253,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         break;
       case '3':
         const doc2 = new jsPDF('p', 'in', 'letter');
-        doc2.addImage('assets/image/ConstanciaParticipantesMatamoros.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc2.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesMatamoros.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc2.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
           //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
@@ -286,7 +286,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         break;
       case '4':
         const doc3 = new jsPDF('p', 'in', 'letter');
-        doc3.addImage('assets/image/ConstanciaParticipantesMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc3.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc3.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
           //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
@@ -321,7 +321,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         break;
       case '5':
         const doc5 = new jsPDF('p', 'in', 'letter');
-        doc5.addImage('assets/image/ConstanciaParticipantesNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc5.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc5.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
           //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
@@ -356,7 +356,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         break;
       case '6':
         const doc6 = new jsPDF('p', 'in', 'letter');
-        doc6.addImage('assets/image/ConstanciaParticipantesVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc6.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc6.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
           //const nombreTemp = this.autorActual.proyecto.substr(0, 50);
@@ -391,7 +391,7 @@ export class AuthorsRegisteredComponent implements OnInit {
         break;
       case '8':
         const doc7 = new jsPDF('p', 'in', 'letter');
-        doc7.addImage('assets/image/ConstanciaParticipantesEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+        doc7.addImage('assets/cotacytResources/image/constanciaParticipantes/ConstanciaParticipantesEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
         doc7.text(this.titlecasePipe.transform(this.autorActual.nombre) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.autorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(20).setFont('Helvetica').setTextColor('#646464');
         if (this.autorActual.proyecto.length >= 30 && this.autorActual.proyecto.length <= 120) {
          // const nombreTemp = this.autorActual.proyecto.substr(0, 50);

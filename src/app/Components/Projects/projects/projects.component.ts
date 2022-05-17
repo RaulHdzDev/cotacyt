@@ -17,7 +17,7 @@ import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import { JuecesService } from '../../../services/jueces.service';
 import { jsPDF } from 'jspdf';
-import '../../../../assets/fonts/Helvetica.ttf';
+import '../../../../assets/cotacytResources/fonts/Helvetica.ttf';
 import { TitleCasePipe } from '@angular/common';
 
 
@@ -769,7 +769,7 @@ export class ProjectsComponent implements OnInit {
           icon: 'success'
         }).then(() => {
           const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/image/acuse.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
+          doc.addImage('assets/cotacytResources/image/acuse.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
           doc.text(this.titlecasePipe.transform(this.sessionData.nombre), 4.2, 6.9, { align: 'center' })
             .setFontSize(16).setFont('Helvetica').setTextColor('#646464');
           doc.save('Acuse de recibo.pdf');
