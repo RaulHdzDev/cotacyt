@@ -1,17 +1,22 @@
 <!-- swal tabla informacion -->
 <swal class="swal-wide" #swalid1 title="Activar Plataforma" [swalOptions]="{customClass: 'clase'}" [showConfirmButton]="false">
-    <div *swalPortal>
-        <form [formGroup]="formFecha">
-            <div class="col-md-6 mb-3">
-                <label for="fechaNac">Fecha de Inicio</label>
-                <input formControlName="fechaInicio" type="date" placeholder="Fecha de Inicio" class="form-control" id="fechaI" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="fechaNac">Fecha de Fin</label>
-                <input formControlName="fechaFin" type="date" placeholder="Fecha de Fin" class="form-control" id="fechaF" required>
-            </div>
-        </form>
-        <button (click)="subirFechas()">Confirmar</button>
+    <div *swalPortal class="d-flex flex-column">
+        <div class="ml-4">
+            <form [formGroup]="formFecha">
+                <div class="ml-5">
+                    <label for="fechaNac">Fecha de Inicio</label>
+                    <input formControlName="fechaInicio" type="date" placeholder="Fecha de Inicio" class="form-control" id="fechaI" required>
+                </div>
+                <div class="ml-5">
+                    <label for="fechaNac">Fecha de Fin</label>
+                    <input formControlName="fechaFin" type="date" placeholder="Fecha de Fin" class="form-control" id="fechaF" required>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4 mb-2">
+            <button class="btn btn-primary">Confirmar</button>
+        </div>
+        
     </div>
 </swal>
 
@@ -19,7 +24,7 @@
     <div class="d-flex justify-content-between">
         <a [routerLink]="['/home/registered-judges']" routerLinkActive="active" class="btn-judges-registered btn mb-2">
             <span><i class="fas fa-balance-scale"></i></span> Jueces registrados</a>
-        <!-- <a class="btn-judges-registered btn mb-2" (click)="mostrarSwal($event)">
+        <!-- <a *ngIf = "superUser" class="btn-judges-registered btn mb-2" (click)="mostrarSwal($event)">
             <span><i class="fas fa-balance-scale"></i></span> ESTABLECER FECHAS</a> -->
     </div>
     <div class="container-fluid color">

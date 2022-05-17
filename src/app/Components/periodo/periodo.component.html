@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>FECHAS DE REGISTRO DE PROYECTOS</h5>
+                </div>
+                <div class="card-cody">
+                    <div class="d-flex flex-column">
+                        <div class="pl-3 pr-3">
+                            <form [formGroup]="formFechaProyectos">
+                                <div class="mt-3">
+                                    <label for="fechaNacP">Fecha de Inicio</label>
+                                    <input formControlName="fechaInicioP" type="date" placeholder="Fecha de Inicio" class="form-control" id="fechaI" required>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="fechaNac">Fecha de Fin</label>
+                                    <input formControlName="fechaFinP" type="date" placeholder="Fecha de Fin" class="form-control" id="fechaF" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="mt-3 mb-3 text-center">
+                            <button class="btn btn-primary" (click)="subirFechasP()">SUBIR</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>FECHAS DE EVALUACION DE PROYECTOS</h5>
+                </div>
+                <div class="card-cody">
+                    <div class="d-flex flex-column">
+                        <div class="pl-3 pr-3">
+                            <form [formGroup]="formFechaJueces">
+                                <div class="mt-3">
+                                    <label for="fechaNacJ">Fecha de Inicio</label>
+                                    <input formControlName="fechaInicioJ" type="date" placeholder="Fecha de Inicio" class="form-control" id="fechaI" required>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="fechaNac">Fecha de Fin</label>
+                                    <input formControlName="fechaFinJ" type="date" placeholder="Fecha de Fin" class="form-control" id="fechaF" required>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="mt-3 mb-3 text-center">
+                            <button class="btn btn-primary" (click)="subirFechasJ()">SUBIR</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div *ngIf="!estatal" class="alert alert-warning text-center mb-1" role="alert">
+                ACTIVAR ETAPA ESTATAL
+            </div>
+            <div *ngIf="estatal" class="alert alert-success text-center mb-1" role="alert">
+                ETAPA ESTATAL INICIADA
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <button class="btn btn-outline-primary" (click)="iniciarEstatal()" [disabled]="estatal">INICIAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="alert alert-danger text-center" role="alert">
+                    <h4 class="alert-heading">¡ADVERTENCIA!</h4>
+                    <p>Al dar click en reiniciar se vaciara todo el sistema para un nuevo uso</p>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-danger mb-3" (click)="executeDeleteSystem()">REINICIAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

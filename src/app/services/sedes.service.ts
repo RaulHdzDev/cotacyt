@@ -13,7 +13,7 @@ export class SedesService {
   getSedes(): Observable<Sedes[]> {
     return this.http.get<Sedes[]>(this.servicesConfig.APP_ENDPOINT + 'api/sedes');
   }
-  fechas(idSedes: string, inicio: string, fin: string): Observable<any> {
+  fechasJ(idSedes: string, inicio: string, fin: string): Observable<any> {
     const body = {
       id_sedes: idSedes,
       fecha_inicio: inicio,

@@ -37,6 +37,7 @@ export class RegistrationComponent implements OnInit {
   superUser: boolean;
   categoriaActua = '1';
   tipoJuez = '';
+  tipoJLog = false;
   tipoJ = false;
   sedeActual = '1';
   constructor(
@@ -68,6 +69,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.tipoJ = true;
     this.superUser = this.sessionData.rol === 'superuser';
+    //this.tipoJLog = this.sessionData.rol === 'admin';
     if ( this.sessionData.rol === 'superuser') {
       forkJoin({
         proyectos: this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActua, this.sedeActual),
@@ -185,11 +187,12 @@ export class RegistrationComponent implements OnInit {
   mostrarSwal(evt: any) {
     this.swalid1.fire();
   }
-  subirFechas() {
-    this.sedesService.fechas( this.sessionData.id_sedes, this.formFecha.value.fechaInicio, this.formFecha.value.fechaFin).subscribe(
-      data => {
-        this.swalid1.dismiss();
-      }
-     );
-  }
+  // subirFechas() {
+  //   this.sedesService.fechas( this.sessionData.id_sedes, this.formFecha.value.fechaInicio, this.formFecha.value.fechaFin).subscribe(
+  //     data => {
+  //       this.swalid1.dismiss();
+  //       console.log(data);
+  //     }
+  //    );
+  // }
 }
