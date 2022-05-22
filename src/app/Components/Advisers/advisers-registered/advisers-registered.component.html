@@ -5,7 +5,7 @@
     </div>
 <hr>
 <table class="table table-hover">
-    <thead class="table-light">
+    <thead class="background-table">
         <tr>
             <th>Nombre</th>
             <th>Apellido paterno</th>
@@ -13,29 +13,35 @@
             <th>Correo</th>
             <th>Sede</th>
             <th>Descripción</th>
-            <th>Opciones</th>
+            <th *ngIf="!superUser">Opciones</th>
         </tr>
     </thead>
 
-    <tr class="table" *ngFor="let i of asesores">
+    <tr class="table" *ngFor="let i of asesoresTabla">
         <td>{{i.nombre}}</td>
         <td>{{i.ape_pat}}</td>
         <td>{{i.ape_mat}}</td>
-        <td>{{i.email}}</td>
+        <td >{{i.email}}</td>
         <td>{{i.sede}}</td>
         <td>
             <div class="scroll">
                 {{i.descripcion}}
             </div>
         </td>
-        <td class="d-flex">
+        <td class="d-flex" *ngIf="!superUser">
             <button (click)="openSwal(i)" class="btn btn-edit mr-3"><i class="fas fa-edit"></i></button>
             <button (click)="setAsesor(i)" class="btn btn-danger mr-3" data-toggle="modal" data-target="#modalEliminar"><i
                 class="fas fa-trash-alt"></i></button>
-            <button class="btn btn-primary" (click)="saveAsPdf(i)"><i class="fas fa-download"></i></button>
         </td>
     </tr>
 </table>
+<div class="paginator">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+        <button (click)="previousPage()" class="btn btn-primary"><</button>
+        <div class="num-pages mx-2">{{ currentPage }} de {{asesores.length / rowPerPage | roundPipe }}</div>
+        <button (click)="nextPage()" class="btn btn-primary">></button>
+    </div>
+</div>
 
 
 <!-- Modal Eliminar -->
@@ -164,14 +170,6 @@
                             <label>Twitter</label>
                             <input readonly formControlName="twitter" type="text" class="form-control">
                             <small class="form-text text-muted">Opcional</small>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-6 col-sm-12">
-                            <label>Adjuntar credencial de elector<b style="color: red;">*</b></label>
-                            <input type="file" (change)="uploadAdviserIneImg($event.target.files)" class="form-control" #image_ine>
-                            <div *ngIf="asesorActual">
-                                <a *ngIf="asesorActual.img_ine" href="{{'https://mante.hosting.acm.org/api-cecit-2021/uploads' + asesorActual.img_ine}}" target="_blank" class="form-text" style="color: blue;">Ver imagen actual</a>
-                                <small *ngIf="asesorActual.img_ine === '' || asesorActual.img_ine === null" class="form-text" style="color: red;">Ninguna imagen guardada</small>
-                            </div>
                         </div>
                         <div class="form-group col-12">
                             <label>Descripción de su participación en el desarrollo del proyecto<b

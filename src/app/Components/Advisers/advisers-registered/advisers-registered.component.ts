@@ -18,7 +18,6 @@ import { ProjectsRegisteredService } from 'src/app/services/project-registered.s
 import { ProjectRegistered } from 'src/app/models/project-regis.model';
 import { Proyectos } from 'src/app/models/proyectos.model';
 import { HttpEventType } from '@angular/common/http';
-import { Autor } from 'src/app/models/author.model';
 
 
 @Component({
@@ -36,6 +35,9 @@ export class AdvisersRegisteredComponent implements OnInit {
   sessionData: Session;
   sedes: Sedes[];
   superUser: boolean;
+  asesoresTabla: Asesores[] = [];
+  rowPerPage = 10;
+  currentPage = 1;
   @ViewChild('image_ine', {
     read: ElementRef,
   })
@@ -96,6 +98,11 @@ export class AdvisersRegisteredComponent implements OnInit {
         this.proyectos = data.proyectos;
       }
     ).add(() => {
+      for (let i = 0; i < this.rowPerPage; i++) {
+        if (this.asesores[i]) {
+          this.asesoresTabla.push(this.asesores[i]);
+        }
+      }
       this.utilService._loading = false;
     });
   }
@@ -169,336 +176,35 @@ export class AdvisersRegisteredComponent implements OnInit {
           this.utilService._loading = false;
         });
   }
-  uploadAdviserIneImg(ev: any): void {
-    const imageIne = this.imageIne.nativeElement.files[0];
-    if (imageIne) {
-      this.utilService._loading = true;
-      this.utilService.loadingProgress = true;
-      const fr: FormData = new FormData();
-      fr.append('curp', this.asesorActual.curp);
-      fr.append('image_ine', imageIne);
-      this.asesoresService
-        .uploadAdviserImgIne(fr)
-        .subscribe((data) => {
-          if (data.type === HttpEventType.UploadProgress) {
-            const total = data.total;
-            this.utilService.progress = Math.round(
-              (100 * data.loaded) / total
-            );
-          }
-          if (data.type === HttpEventType.Response) {
-            const response = data.body;
-            if (!response.error) {
-              Swal.fire(
-                'Exito',
-                'Se subio la imagen correctamente',
-                'success'
-              ).then(() => {
-                window.location.reload();
-              });
-            }
-          }
-        })
-        .add(() => {
-          this.utilService._loading = false;
-          this.utilService.loadingProgress = false;
-        });
-    }
-  }
   curpUpperCase(): void {
     this.formAsesores.get('curp').setValue(this.formAsesores.get('curp').value.toUpperCase());
   }
   rfcUpperCase(): void {
     this.formAsesores.get('rfc').setValue(this.formAsesores.get('rfc').value.toUpperCase());
   }
-  saveAsPdf(asesor: any) {
-    this.asesorActual = asesor;
-    //console.log(this.asesorActual);
-    
-    this.asesorActual.id_sedes = '8'
-    switch (this.asesorActual.sede) {
-      case 'El Mante':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorManteN.jpg', 'jpg', 0, 0, 8.5, 11)
-          .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
-          + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
-          + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
-          .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text('', 0, 0).setFontSize(14);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-          
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              const nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
+  nextPage(): void {
+    const total = Math.round(this.asesores.length / this.rowPerPage) < (this.asesores.length / this.rowPerPage)
+      ? Math.round(this.asesores.length / this.rowPerPage) + 1
+      : Math.round(this.asesores.length / this.rowPerPage);
+    if (this.currentPage < total) {
+      this.asesoresTabla = [];
+      for (let i = this.currentPage * this.rowPerPage; i < this.asesores.length; i++) {
+        if (i <= (this.currentPage * this.rowPerPage) + this.rowPerPage) {
+          this.asesoresTabla.push(this.asesores[i]);
         }
-        break;
-      case 'Reynosa':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
-            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
-            + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
-            + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
-            .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-            
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              const nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              const nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
+      }
+      this.currentPage++;
+    }
+  }
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.asesoresTabla = [];
+      this.currentPage--;
+      for (let i = (this.currentPage * this.rowPerPage) - this.rowPerPage; i < this.asesores.length; i++) {
+        if (i <= ((this.currentPage * this.rowPerPage) + this.rowPerPage) - this.rowPerPage) {
+          this.asesoresTabla.push(this.asesores[i]);
         }
-        break;
-      case 'Matamoros':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
-            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' '
-            + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' '
-            + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' })
-            .setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //const nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            const nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-            
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
-        }
-        break;
-
-      case 'Madero':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorMadero.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-           
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
-        }
-        break;
-
-      case 'Nuevo Laredo':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-            
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
-        }
-        break;
-      case 'Victoria':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorVictoria.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-            
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
-        }
-        break;
-       case 'Estatal':
-        for (let i = 0; i < asesor.proyectos.length; i++) {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/certificadoAsesor/certificadoAsesorEstatal.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.asesorActual.nombre) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_pat) + ' ' + this.titlecasePipe.transform(this.asesorActual.ape_mat), 4.2, 6.08, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          if (asesor.proyectos[i].proyecto.length >= 30 && asesor.proyectos[i].proyecto.length <= 120) {
-            //let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-            let nombreTemp2 = asesor.proyectos[i].proyecto.substr(0, asesor.proyectos[i].proyecto.length);
-            doc.text(nombreTemp2, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            //doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-            doc.setFontSize(14);
-            
-            doc.setFont('Helvetica');
-            doc.save('constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-          } else {
-            if (asesor.proyectos[i].proyecto.length > 120) {
-              let nombreTemp = asesor.proyectos[i].proyecto.substr(0, 50);
-              let nombreTemp2 = asesor.proyectos[i].proyecto.substr(50, 50);
-              let nombreTemp3 = asesor.proyectos[i].proyecto.substr(100, asesor.proyectos[i].proyecto.length);
-              doc.text(nombreTemp, 4.2, 7.3, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp2, 4.2, 7.55, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.text(nombreTemp3, 4.2, 7.8, { align: 'center' }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            } else {
-              doc.text(asesor.proyectos[i].proyecto, 4.2, 7.3, { align: 'center' });
-              doc.setFontSize(14);
-              
-              doc.setFont('Helvetica');
-              doc.save('constancia Asesor Estatal ' + this.asesorActual.nombre + ' Proyecto ' + asesor.proyectos[i].proyecto + '.pdf');
-            }
-          }
-
-        }
-        break;
-      default:
-        console.log('sede no encontrada');
-        Swal.fire({
-          icon: 'error',
-          title: 'No se encontró la sede'
-        });
-        break;
-
+      }
     }
   }
 }
