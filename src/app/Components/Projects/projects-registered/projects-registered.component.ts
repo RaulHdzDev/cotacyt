@@ -29,6 +29,7 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
   @ViewChild('swalid') private swalEdit: SwalComponent;
   proyectos: ProjectRegistered[];
   proyectosTabla: ProjectRegistered[] = [];
+  proyectosFiltro: ProjectRegistered[] = [];
   proyectoActual: ProjectRegistered;
   formProyecto: FormGroup;
   areas: Areas[];
@@ -96,11 +97,14 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         this.categorias = data.categorias;
         this.asesores = data.asesores;
         this.proyectos = data.proyectos;
+        this.proyectosFiltro = data.proyectos;
       },
       err => console.log(err)
     ).add(() => {
       for (let i = 0; i < this.rowPerPage; i++) {
-        this.proyectosTabla.push(this.proyectos[i]);
+        if (this.proyectos[i]) {
+          this.proyectosTabla.push(this.proyectos[i]);
+        }
       }
       this.utilService._loading = false;
     });
@@ -185,6 +189,27 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
           title: 'ocurrio un error al actualizar',
         });
       }).add(() => this.utilService._loading = false);
+  }
+  onChangeSedeActualFiltro(value: any): void {
+    this.proyectos = this.proyectosFiltro;
+    if (value !== 'todo') {
+      const juecesTemp: ProjectRegistered[] = [];
+      this.proyectos.forEach((proyecto, _) => {
+        if (proyecto.sede === value) {
+          juecesTemp.push(proyecto);
+        }
+      });
+      this.proyectos = juecesTemp;
+    } else {
+      this.proyectos = this.proyectosFiltro;
+    }
+    this.proyectosTabla = [];
+    for (let i = 0; i < this.rowPerPage; i++) {
+      if (this.proyectos[i]) {
+        this.proyectosTabla.push(this.proyectos[i]);
+      }
+    }
+    this.currentPage = 1;
   }
   nextPage(): void {
     const total = Math.round(this.proyectos.length / this.rowPerPage) < (this.proyectos.length / this.rowPerPage)

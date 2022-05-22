@@ -1,7 +1,13 @@
 <div class="p-3">
-
     <div class="subtitle">
         <h4>Proyectos registrados</h4>
+        <div class="form-group row" *ngIf="sessionData.rol === 'superuser'">
+            <label class="col-12" for="">Filtro por sede:</label>
+            <select #sd (change)="onChangeSedeActualFiltro(sd.value)" class="form-control col-4 mx-2" [attr.disabled]="superUser ? 'disabled': null">
+                <option value="todo">Todos</option>
+                <option [value]="sede.sede" *ngFor="let sede of sedes">{{sede.sede}}</option>
+            </select>
+        </div>
     </div>
     <hr>
 
