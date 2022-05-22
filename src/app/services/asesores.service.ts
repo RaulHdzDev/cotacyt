@@ -35,4 +35,11 @@ export class AsesoresService {
       observe: 'events'
     });
   }
+
+  getAllAsesores(): Observable<[]> {
+    return this.http.get<[]>(`http://127.0.0.1:8000/api/asesores-all`);
+  }
+  getAllAsesoresSede(): Observable<[]> {
+    return this.http.get<[]>(`http://127.0.0.1:8000/api/asesores-sede/${this.sessionData.sede}`);
+  }
 }
