@@ -72,6 +72,8 @@ body::-webkit-scrollbar-thumb{
 .background-table{
     background:  rgb(0,100,167);
     color: #FFF;
+    position: sticky;
+    top: -1px;
 }
 
 .subtitle{
