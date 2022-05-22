@@ -17,6 +17,7 @@ import { ProyectosService } from '../../../services/proyectos.service';
 import Swal from 'sweetalert2';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Session } from '../../../models/session.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private sedesService: SedesService,
     private areasService: AreasService,
+    public router: Router,
     private asesoresService: AsesoresService,
     private categoriasServices: CategoriasService,
     private obtenerProyecto: ProyectosService
@@ -87,8 +89,8 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         categorias: this.categoriasServices.getAllCategrias(),
         asesores: this.asesoresService.getAsesores(),
         proyectos: this.superUser
-          ? this.projectsService.obtenerTodosLosProyectosDetallesAdmin()
-          : this.projectsService.obtenerTodosLosProyectosDetalles()
+          ? this.projectsService.getAllProjectsSede()
+          : this.projectsService.getAllProjects()
       }
     ).subscribe(
       data => {
@@ -190,12 +192,12 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         });
       }).add(() => this.utilService._loading = false);
   }
-  onChangeSedeActualFiltro(value: any): void {
+  onChangeSedeActualFiltro(value: string): void {
     this.proyectos = this.proyectosFiltro;
     if (value !== 'todo') {
       const juecesTemp: ProjectRegistered[] = [];
       this.proyectos.forEach((proyecto, _) => {
-        if (proyecto.sede === value) {
+        if (proyecto.sede.toLowerCase() === value.toLowerCase()) {
           juecesTemp.push(proyecto);
         }
       });

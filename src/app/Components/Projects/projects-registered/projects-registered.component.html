@@ -14,28 +14,26 @@
     <table class="table table-lg table-hover table-responsive-lg">
         <thead class="background-table">
             <tr>
-                <th>Folio</th>
                 <th>Nombre</th>
                 <th>Asesor</th>
                 <th>Area</th>
                 <th>Categoria</th>
                 <th>Sede</th>
                 <th>Modalidad</th>
+                <th>Pdf</th>
+                <th>Video</th>
                 <th *ngIf="!superUser">Opciones</th>
             </tr>
         </thead>
         <tr class="table" *ngFor="let proyecto of proyectosTabla">
-            <td>{{proyecto.folio}}</td>
             <td>{{proyecto.nombre}}</td>
             <td>{{proyecto.asesor}}</td>
-            <td>{{proyecto.area}}</td>
+            <td>{{proyecto.areas}}</td>
             <td>{{proyecto.categorias}}</td>
             <td>{{proyecto.sede}}</td>
-            <td>
-                <div class="scroll">
-                    {{proyecto.resumen}}
-                </div>
-            </td>
+            <td>{{proyecto.modalidad}}</td>
+            <td> <a href="{{router.url}} + {{proyecto.pdf}}" target="_blank"> Abrir PDF</a> </td>
+            <td> <a href="{{proyecto.video}}" target="_blank"> Abrir video</a> </td>
             <td *ngIf="!superUser" class="d-flex">
                 <button (click)="openSwal(proyecto)" class="btn btn-edit mr-2" data-toggle="modal" data-target="#modalEditar"><i
                         class="fas fa-edit"></i></button>

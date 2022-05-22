@@ -216,12 +216,12 @@ export class AuthorsRegisteredComponent implements OnInit {
       }
     }
   }
-  onChangeSedeActualFiltro(value: any): void {
+  onChangeSedeActualFiltro(value: string): void {
     this.autores = this.autoresFiltro;
     if (value !== 'todo') {
       const autoresTemp: Autores[] = [];
       this.autores.forEach((autor, _) => {
-        if (autor.sede === value) {
+        if (autor.sede.toLowerCase() === value.toLowerCase()) {
           autoresTemp.push(autor);
         }
       });

@@ -33,4 +33,10 @@ import { Session } from '../models/session.model';
     updateProyect(body: any) {
       return this.http.put(this.servicesConfig.APP_ENDPOINT + 'api/proyectos/modificar', body);
     }
+    getAllProjects(): Observable<[]> {
+      return this.http.get<[]>('http://127.0.0.1:8000/api/proyectos-all');
+    }
+    getAllProjectsSede(): Observable<[]> {
+      return this.http.get<[]>(`http://127.0.0.1:8000/api/proyectos-sede/${this.sessionData.sede}`);
+    }
 }

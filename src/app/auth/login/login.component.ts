@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
     this.juecesService.iniciarSesionJuez(this.formLoginJudge.value).subscribe(
       data => {
         if (data) {
-          console.log(data);
           this.periodoService.getFechas().subscribe(
             dara => {
               this.inicio = dara.fecha_inicio;
