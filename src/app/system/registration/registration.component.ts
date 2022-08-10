@@ -59,6 +59,7 @@ export class RegistrationComponent implements OnInit {
       id_sedes:      [this.sessionData.id_sedes],
       ids_proyectos: [''],
       rol: ['juez'],
+      cv: ['']
     });
     this.utilService._loading = true;
     this.formFecha = formBuilder.group({
