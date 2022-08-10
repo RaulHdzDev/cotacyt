@@ -662,7 +662,7 @@ export class ProjectsComponent implements OnInit {
       });
   }
   generarForm(categoria: string) {
-    const expReg = RegExp('^[0-9]+$');
+    const expReg = RegExp('^([0-9]{1,2}(\.[0-9]{1,2})?)$');
     categoria = categoria.toLowerCase();
     switch (categoria) {
       case 'petit':
