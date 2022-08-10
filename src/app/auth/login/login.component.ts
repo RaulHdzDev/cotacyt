@@ -33,11 +33,10 @@ export class LoginComponent implements OnInit {
 
   iniciarSesion() {
     this.utilService.loading = true;
-    
+
     this.juecesService.iniciarSesionJuez(this.formLoginJudge.value).subscribe(
       data => {
         if (data) {
-          console.log(data);
           this.periodoService.getFechas().subscribe(
             dara => {
               this.inicio = dara.fecha_inicio;
@@ -52,10 +51,10 @@ export class LoginComponent implements OnInit {
                 this.router.navigateByUrl('home');
                 localStorage.setItem('session', JSON.stringify(data));
               } else if(data.rol == 'juez'){
+                this.router.navigateByUrl('home');
+                localStorage.setItem('session', JSON.stringify(data));
                 if(currentDate >= completeDateI && currentDate <= completeDateF){
                   console.log('El juez Es valido');
-                  this.router.navigateByUrl('home');
-                  localStorage.setItem('session', JSON.stringify(data));
                 } else if(currentDate < completeDateI){
                   swal.fire({
                     icon: 'info',
@@ -73,7 +72,7 @@ export class LoginComponent implements OnInit {
             }
           );
 
-          
+
         } else {
           console.log(data);
           swal.fire({

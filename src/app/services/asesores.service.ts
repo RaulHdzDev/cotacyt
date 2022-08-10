@@ -35,4 +35,11 @@ export class AsesoresService {
       observe: 'events'
     });
   }
+
+  getAllAsesores(): Observable<any> {
+    return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesores`);
+  }
+  getAllAsesoresSede(): Observable<any> {
+    return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesores/${this.sessionData.sede}`);
+  }
 }
