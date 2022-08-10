@@ -36,10 +36,10 @@ export class AsesoresService {
     });
   }
 
-  getAllAsesores(): Observable<[]> {
-    return this.http.get<[]>(`http://127.0.0.1:8000/api/asesores-all`);
+  getAllAsesores(): Observable<any> {
+    return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesores`);
   }
-  getAllAsesoresSede(): Observable<[]> {
-    return this.http.get<[]>(`http://127.0.0.1:8000/api/asesores-sede/${this.sessionData.sede}`);
+  getAllAsesoresSede(): Observable<any> {
+    return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesores/${this.sessionData.sede}`);
   }
 }

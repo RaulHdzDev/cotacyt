@@ -1,5 +1,5 @@
 <!-- swal tabla informacion -->
-<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
+<!-- <swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
     <div *swalPortal>
         <div>
             <table *ngFor="let info of informacionDeLosProyectos" class="table table-light">
@@ -72,7 +72,7 @@
             </table>
         </div>
     </div>
-</swal>
+</swal> -->
 
 
 
@@ -202,11 +202,10 @@
                             <div class="qualified-projects-principal card-body m-0 p-0">
                                 <ul class="list-group " *ngFor="let proyecto of proyectosCalificados">
                                     <li class="d-flex list-group-item p-2">{{proyecto.nombre}}
-
-                                        <button class="ml-auto  btn btn-subboton-info" (click)="mostrarInfoCalificados(proyecto)">
+                                        <!-- <button class="ml-auto  btn btn-subboton-info" (click)="mostrarInfoCalificados(proyecto)">
                                             <i class="fas fa-question-circle"></i>
-                                        </button>
-                                        <button class="ml-1 btn btn-subboton-video" (click)="abrirReproductor($event, proyecto.video)">
+                                        </button> -->
+                                        <button class="ml-auto btn btn-subboton-video" (click)="abrirReproductor($event, proyecto.video)">
                                             <i class="fas fa-play-circle"></i>
                                         </button>
                                         <button class="ml-1  btn btn-subboton-info" (click)="pdf(proyecto.pdf)">
@@ -217,8 +216,6 @@
                             </div>
                         </div>
                         <br>
-
-
                         <div class="card ">
                             <div class="card-header background-table">
                                 <h6>Proyectos por calificar</h6>
@@ -226,11 +223,11 @@
                             <div class="card-body p-0 qualified-projects">
                                 <ul class="list-group " *ngFor="let proyecto of proyectosPorCalificar">
                                     <li class="d-flex list-group-item p-2">{{proyecto.nombre}}
-                                        <button class="ml-auto btn btn-subboton-info" (click)="mostrarInfoPorCalificar(proyecto)">
+                                        <!-- <button class="ml-auto btn btn-subboton-info" (click)="mostrarInfoPorCalificar(proyecto)">
                                             <i class="fas fa-question-circle"></i>
-                                        </button>
+                                        </button> -->
 
-                                        <button class="ml-1 btn btn-subboton-video" (click)="abrirReproductor($event, proyecto.video)">
+                                        <button class="ml-auto btn btn-subboton-video" (click)="abrirReproductor($event, proyecto.video)">
                                             <i class="fas fa-play-circle"></i>
                                         </button>
                                         <button class="ml-1  btn btn-subboton-info" (click)="pdf(proyecto.pdf)">

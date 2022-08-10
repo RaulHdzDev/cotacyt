@@ -98,8 +98,8 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         this.sedes = data.sedes;
         this.categorias = data.categorias;
         this.asesores = data.asesores;
-        this.proyectos = data.proyectos;
-        this.proyectosFiltro = data.proyectos;
+        this.proyectos = data.proyectos.proyectos;
+        this.proyectosFiltro = data.proyectos.proyectos;
       },
       err => console.log(err)
     ).add(() => {

@@ -38,8 +38,8 @@ export class DashboardComponent implements OnInit {
 
 
   @ViewChild('swalid') private swalCalificaciones: SwalComponent;
-  @ViewChild('swalid1') private swalInformacion: SwalComponent;
-  @ViewChild('swalid2') private swalReproductor: SwalComponent;
+  // @ViewChild('swalid1') private swalInformacion: SwalComponent;
+  // @ViewChild('swalid2') private swalReproductor: SwalComponent;
   @ViewChild('video') private videoTag: any;
 
 
@@ -146,7 +146,7 @@ export class DashboardComponent implements OnInit {
       forkJoin({
         proyectos: this.dashboardService.getProyectosSuperUser(),
         totales: this.dashboardService.getTotalesSuperUser(),
-        // estadisticas: this.calificacionesService.proyectosEstadisticas(),
+        estadisticas: this.calificacionesService.proyectosEstadisticas(),
         grafica: this.dashboardService.getProyectosPorCategorias(),
         sedes: this.sedeService.getSedes(),
       }).subscribe(
@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit {
           console.log(data);
           this.totales = data.totales;
           this.adminProjects(data.proyectos);
-          // this.estadisticasDeProyectos = data.estadisticas;
+          this.estadisticasDeProyectos = data.estadisticas;
           this.sedes = data.sedes,
             this.construirGrafica(data.grafica);
         }
@@ -331,55 +331,55 @@ export class DashboardComponent implements OnInit {
     }
   }
   // mostrar informacion de proyecto seleccionado
-  mostrarInfoCalificados(proyecto: ProyectosCalificados) {
-    this.utilsService._loading = true;
-    if (this.sessionData.rol === 'admin') {
-      this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    } else {
-      this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    }
-    this.swalInformacion.fire();
-  }
+  // mostrarInfoCalificados(proyecto: ProyectosCalificados) {
+  //   this.utilsService._loading = true;
+  //   if (this.sessionData.rol === 'admin') {
+  //     this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilsService._loading = false;
+  //     });
+  //   } else {
+  //     this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilsService._loading = false;
+  //     });
+  //   }
+  //   this.swalInformacion.fire();
+  // }
 
 
   // mostrar informacion de proyecto seleccionado
-  mostrarInfoPorCalificar(proyecto: ProyectosPorCalificar) {
-    this.utilsService._loading = true;
-    if (this.sessionData.rol === 'admin') {
-      this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    } else {
-      this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    }
-    this.swalInformacion.fire();
-  }
+  // mostrarInfoPorCalificar(proyecto: ProyectosPorCalificar) {
+  //   this.utilsService._loading = true;
+  //   if (this.sessionData.rol === 'admin') {
+  //     this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilsService._loading = false;
+  //     });
+  //   } else {
+  //     this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilsService._loading = false;
+  //     });
+  //   }
+  //   this.swalInformacion.fire();
+  // }
 
 
 
@@ -398,7 +398,7 @@ export class DashboardComponent implements OnInit {
       ? this.metodoImprimir(index, proyecto, autores, this.sedeActual)
       : this.metodoImprimir(index, proyecto, autores, this.sessionData.id_sedes)
   }
-  
+
   // filtra la informacion para mandarla al metodo de impresion
   metodoImprimir(index: number, proyecto: any, autores: string[], id_sedes: string) {
     if (index === 0) {
@@ -698,7 +698,7 @@ export class DashboardComponent implements OnInit {
                 break;
             }
             break;
-          
+
           case '6':
             switch (this.categoriaActual) {
               case '1':
@@ -864,7 +864,7 @@ export class DashboardComponent implements OnInit {
                   break;
               }
               break;
-              
+
             case '6':
               switch (this.categoriaActual) {
                 case '1':
