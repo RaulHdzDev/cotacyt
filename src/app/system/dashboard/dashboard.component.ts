@@ -261,7 +261,7 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  mostrarProyectosPorCalificacion(evt: any) {
+  mostrarProyectosPorCalificacion(evt: any) {  
     this.swalCalificaciones.fire().then(
       res => {
         if (res.dismiss === Swal.DismissReason.backdrop) {
@@ -271,10 +271,21 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       });
   }
+
+  descargarLista() {
+    console.log(this.categoriaActual);
+    console.log(this.sedeActual);
+    
+   this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
+      .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
+      .add(() => this.utilsService.loading = false);
+      
+  }
   onChangeSede(value) {
+    
     this.sedeActual = value;
     this.utilsService._loading = true;
-    this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
+     this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
       .subscribe(data => this.mostrarListaCalificaiones(data, this.categoriaActual))
       .add(() => this.utilsService.loading = false);
   }
@@ -289,7 +300,50 @@ export class DashboardComponent implements OnInit {
           err => console.log(err))
         .add(() => this.utilsService.loading = false);
   }
+
   mostrarListaCalificaiones(data: any, value) {
+    this.proyectosCalificadosPorCategoria = data;
+    const petit = data.petit;
+    const kids = data.kids;
+    const juvenil = data.juvenil;
+    const mediaSuperior = data['media_superior'];
+    const superior = data.superior;
+    const posgrado = data.posgrado;
+    switch (value) {
+      case '1':
+        this.proyectosCalificacion = petit;
+        // this.imprimir(this.proyectosCalificacion, 'petit');
+        console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
+          return next.total - prev.total;
+        }));
+        break;
+      case '2':
+        this.proyectosCalificacion = kids;
+        // this.imprimir(this.proyectosCalificacion, 'kids');
+        break;
+      case '3':
+        this.proyectosCalificacion = juvenil;
+        // this.imprimir(this.proyectosCalificacion, 'juvenil');
+        break;
+      case '4':
+        this.proyectosCalificacion = mediaSuperior;
+        // this.imprimir(this.proyectosCalificacion, 'media-superior');
+        break;
+      case '5':
+        this.proyectosCalificacion = superior;
+        // this.imprimir(this.proyectosCalificacion, 'superior');
+        break;
+      case '6':
+        this.proyectosCalificacion = posgrado;
+        // this.imprimir(this.proyectosCalificacion, 'posgrado');
+        break;
+      default:
+        this.proyectosCalificacion = petit;
+        break;
+    }
+  }
+
+  descargarListaCalificaiones(data: any, value) {
     this.proyectosCalificadosPorCategoria = data;
     const petit = data.petit;
     const kids = data.kids;
@@ -380,6 +434,8 @@ export class DashboardComponent implements OnInit {
   //   }
   //   this.swalInformacion.fire();
   // }
+
+  
 
 
 
@@ -1585,10 +1641,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombrePetit = nombrePetit.concat(nombre, '\r\n');
               sedePetit2 = proyecto[j].sede;
@@ -1631,10 +1687,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreKids = nombreKids.concat(nombre, '\r\n');
               sedeKids = proyecto[j].sede;
@@ -1678,10 +1734,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreJuvenil = nombreJuvenil.concat(nombre, '\r\n');
               sedeJuvenil = proyecto[j].sede;
@@ -1723,10 +1779,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreMS = nombreMS.concat(nombre, '\r\n');
               sedeMS = proyecto[j].sede;
@@ -1771,10 +1827,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreSuperior = nombreSuperior.concat(nombre, '\r\n');
               sedeSuperior = proyecto[j].sede;
@@ -1814,10 +1870,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombrePosgrado = nombrePosgrado.concat(nombre, '\r\n');
               sedePosgrado = proyecto[j].sede;
