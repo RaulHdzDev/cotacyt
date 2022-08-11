@@ -156,8 +156,8 @@
                                     <div class="row justify-content-center mb-2">
 
                                             <select #sc (change)="onChangeCategoria(sc.value)" class="custom-select">
-                                                <option selected="true">Elegir categoria</option>
-                                                <option  value="1" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
+                                                <option selected disabled>Selecciona una categoria</option>
+                                                <option value="1" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
                                                 <option value="2" *ngIf="sessionData.id_sedes!=='9'">Kids</option>
                                                 <option value="3" *ngIf="sessionData.id_sedes!=='9'">Juvenil</option>
                                                 <option value="4">Media superior</option>
@@ -165,8 +165,16 @@
                                                 <option value="6"*ngIf="sessionData.id_sedes!=='9'">Posgrado</option>
                                             </select>
                                         <select *ngIf="superUser" #sd (change)="onChangeSede(sd.value)" class="custom-select mt-2">
+                                                <option selected disabled>Selecciona una sede</option>
                                                 <option *ngFor="let sede of sedes" [value]="sede.id_sedes">{{sede.sede}}</option>
                                             </select>
+
+                                            
+                                    </div>
+                                    <div class="row justify-content-center mb-2">
+                                        <span>
+                                            <button class="btn btn-primary" (click)="descargarLista()">Descargar lista de calificaciones</button>
+                                        </span>
                                     </div>
                                     <div class="row justify-content-center">
                                         <table class="table table-lg table-hover" *ngIf="proyectosCalificacion">
@@ -182,10 +190,8 @@
                                                         <span class="badge badge-position mr-3"> {{i+1}} </span> {{ proyecto.nombre}}
                                                     </div>
                                                 </td>
-                                                <td>{{proyecto.total | number:'1.0-0'}} </td>
-                                                <td>
-                                                    <button class="btn btn-primary" (click)="saveAsPdf(i, proyecto.autores, proyecto)"><i class="fas fa-download"></i></button>
-                                                </td>
+                                                <td>{{proyecto.total | number:'1.2-2'}} </td>
+
                                             </tr>
                                         </table>
                                     </div>
