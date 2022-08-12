@@ -82,13 +82,14 @@ export class AuthorsRegisteredComponent implements OnInit {
     forkJoin({
       sedes: this.sedesService.getSedes(),
       autores: this.superUser
-        ? this.autoresService.getAutores()
-        : this.autoresService.getAutoresSuperUser()
+        ? this.autoresService.getAllAutoresSede()
+        : this.autoresService.getAllAutores()
     }).subscribe(
       data => {
         this.sedes = data.sedes;
-        this.autores = data.autores;
-        this.autoresFiltro = data.autores;
+        this.autores = data.autores.autores;
+        this.autoresFiltro = data.autores.autores;
+        console.log(this.autores);
       }, err => {
         console.log(err);
       }).add(() => {
