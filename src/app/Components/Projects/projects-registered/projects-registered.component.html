@@ -32,7 +32,7 @@
             <td>{{proyecto.categorias}}</td>
             <td>{{proyecto.sede}}</td>
             <td>{{proyecto.modalidad}}</td>
-            <td> <a href="{{router.url}} + {{proyecto.pdf}}" target="_blank"> Abrir PDF</a> </td>
+            <td> <a href="http://plataforma.cotacyt.gob.mx/expociencias/creatividad/{{proyecto.pdf}}" target="_blank"> Abrir PDF</a> </td>
             <td> <a href="{{proyecto.video}}" target="_blank"> Abrir video</a> </td>
             <td *ngIf="!superUser" class="d-flex">
                 <button (click)="openSwal(proyecto)" class="btn btn-edit mr-2" data-toggle="modal" data-target="#modalEditar"><i
@@ -82,19 +82,19 @@
             <div class="form-group">
                 <label for="">Sede:</label>
                 <select #sd  formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
-                    <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
+                    <option [value]="sede.sede" *ngFor="let sede of sedes">{{sede.sede}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="">Area:</label>
                 <select formControlName="id_areas" class="form-control">
-                    <option [value]="area.id_areas" *ngFor="let area of areas">{{area.area}}</option>
+                    <option [value]="area.area" *ngFor="let area of areas">{{area.area}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="">Categoria:</label>
                 <select formControlName="id_categorias" class="form-control">
-                    <option [value]="categoria.id_categorias" *ngFor="let categoria of categorias">{{categoria.categoria}}</option>
+                    <option [value]="categoria.categoria" *ngFor="let categoria of categorias">{{categoria.categoria}}</option>
                 </select>
             </div>
             <div class="form-group">

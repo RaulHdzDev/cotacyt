@@ -87,7 +87,7 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         areas: this.areasService.getAreas(),
         sedes: this.sedesService.getSedes(),
         categorias: this.categoriasServices.getAllCategrias(),
-        asesores: this.asesoresService.getAsesores(),
+        asesores: this.asesoresService.getAllAsesores(),
         proyectos: this.superUser
           ? this.projectsService.getAllProjectsSede()
           : this.projectsService.getAllProjects()
@@ -97,7 +97,7 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         this.areas = data.areas;
         this.sedes = data.sedes;
         this.categorias = data.categorias;
-        this.asesores = data.asesores;
+        this.asesores = data.asesores.asesores;
         this.proyectos = data.proyectos.proyectos;
         this.proyectosFiltro = data.proyectos.proyectos;
       },
@@ -142,37 +142,26 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         this.utilService.loading = false;
       });
   }
-  openSwal(proyecto: ProjectRegistered) {
-    this.proyectoActual = proyecto;
-    this.obtenerProyecto.obtenerProyecto(proyecto.id_proyectos).subscribe(
-      data => {
-        this.superUser
-          ? this.formProyecto.patchValue({
-            id_proyectos: data.id_proyectos,
-            id_asesores: data.id_asesores,
-            id_areas: data.id_areas,
-            id_sedes: this.sessionData.id_sedes,
-            id_categorias: data.id_categorias,
-            nombre: data.nombre,
-            descripcion: data.descripcion,
-          })
-          : this.formProyecto.patchValue({
-            id_proyectos: data.id_proyectos,
-            id_asesores: data.id_asesores,
-            id_areas: data.id_areas,
-            id_sedes: data.id_sedes,
-            id_categorias: data.id_categorias,
-            nombre: data.nombre,
-            descripcion: data.descripcion,
-          });
-      }, err => {
-        console.log(err);
-        Swal.fire({
-          title: 'Ocurrio un error al obter los datos',
-          icon: 'error'
-        });
-      }
-    );
+  openSwal(proyecto: any) {
+    this.superUser
+    ? this.formProyecto.patchValue({
+      id_proyectos: proyecto.id_proyectos,
+      id_asesores: proyecto.id_asesores,
+      id_areas: proyecto.areas,
+      id_sedes: this.sessionData.sede,
+      id_categorias: proyecto.categorias,
+      nombre: proyecto.nombre,
+      descripcion: proyecto.resumen,
+    })
+    : this.formProyecto.patchValue({
+      id_proyectos: proyecto.id_proyectos,
+      id_asesores: proyecto.id_asesores,
+      id_areas: proyecto.areas,
+      id_sedes: proyecto.sede,
+      id_categorias: proyecto.categorias,
+      nombre: proyecto.nombre,
+      descripcion: proyecto.resumen,
+    });
     this.swalEdit.fire();
   }
   editarProyecto() {

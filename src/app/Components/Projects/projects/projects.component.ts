@@ -662,7 +662,7 @@ export class ProjectsComponent implements OnInit {
       });
   }
   generarForm(categoria: string) {
-    const expReg = RegExp('^[0-9]+$');
+    const expReg = RegExp('^([0-9]{1,2}(\.[0-9]{1,2})?)$');
     categoria = categoria.toLowerCase();
     switch (categoria) {
       case 'petit':
@@ -767,13 +767,6 @@ export class ProjectsComponent implements OnInit {
           title: data,
           text: 'Se cerrara la sesion',
           icon: 'success'
-        }).then(() => {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/acuse.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.sessionData.nombre), 4.2, 6.9, { align: 'center' })
-            .setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-          doc.save('Acuse de recibo.pdf');
-          window.location.reload();
         });
       },
       err => {

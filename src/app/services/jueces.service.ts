@@ -32,4 +32,7 @@ export class JuecesService {
   getValidarTermino(idJueces: string): Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/jueces/validar-termino?id_jueces=' + idJueces);
   }
+  uploadCv(body: any): Observable<any> {
+    return this.http.post(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/cv/subir`, body);
+  }
 }
