@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
               this.inicio = dara.fecha_inicio;
               this.fin = dara.fecha_fin;
               let completeDateI = new Date(dara.fecha_inicio);
-              let completeDateF = new Date(dara.fecha_fin + ', 23:59:59');
+              let completeDateF = new Date(dara.fecha_fin);
               let currentDate = new Date();
               console.log(currentDate);
               console.log(completeDateI);
@@ -51,10 +51,10 @@ export class LoginComponent implements OnInit {
                 this.router.navigateByUrl('home');
                 localStorage.setItem('session', JSON.stringify(data));
               } else if(data.rol == 'juez'){
-                this.router.navigateByUrl('home');
-                localStorage.setItem('session', JSON.stringify(data));
                 if(currentDate >= completeDateI && currentDate <= completeDateF){
                   console.log('El juez Es valido');
+                  this.router.navigateByUrl('home');
+                  localStorage.setItem('session', JSON.stringify(data));
                 } else if(currentDate < completeDateI){
                   swal.fire({
                     icon: 'info',

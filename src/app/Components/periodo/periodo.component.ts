@@ -76,7 +76,7 @@ export class PeriodoComponent implements OnInit {
               } else {
                   return undefined;
               }
-          }
+            }
           }).then(
             resultado => {
               if(resultado.value){
@@ -116,6 +116,8 @@ export class PeriodoComponent implements OnInit {
 
   subirFechasJ(){
     if(this.formFechaJueces.value.fechaInicioJ != '' && this.formFechaJueces.value.fechaFinJ != ''){
+      console.log(this.formFechaJueces.value.fechaInicioJ);
+      console.log(this.formFechaJueces.value.fechaFinJ);
       this.periodoService.uploadFechas(this.formFechaJueces.value.fechaInicioJ, this.formFechaJueces.value.fechaFinJ).subscribe(
         data => {
           // this.swalid1.dismiss();
@@ -169,14 +171,40 @@ export class PeriodoComponent implements OnInit {
     }).then(
       res => {
         if(res.isConfirmed){
-          this.utilService.loading = true;
-          this.periodoService.executeDeleteSystem().subscribe(
-            data => {
-              console.log(data);
+          Swal.fire({
+            title: 'Ingrese la contraseña',
+              input: 'password',
+              showCancelButton: true,
+              showConfirmButton: true,
+              inputValidator: psw => {
+                if (!psw) {
+                    return "Por favor escribe la contraseña";
+                } else {
+                    return undefined;
+                }
+              }
+          }).then( resultado => {
+            if(resultado.value){
+              let pass = resultado.value;
+              this.valPass = JSON.parse(localStorage.getItem('session'))
+              console.log(this.valPass.contrasena);
+              if(this.valPass.contrasena === resultado.value){
+                this.utilService.loading = true;
+                this.periodoService.executeDeleteSystem().subscribe(
+                  data => {
+                    console.log(data);
+                  }
+                ).add(() => {
+                this.utilService.loading = false;
+                window.location.reload();
+                });
+              } else {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Contraseña incorrecta'
+                });
+              }
             }
-          ).add(() => {
-            this.utilService.loading = false;
-            window.location.reload();
           });
         } else if(res.isDismissed){
           Swal.fire('Reinicio del sistema cancelado', '', 'info')
