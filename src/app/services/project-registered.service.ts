@@ -33,6 +33,7 @@ import { Session } from '../models/session.model';
     updateProyect(body: any) {
       return this.http.put(this.servicesConfig.APP_ENDPOINT + 'api/proyectos/modificar', body);
     }
+    // enpoint enlaces
     getAllProjects(): Observable<any> {
       return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/proyectos`);
     }
