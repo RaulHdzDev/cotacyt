@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
               console.log(completeDateI);
               console.log(completeDateF);
               if(data.rol != 'juez'){
+                this.router.navigateByUrl('home');
+                  localStorage.setItem('session', JSON.stringify(data));
               } else if(data.rol == 'juez'){
                 if(currentDate >= completeDateI && currentDate <= completeDateF){
                   this.router.navigateByUrl('home');
