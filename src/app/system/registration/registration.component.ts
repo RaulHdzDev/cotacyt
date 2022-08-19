@@ -97,7 +97,7 @@ export class RegistrationComponent implements OnInit {
       });
     } else {
       forkJoin({
-        proyectos: this.proyectosService.getProjectsCat('petit'),
+        proyectos: this.proyectosService.getProjectsCatSede(this.sessionData.sede, 'petit'),
         sedes: this.sedesService.getSedes()
       }).subscribe(
         data => {
@@ -227,7 +227,7 @@ export class RegistrationComponent implements OnInit {
           this.proyectos = data.data;
         }).add(() => this.utilService._loading = false);
     } else {
-      this.proyectosService.getProjectsCat(value)
+      this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.categoriaActua)
         .subscribe(data => {
           this.proyectos = data.data;
         }).add(() => this.utilService._loading = false);
