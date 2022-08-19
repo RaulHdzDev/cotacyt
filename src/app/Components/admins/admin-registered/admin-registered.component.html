@@ -26,21 +26,13 @@
         <tr class="table" *ngFor="let admin of admins">
             <td>{{admin.id_jueces}}</td>
             <td>{{admin.nombre}}</td>
-            <!-- <td>{{admin.categoria}}</td> -->
             <td>{{admin.sede}}</td>
-            <!-- <td>
-                <div class="scroll">
-                    {{juez.proyectoss}}
-                </div>
-            </td> -->
             <td>{{admin.usuario}}</td>
             <td>{{admin.contrasena}}</td>
             <td class="d-flex">
-                <!-- <button (click)="open(juez)" class="btn btn-edit mr-3" data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i></button> -->
                 <button class="btn btn-primary mr-3" data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i></button>
                 <button (click)="setJudge(admin)" class="btn btn-danger mr-3" data-toggle="modal" data-target="#modalEliminar"><i class="fas fa-trash-alt"></i></button>
 
-                <!-- <button (click)="saveAsPdf(juez)" class="btn btn-primary"><i class="fas fa-download"></i></button> -->
             </td>
         </tr>
     </table>
