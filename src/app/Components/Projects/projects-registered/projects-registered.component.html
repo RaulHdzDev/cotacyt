@@ -42,6 +42,9 @@
             </td>
         </tr>
     </table>
+    <div class="row justify-content-center align-items-center" *ngIf="proyectosTabla.length == 0">
+      <span class="text-center mt-2 mb-4" style="font-size: 30px; font-weight: bold;">No hay datos en la tabla</span>
+    </div>
     <div class="paginator">
         <div class="col-12 d-flex justify-content-center align-items-center">
             <button (click)="previousPage()" class="btn btn-primary"><</button>
