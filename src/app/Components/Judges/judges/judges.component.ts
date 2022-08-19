@@ -27,7 +27,7 @@ import swal from 'sweetalert2';
 export class JudgesComponent implements OnInit {
 
   @ViewChild('swalid') private swalEdit: SwalComponent;
-  jueces: JudgesRegistered[];
+  jueces: Array<JudgesRegistered> = [];
   juecesFiltro: JudgesRegistered[];
   juezActual: JudgesRegistered;
   sedes: Sedes[];
@@ -41,6 +41,9 @@ export class JudgesComponent implements OnInit {
   superUser: boolean;
   categoriaActual = '1';
   sedeActual = '1';
+  juecesTabla: JudgesRegistered[] = [];
+  rowPerPage = 10;
+  currentPage = 1;
   constructor(
     private judgesService: JudgesRegisteredService,
     private utilService: UtilService,
@@ -108,6 +111,12 @@ export class JudgesComponent implements OnInit {
           console.log(err);
         }
       ).add(() => {
+        this.juecesTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.jueces[i]) {
+            this.juecesTabla.push(this.jueces[i]);
+          }
+        }
         this.utilService.loading = false;
       });
     } else {
@@ -123,6 +132,12 @@ export class JudgesComponent implements OnInit {
           console.log(err);
         }
       ).add(() => {
+        this.juecesTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.jueces[i]) {
+            this.juecesTabla.push(this.jueces[i]);
+          }
+        }
         this.utilService.loading = false;
       });
     }
@@ -210,6 +225,31 @@ export class JudgesComponent implements OnInit {
     this.proyectosViejos = [];
     this.proyectos = [];
   }
+  nextPage(): void {
+    const total = Math.round(this.jueces.length / this.rowPerPage) < (this.jueces.length / this.rowPerPage)
+      ? Math.round(this.jueces.length / this.rowPerPage) + 1
+      : Math.round(this.jueces.length / this.rowPerPage);
+    if (this.currentPage < total) {
+      this.juecesTabla = [];
+      for (let i = this.currentPage * this.rowPerPage; i < this.jueces.length; i++) {
+        if (i <= (this.currentPage * this.rowPerPage) + this.rowPerPage) {
+          this.juecesTabla.push(this.jueces[i]);
+        }
+      }
+      this.currentPage++;
+    }
+  }
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.juecesTabla = [];
+      this.currentPage--;
+      for (let i = (this.currentPage * this.rowPerPage) - this.rowPerPage; i < this.jueces.length; i++) {
+        if (i <= ((this.currentPage * this.rowPerPage) + this.rowPerPage) - this.rowPerPage) {
+          this.juecesTabla.push(this.jueces[i]);
+        }
+      }
+    }
+  }
   editarJuez() {
     this.utilService._loading = true;
     this.judgesService.updateJudge(this.formJuez.value)
@@ -290,18 +330,26 @@ export class JudgesComponent implements OnInit {
         return 6;
     }
   }
-  onChangeSedeActualFiltro(idSede: string) {
-    if (idSede !== 'todo') {
+  onChangeSedeActualFiltro(value: string) {
+    this.jueces = this.juecesFiltro;
+    if (value !== 'todo') {
       const juecesTemp: JudgesRegistered[] = [];
-      this.juecesFiltro.forEach((value, _) => {
-        if (value.id_sedes === idSede) {
-          juecesTemp.push(value);
+      this.jueces.forEach((autor, _) => {
+        if (autor.sede.toLowerCase() === value.toLowerCase()) {
+          juecesTemp.push(autor);
         }
       });
       this.jueces = juecesTemp;
     } else {
       this.jueces = this.juecesFiltro;
     }
+    this.juecesTabla = [];
+    for (let i = 0; i < this.rowPerPage; i++) {
+      if (this.jueces[i]) {
+        this.juecesTabla.push(this.jueces[i]);
+      }
+    }
+    this.currentPage = 1;
   }
 }
 
