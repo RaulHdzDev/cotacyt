@@ -72,6 +72,8 @@ export class DashboardComponent implements OnInit {
   public hm;
   public hs;
   public util: Util;
+  
+  active: boolean =  true;
 
   totales: Totales[];
   categoria: string;
@@ -309,6 +311,7 @@ export class DashboardComponent implements OnInit {
     const mediaSuperior = data['media_superior'];
     const superior = data.superior;
     const posgrado = data.posgrado;
+
     switch (value) {
       case '1':
         this.proyectosCalificacion = petit;
@@ -316,31 +319,53 @@ export class DashboardComponent implements OnInit {
         console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
           return next.total - prev.total;
         }));
+        this.ocultarTexto(this.proyectosCalificacion);
         break;
       case '2':
         this.proyectosCalificacion = kids;
         // this.imprimir(this.proyectosCalificacion, 'kids');
+        this.ocultarTexto(this.proyectosCalificacion);
         break;
+        
       case '3':
         this.proyectosCalificacion = juvenil;
         // this.imprimir(this.proyectosCalificacion, 'juvenil');
+        this.ocultarTexto(this.proyectosCalificacion);
         break;
+        
       case '4':
         this.proyectosCalificacion = mediaSuperior;
         // this.imprimir(this.proyectosCalificacion, 'media-superior');
+        this.ocultarTexto(this.proyectosCalificacion);
+        
         break;
       case '5':
         this.proyectosCalificacion = superior;
         // this.imprimir(this.proyectosCalificacion, 'superior');
+        this.ocultarTexto(this.proyectosCalificacion);
         break;
+        
       case '6':
         this.proyectosCalificacion = posgrado;
         // this.imprimir(this.proyectosCalificacion, 'posgrado');
+        this.ocultarTexto(this.proyectosCalificacion);
         break;
+        
       default:
         this.proyectosCalificacion = petit;
+        this.ocultarTexto(this.proyectosCalificacion);
         break;
+        
     }
+  }
+
+  ocultarTexto(proyectosCalificacion){
+    if(this.proyectosCalificacion.length > 0){
+      this.active = false;
+    } else {
+      this.active = true;
+    }
+
   }
 
   descargarListaCalificaiones(data: any, value) {
