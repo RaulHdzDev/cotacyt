@@ -35,11 +35,14 @@ export class AsesoresService {
       observe: 'events'
     });
   }
-
+// apis para conectar con el sistema externo
   getAllAsesores(): Observable<any> {
     return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesores`);
   }
   getAllAsesoresSede(): Observable<any> {
     return this.http.get<any>(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesores/${this.sessionData.sede}`);
+  }
+  update(body: any): Observable<any> {
+    return this.http.put(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesor`, body);
   }
 }
