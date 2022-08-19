@@ -29,7 +29,6 @@
                 <th *ngIf="!superUser">Opciones</th>
             </tr>
         </thead>
-
         <tr class="table" *ngFor="let autor of autoresTabla">
             <td>{{autor.nombre}}</td>
             <td>{{autor.ape_pat}}</td>
@@ -48,6 +47,9 @@
             </td>
         </tr>
     </table>
+    <div class="row justify-content-center align-items-center" *ngIf="autoresTabla.length == 0">
+      <span class="text-center mt-2 mb-4" style="font-size: 30px; font-weight: bold;">No hay datos en la tabla</span>
+    </div>
     <div class="paginator">
         <div class="col-12 d-flex justify-content-center align-items-center">
             <button (click)="previousPage()" class="btn btn-primary"><</button>
@@ -104,7 +106,7 @@
                                 *ngIf="formEditAutor.controls['domicilio'].invalid && (formEditAutor.controls['domicilio'].dirty || formEditAutor.controls['domicilio'].touched)"
                                 class="form-text" style="color: red;">Dirección inválida</small>
                         </div>
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                        <!-- <div class="form-group col-lg-6 col-md-6 col-sm-6">
                             <label>Colonia<b style="color: red;">*</b></label>
                             <input readonly formControlName="colonia" type="text" class="form-control">
                             <small
@@ -117,10 +119,10 @@
                             <small
                                 *ngIf="formEditAutor.controls['cp'].invalid && (formEditAutor.controls['cp'].dirty || formEditAutor.controls['cp'].touched)"
                                 class="form-text" style="color: red;">Código postal inválido</small>
-                        </div>
+                        </div> -->
                         <div class="form-group col-lg-6 col-md-6 col-sm-6">
                             <label>CURP<b style="color: red;">*</b></label>
-                            <input style="text-transform:uppercase"  (keyup)="curpUpperCase()" formControlName="curp" type="text" class="form-control">
+                            <input style="text-transform:uppercase" formControlName="curp" type="text" class="form-control">
                             <small class="form-text text-muted">Consulta tu CURP <a href="https://www.gob.mx/curp/"
                                     target="_blank">aquí</a></small>
                             <small
@@ -129,7 +131,7 @@
                         </div>
                         <div class="form-group col-lg-6 col-md-6 col-sm-6">
                             <label>RFC<b style="color: red;">*</b></label>
-                            <input (keyup)="rfcUpperCase()" style="text-transform:uppercase" formControlName="rfc" type="text" class="form-control">
+                            <input style="text-transform:uppercase" formControlName="rfc" type="text" class="form-control">
                             <small
                                 *ngIf="formEditAutor.controls['rfc'].invalid && (formEditAutor.controls['rfc'].dirty || formEditAutor.controls['rfc'].touched)"
                                 class="form-text" style="color: red;">RFC inválido</small>
@@ -172,14 +174,9 @@
                         </div>
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <label>Nivel de íngles:<b style="color: red;">*</b></label>
-                            <select readonly formControlName="nivel_ingles" class="form-control">
-                                <option>0% - 40%</option>
-                                <option>41% - 60%</option>
-                                <option>61% - 80%</option>
-                                <option>81% - 100%</option>
-                            </select>
+                            <input type="text" readonly formControlName="nivel_ingles" class="form-control"/>
                         </div>
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                        <!-- <div class="form-group col-lg-6 col-md-6 col-sm-6">
                             <label>Facebook</label>
                             <input readonly formControlName="facebook" type="text" class="form-control">
                             <small class="form-text text-muted">Opcional</small>
@@ -188,8 +185,8 @@
                             <label>Twitter</label>
                             <input readonly formControlName="twitter" type="text" class="form-control">
                             <small class="form-text text-muted">Opcional</small>
-                        </div>
-                        <div class="col-6">
+                        </div> -->
+                        <!-- <div class="col-6">
                             <div class="form-group">
                                 <label for="">Proyecto:</label>
                                 <select formControlName="id_proyectos" class="form-control">
@@ -197,7 +194,7 @@
                                         {{proyecto.nombre}}</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-12">
                             <button (click)="editarAutor()" [disabled]="!formEditAutor.valid"
                             class="btn btn-primary boton-iniciar">Editar</button>

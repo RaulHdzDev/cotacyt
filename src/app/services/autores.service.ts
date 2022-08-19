@@ -40,11 +40,14 @@ export class AutoresService {
     return this.http.get<Autores[]>(this.servicesConfig.APP_ENDPOINT
       + 'api/autores/all-list?id_sedes=' + idSede);
   }
-  //apis de enlace
+  // apis de enlace con el sistema nuevo
   getAllAutores(): Observable<any> {
     return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/autores`);
   }
   getAllAutoresSede(): Observable<any> {
     return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/autores/${this.sessionData.sede}`);
+  }
+  update(body: any): Observable<any> {
+    return this.http.put(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/autor`, body);
   }
 }

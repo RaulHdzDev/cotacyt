@@ -28,7 +28,7 @@ import { Sedes } from '../../../models/sedes.model';
 export class AuthorsRegisteredComponent implements OnInit {
 
   @ViewChild('swalid') private swalEdit: SwalComponent;
-  autores: Autores[];
+  autores: Array<Autores> = [];
   autorActual: Autores;
   proyectos: Proyectos[] | ProjectRegistered[];
   sessionData: Session;
@@ -40,14 +40,14 @@ export class AuthorsRegisteredComponent implements OnInit {
   currentPage = 1;
   sedes: Sedes[] = [];
   constructor(
-    private proyectosService: ProyectosService,
-    private projectRegistredService: ProjectsRegisteredService,
+    // private proyectosService: ProyectosService,
+    // private projectRegistredService: ProjectsRegisteredService,
     private autoresService: AutoresService,
     private utils: UtilService,
     private sedesService: SedesService,
-    private titlecasePipe: TitleCasePipe,
+    // private titlecasePipe: TitleCasePipe,
     private fb: FormBuilder,
-    private regexService: RegexService
+    // private regexService: RegexService
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.formEditAutor = this.fb.group({
@@ -56,19 +56,19 @@ export class AuthorsRegisteredComponent implements OnInit {
       ape_pat: ['', [Validators.required, Validators.maxLength(20)]],
       ape_mat: ['', [Validators.required, Validators.maxLength(20)]],
       domicilio: ['', [Validators.required, Validators.maxLength(80)]],
-      colonia: ['', [Validators.required, Validators.maxLength(80)]],
-      cp: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode())]],
-      curp: ['', [Validators.required, Validators.pattern(this.regexService.regexCURP())]],
-      rfc: ['', [Validators.required, Validators.pattern(this.regexService.regexRFC())]],
-      telefono: ['', [Validators.required, Validators.pattern(this.regexService.regexPhone())]],
+      // colonia: ['', [Validators.required, Validators.maxLength(80)]],
+      // cp: ['', [Validators.required, Validators.pattern(this.regexService.regexPostalCode())]],
+      curp: ['', [Validators.required, Validators.maxLength(18), Validators.minLength(18)]],
+      rfc: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
+      telefono: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
       email: ['', [Validators.required, Validators.maxLength(60), Validators.email]],
       municipio: ['', [Validators.required, Validators.maxLength(30)]],
       localidad: ['', [Validators.required, Validators.maxLength(30)]],
       escuela: ['', [Validators.required, Validators.maxLength(100)]],
       nivel_ingles: ['', [Validators.required]],
-      facebook: ['', [Validators.maxLength(60)]],
-      twitter: ['', [Validators.maxLength(30)]],
-      id_proyectos: ['', [Validators.required]]
+      // facebook: ['', [Validators.maxLength(60)]],
+      // twitter: ['', [Validators.maxLength(30)]],
+      // id_proyectos: ['', [Validators.required]]
     });
     this.utils._loading = true;
     if (this.sessionData.rol === 'superuser') {
@@ -93,6 +93,7 @@ export class AuthorsRegisteredComponent implements OnInit {
       }, err => {
         console.log(err);
       }).add(() => {
+        this.autoresTabla = [];
         for (let i = 0; i < this.rowPerPage; i++) {
           if (this.autores[i]) {
             this.autoresTabla.push(this.autores[i]);
@@ -128,29 +129,29 @@ export class AuthorsRegisteredComponent implements OnInit {
   }
 
   openSwal(autor: Autores) {
-    this.utils._loading = true;
+    // this.utils._loading = true;
     this.autorActual = autor;
-    this.superUser
-    ? this.proyectosService.obtenerTodosLosProyectos(this.sessionData.id_sedes)
-      .subscribe(
-        data => {
-          this.proyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => this.utils._loading = false)
-    : this.projectRegistredService.obtenerTodosLosProyectosDetalles()
-      .subscribe(
-        data => {
-          this.proyectos = data;
-        }
-      ).add(() => this.utils._loading = false);
+    // this.superUser
+    // ? this.proyectosService.obtenerTodosLosProyectos(this.sessionData.id_sedes)
+    //   .subscribe(
+    //     data => {
+    //       this.proyectos = data;
+    //     },
+    //     err => console.log(err)
+    //   ).add(() => this.utils._loading = false)
+    // : this.projectRegistredService.obtenerTodosLosProyectosDetalles()
+    //   .subscribe(
+    //     data => {
+    //       this.proyectos = data;
+    //     }
+    //   ).add(() => this.utils._loading = false);
     this.formEditAutor.get('id_autores').setValue(this.autorActual.id_autores);
     this.formEditAutor.get('nombre').setValue(this.autorActual.nombre);
     this.formEditAutor.get('ape_pat').setValue(this.autorActual.ape_pat);
     this.formEditAutor.get('ape_mat').setValue(this.autorActual.ape_mat);
     this.formEditAutor.get('domicilio').setValue(this.autorActual.domicilio);
-    this.formEditAutor.get('colonia').setValue(this.autorActual.colonia);
-    this.formEditAutor.get('cp').setValue(this.autorActual.cp);
+    // this.formEditAutor.get('colonia').setValue(this.autorActual.colonia);
+    // this.formEditAutor.get('cp').setValue(this.autorActual.cp);
     this.formEditAutor.get('curp').setValue(this.autorActual.curp);
     this.formEditAutor.get('rfc').setValue(this.autorActual.rfc);
     this.formEditAutor.get('telefono').setValue(this.autorActual.telefono);
@@ -159,21 +160,21 @@ export class AuthorsRegisteredComponent implements OnInit {
     this.formEditAutor.get('localidad').setValue(this.autorActual.localidad);
     this.formEditAutor.get('escuela').setValue(this.autorActual.escuela);
     this.formEditAutor.get('nivel_ingles').setValue(this.autorActual.nivel_ingles);
-    this.formEditAutor.get('facebook').setValue(this.autorActual.facebook);
-    this.formEditAutor.get('twitter').setValue(this.autorActual.twitter);
-    this.formEditAutor.get('id_proyectos').setValue(this.autorActual.id_proyectos);
+    // this.formEditAutor.get('facebook').setValue(this.autorActual.facebook);
+    // this.formEditAutor.get('twitter').setValue(this.autorActual.twitter);
+    // this.formEditAutor.get('id_proyectos').setValue(this.autorActual.id_proyectos);
     this.swalEdit.fire();
   }
 
   editarAutor() {
     this.utils._loading = true;
     console.log(this.formEditAutor.value);
-    this.autoresService.updateAutor(this.formEditAutor.value)
+    this.autoresService.update(this.formEditAutor.value)
       .subscribe(
         data => {
           Swal.fire({
-            title: data,
-            icon: 'success'
+            title: data.msg,
+            icon: data.error ? 'error' : 'success'
           });
           this.ngOnInit();
         }, err => {
@@ -185,12 +186,6 @@ export class AuthorsRegisteredComponent implements OnInit {
         }).add(() => {
           this.utils._loading = false;
         });
-  }
-  curpUpperCase(): void {
-    this.formEditAutor.get('curp').setValue(this.formEditAutor.get('curp').value.toUpperCase());
-  }
-  rfcUpperCase(): void {
-    this.formEditAutor.get('rfc').setValue(this.formEditAutor.get('rfc').value.toUpperCase());
   }
   nextPage(): void {
     const total = Math.round(this.autores.length / this.rowPerPage) < (this.autores.length / this.rowPerPage)
