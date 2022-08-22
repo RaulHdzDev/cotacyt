@@ -128,5 +128,17 @@ export class ProyectosService {
   getProjectsCat(cat: string): Observable<any> {
     return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/proyectos/${this.sessionData.sede}/${cat}`);
   }
+  getEstadisticasAsesoresPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/asesores/sede`);
+  }
+  getEstadisticasProyectosPorCategoria(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/categoria`);
+  }
+  getEstadisticasParticipantesPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/participantes/sede`);
+  }
+  getEstadisticasParticipantesPorCategoria(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/participantes/categoria`);
+  }
 }
 

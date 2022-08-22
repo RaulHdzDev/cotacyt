@@ -47,16 +47,16 @@ export class GraForAseComponent implements OnInit {
       data: [],
       label: 'Asesores por sede'
     }];
-    this.asesoresPorSede.getAsesoresPorSede().subscribe(
+    this.asesoresPorSede.getEstadisticasAsesoresPorSede().subscribe(
       data => {
         this.asesores = data;
-        const sede1 = data['El Mante'];
-        const sede3 = data['Madero'];
-        const sede4 = data['Matamoros'];
-        const sede5 = data['Nuevo Laredo'];
-        const sede6 = data['Reynosa'];
-        const sede7 = data['Victoria'];
-        
+        const sede1 = data.estadisticas['El Mante'];
+        const sede3 = data.estadisticas['Madero'];
+        const sede4 = data.estadisticas['Matamoros'];
+        const sede5 = data.estadisticas['Nuevo Laredo'];
+        const sede6 = data.estadisticas['Reynosa'];
+        const sede7 = data.estadisticas['Victoria'];
+
         this.barChartData = [{
           data: [sede1, sede3, sede4, sede5, sede6, sede7],
           label: 'Asesores Por Sede'
@@ -78,12 +78,12 @@ export class GraForAseComponent implements OnInit {
     console.log(event, active);
   }
 
-  
+
   downloadPDF() {
     var canvas: any = document.getElementById('graficaProy4');
     //creates image
     var canvasImg = canvas.toDataURL("image/png", 1.0);
-    
+
     //creates PDF from img
     var doc = new jsPDF('landscape');
     doc.setFontSize(20);
