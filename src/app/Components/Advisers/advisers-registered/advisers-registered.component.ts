@@ -93,11 +93,11 @@ export class AdvisersRegisteredComponent implements OnInit {
   }
   deleteAsesor() {
     this.utilService._loading = true;
-    this.asesoresService.deleteAsesor(this.asesorActual.id_asesores)
+    this.asesoresService.delete(this.asesorActual.id_asesores)
       .subscribe(data => {
         Swal.fire({
-          title: 'Se elimino correctamente',
-          icon: 'success'
+          title: data.msg,
+          icon: data.error ? 'error' : 'success'
         });
       },
         err => {

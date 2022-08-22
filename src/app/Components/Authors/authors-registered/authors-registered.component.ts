@@ -109,11 +109,11 @@ export class AuthorsRegisteredComponent implements OnInit {
 
   deleteAutor() {
     this.utils._loading = true;
-    this.autoresService.deleteAutores(this.autorActual.id_autores)
+    this.autoresService.delete(this.autorActual.id_autores)
       .subscribe(data => {
         Swal.fire({
-          title: 'Se elimino correctamente',
-          icon: 'success'
+          title: data.msg,
+          icon: data.error ? 'error' : 'success'
         });
       },
         err => {

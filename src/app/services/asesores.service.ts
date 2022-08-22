@@ -45,4 +45,7 @@ export class AsesoresService {
   update(body: any): Observable<any> {
     return this.http.put(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesor`, body);
   }
+  delete(id: string): Observable<any> {
+    return this.http.delete(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/asesor/${id}`);
+  }
 }
