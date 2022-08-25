@@ -59,5 +59,23 @@ export class DashboardService {
   getProyectosSuperUser(): Observable<Proyectos[]> {
     return this.http.get<Proyectos[]>(this.servicesConfig.APP_ENDPOINT + 'api/proyectos/all/details');
   }
+
+  // apis que conectan con el otro sistema
+
+  getEstadisticasProyectosPorCategoria(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/categoria`);
+  }
+  getEstadisticasProyectosPorCategoriaPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/categoria/${this.sessionData.sede}`);
+  }
+  getTotalesProyectosParticipantes(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/dashboard/header`);
+  }
+  getTotalesProyectosParticipantesPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/dashboard/header/${this.sessionData.sede}`);
+  }
+  getAllProjects(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/proyectos`);
+  }
 }
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
-import { Totales, ProyectosCalificados, ProyectosPorCalificar } from '../../models/dashboard.model';
+import { Totales, ProyectosCalificados, ProyectosPorCalificar, Totales2 } from '../../models/dashboard.model';
 import { Session } from 'src/app/models/session.model';
 import { CategoriasService } from '../../services/categorias.service';
 import { CalificacionesService } from '../../services/calificaciones.service';
@@ -72,13 +72,14 @@ export class DashboardComponent implements OnInit {
   public hm;
   public hs;
   public util: Util;
-  
+
   active: boolean =  true;
 
   totales: Totales[];
+  totales2: Totales2;
   categoria: string;
-  proyectosCalificados: ProyectosCalificados[];
-  proyectosPorCalificar: ProyectosPorCalificar[];
+  proyectosCalificados: any[];
+  proyectosPorCalificar: any[];
   estadisticasDeProyectos: Calificaciones[];
 
   proyectosCalificadosPorCategoria: CalificacionesPorCategoria[];
@@ -146,19 +147,21 @@ export class DashboardComponent implements OnInit {
     ];
     if (this.sessionData.rol === 'superuser') {
       forkJoin({
-        proyectos: this.dashboardService.getProyectosSuperUser(),
+        proyectos: this.dashboardService.getAllProjects(),
         totales: this.dashboardService.getTotalesSuperUser(),
+        totales2: this.dashboardService.getTotalesProyectosParticipantes(),
         estadisticas: this.calificacionesService.proyectosEstadisticas(),
-        grafica: this.dashboardService.getProyectosPorCategorias(),
+        grafica: this.dashboardService.getEstadisticasProyectosPorCategoria(),
         sedes: this.sedeService.getSedes(),
       }).subscribe(
         data => {
           console.log(data);
           this.totales = data.totales;
-          this.adminProjects(data.proyectos);
+          this.totales2 = data.totales2.data;
+          this.adminProjects(data.proyectos.proyectos);
           this.estadisticasDeProyectos = data.estadisticas;
           this.sedes = data.sedes,
-            this.construirGrafica(data.grafica);
+            this.construirGrafica(data.grafica.estadisticas);
         }
       ).add(() => this.utilsService._loading = false);
       this.dashboardService.getTotalesSuperUser().subscribe(
@@ -170,16 +173,18 @@ export class DashboardComponent implements OnInit {
     } else if (this.sessionData.rol === 'admin') {
       forkJoin({
         totales: this.dashboardService.getTotalesAdmin(),
-        proyectos: this.projectsService.getProjects(),
+        totales2: this.dashboardService.getTotalesProyectosParticipantesPorSede(),
+        proyectos: this.projectsService.getAllProjectsSede(),
         estadisticas: this.calificacionesService.proyectosEstadisticasAdmin(),
-        grafica: this.dashboardService.getProyectosPorCategoriasAdmin(),
+        grafica: this.dashboardService.getEstadisticasProyectosPorCategoriaPorSede(),
       }).subscribe(
         data => {
           console.log(data);
           this.totales = data.totales;
-          this.adminProjects(data.proyectos);
+          this.totales2 = data.totales2.data;
+          this.adminProjects(data.proyectos.proyectos);
           this.estadisticasDeProyectos = data.estadisticas;
-          this.construirGrafica(data.grafica);
+          this.construirGrafica(data.grafica.estadisticas);
         },
         err => {
           console.log(err);
@@ -187,17 +192,19 @@ export class DashboardComponent implements OnInit {
       ).add(() => this.utilsService._loading = false);
     } else {
       forkJoin({
-        proyectosCalificados: this.dashboardService.getProyectosCalificados(),
+        // proyectosCalificados: this.dashboardService.getProyectosCalificados(),
         totales: this.dashboardService.getTotales(),
-        proyectosPorCalificar: this.dashboardService.getProyectosPorCalificar(),
-        estadisticas: this.calificacionesService.proyectosEstadisticasJuez(),
-        grafica: this.dashboardService.getProyectosPorCategoriasAdmin()
+        totales2: this.dashboardService.getTotalesProyectosParticipantesPorSede(),
+        // proyectosPorCalificar: this.dashboardService.getProyectosPorCalificar(),
+        // estadisticas: this.calificacionesService.proyectosEstadisticasJuez(),
+        grafica: this.dashboardService.getEstadisticasProyectosPorCategoriaPorSede()
       }).subscribe(
         data => {
-          this.proyectosCalificados = data.proyectosCalificados;
-          this.proyectosPorCalificar = data.proyectosPorCalificar;
-          this.estadisticasDeProyectos = data.estadisticas;
-          this.construirGrafica(data.grafica);
+          this.totales2 = data.totales2.data;
+          // this.proyectosCalificados = data.proyectosCalificados;
+          // this.proyectosPorCalificar = data.proyectosPorCalificar;
+          // this.estadisticasDeProyectos = data.estadisticas.estadisticas;
+          this.construirGrafica(data.grafica.estadisticas);
           this.totales = data.totales;
         },
         err => {
@@ -212,25 +219,6 @@ export class DashboardComponent implements OnInit {
       this.categoria = data.categoria;
     });
 
-    // this.sedeService.getFechas(this.sessionData.id_sedes).subscribe(
-    //   data => {
-    //     this.fechaI = new Date(data.fecha_inicio.replace(/-/g, '\/'));
-    //     this.fechaF = new Date(data.fecha_fin.replace(/-/g, '\/'));
-    //     this.fechaH = new Date();
-    //     this.fechaH.setHours(0, 0, 0, 0);
-    //     if ((this.fechaI.getTime() > this.fechaH.getTime() || this.fechaF.getTime() < this.fechaH.getTime())
-    //     && this.sessionData.rol == 'juez') {
-    //       localStorage.removeItem('session');
-    //       Swal.fire({
-    //         title: 'Plataforma deshabilitada',
-    //         text: 'Se cerrara la sesion',
-    //         icon: 'success'
-    //       }).then(() => {
-    //         window.location.reload();
-    //       });
-    //     }
-    //   }
-    // );
   }
   construirGrafica(data: any) {
     const petit = data.petit;
@@ -263,7 +251,7 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  mostrarProyectosPorCalificacion(evt: any) {  
+  mostrarProyectosPorCalificacion(evt: any) {
     this.swalCalificaciones.fire().then(
       res => {
         if (res.dismiss === Swal.DismissReason.backdrop) {
@@ -277,14 +265,14 @@ export class DashboardComponent implements OnInit {
   descargarLista() {
     console.log(this.categoriaActual);
     console.log(this.sedeActual);
-    
+
    this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
       .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
       .add(() => this.utilsService.loading = false);
-      
+
   }
   onChangeSede(value) {
-    
+
     this.sedeActual = value;
     this.utilsService._loading = true;
      this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
@@ -326,36 +314,36 @@ export class DashboardComponent implements OnInit {
         // this.imprimir(this.proyectosCalificacion, 'kids');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
-        
+
       case '3':
         this.proyectosCalificacion = juvenil;
         // this.imprimir(this.proyectosCalificacion, 'juvenil');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
-        
+
       case '4':
         this.proyectosCalificacion = mediaSuperior;
         // this.imprimir(this.proyectosCalificacion, 'media-superior');
         this.ocultarTexto(this.proyectosCalificacion);
-        
+
         break;
       case '5':
         this.proyectosCalificacion = superior;
         // this.imprimir(this.proyectosCalificacion, 'superior');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
-        
+
       case '6':
         this.proyectosCalificacion = posgrado;
         // this.imprimir(this.proyectosCalificacion, 'posgrado');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
-        
+
       default:
         this.proyectosCalificacion = petit;
         this.ocultarTexto(this.proyectosCalificacion);
         break;
-        
+
     }
   }
 
@@ -409,59 +397,6 @@ export class DashboardComponent implements OnInit {
         break;
     }
   }
-  // mostrar informacion de proyecto seleccionado
-  // mostrarInfoCalificados(proyecto: ProyectosCalificados) {
-  //   this.utilsService._loading = true;
-  //   if (this.sessionData.rol === 'admin') {
-  //     this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-  //       data => {
-  //         this.informacionDeLosProyectos = data;
-  //       },
-  //       err => console.log(err)
-  //     ).add(() => {
-  //       this.utilsService._loading = false;
-  //     });
-  //   } else {
-  //     this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-  //       data => {
-  //         this.informacionDeLosProyectos = data;
-  //       },
-  //       err => console.log(err)
-  //     ).add(() => {
-  //       this.utilsService._loading = false;
-  //     });
-  //   }
-  //   this.swalInformacion.fire();
-  // }
-
-
-  // mostrar informacion de proyecto seleccionado
-  // mostrarInfoPorCalificar(proyecto: ProyectosPorCalificar) {
-  //   this.utilsService._loading = true;
-  //   if (this.sessionData.rol === 'admin') {
-  //     this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-  //       data => {
-  //         this.informacionDeLosProyectos = data;
-  //       },
-  //       err => console.log(err)
-  //     ).add(() => {
-  //       this.utilsService._loading = false;
-  //     });
-  //   } else {
-  //     this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-  //       data => {
-  //         this.informacionDeLosProyectos = data;
-  //       },
-  //       err => console.log(err)
-  //     ).add(() => {
-  //       this.utilsService._loading = false;
-  //     });
-  //   }
-  //   this.swalInformacion.fire();
-  // }
-
-  
-
 
 
   abrirReproductor(evento: any, id) {
@@ -469,7 +404,7 @@ export class DashboardComponent implements OnInit {
   }
 
   pdf(event) {
-    window.open('https://mante.hosting.acm.org/api-cecit-2021/uploads/' + event, '_blank');
+    window.open('http://plataforma.cotacyt.gob.mx/expociencias/creatividad/' + event, '_blank');
   }
 
   saveAsPdf(index: number, autores: string[], proyecto: any) {
