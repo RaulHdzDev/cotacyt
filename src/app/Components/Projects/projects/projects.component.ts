@@ -41,7 +41,7 @@ export class ProjectsComponent implements OnInit {
   video: string;
   proyectosCalificados: ProyectosCalificados[];
   proyectosPorCalificar: ProyectosPorCalificar[];
-  proyectoActual: Proyectos;
+  proyectoActual: any;
   formPuntos: FormGroup;
   valores: any;
   obtenido1: number;
@@ -113,17 +113,18 @@ export class ProjectsComponent implements OnInit {
   }
 
   pdf(event) {
-    window.open('https://mante.hosting.acm.org/api-cecit-2021/uploads/' + event, '_blank');
+    window.open('http://plataforma.cotacyt.gob.mx/expociencias/creatividad/' + event, '_blank');
   }
 
   traerProyecto(idProyecto: string) {
     this.isCollapsed = true;
     this.utilService.loading = true;
-    this.proyectosService.obtenerProyecto(idProyecto).subscribe(
+    this.proyectosService.getProject(idProyecto).subscribe(
       data => {
-        this.proyectoActual = data;
+        this.proyectoActual = data.data;
         this.proyectosService.getStatusProyecto(this.proyectoActual.id_proyectos)
           .subscribe((res) => {
+            console.log(res)
             if (res[0].status === '1') {
               this.getCalificacionesProyecto(this.categoria, Number(this.proyectoActual.id_proyectos))
                 .subscribe(calificaciones => {
@@ -319,7 +320,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -381,7 +382,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -443,7 +444,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -510,7 +511,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -575,7 +576,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -640,7 +641,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
