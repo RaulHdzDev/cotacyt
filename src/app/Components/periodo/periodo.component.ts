@@ -18,7 +18,9 @@ export class PeriodoComponent implements OnInit {
   formFechaJueces: FormGroup;
   formFechaProyectos: FormGroup;
   estatal: boolean;
+  internacional: boolean;
   status: any = 0;
+  statusInter: any = 0;
   valPass: any;
   constructor(
     public formBuilder: FormBuilder,
@@ -52,7 +54,15 @@ export class PeriodoComponent implements OnInit {
     ).add(()=>{
       this.utilService.loading = false;
     });
-    
+    this.periodoService.getStatusInternacional().subscribe(
+      data => {
+        this.statusInter = data;
+        if(this.statusInter == 0)
+          this.internacional = false;
+        else if(this.statusInter == 1)
+          this.internacional = true;
+      }
+    )
   }
 
   iniciarEstatal(){
@@ -112,6 +122,64 @@ export class PeriodoComponent implements OnInit {
     );
       // this.estatal = JSON.parse(localStorage.getItem('estatal'));
       console.log(this.estatal + ' estatal');
+  }
+
+  iniciarInternacional(){
+    Swal.fire({
+      icon: 'warning',
+      title: 'ETAPA INTERNACIONAL',
+      text: 'Esta a punto de iniciar la etapa internacional',
+      showCancelButton: true,
+      showConfirmButton: true,
+    }).then(
+      res => {
+        if(res.isConfirmed){
+          Swal.fire({
+            title: 'Ingrese la contraseña',
+            input: 'password',
+            showCancelButton: true,
+            showConfirmButton: true,
+            inputValidator: psw => {
+              if (!psw) {
+                  return "Por favor escribe la contraseña";
+              } else {
+                  return undefined;
+              }
+            }
+          }).then(
+            resultado => {
+              if(resultado.value){
+                let pass = resultado.value;
+                this.valPass = JSON.parse(localStorage.getItem('session'))
+                console.log(this.valPass.contrasena);
+                if(this.valPass.contrasena === resultado.value){
+                  this.utilService.loading = true;
+                  this.periodoService.initEstatal().subscribe(
+                    data => {
+                      console.log(data.error);
+                    }
+                  ).add(() => {
+                    this.utilService.loading = false;
+                    window.location.reload();
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Contraseña incorrecta'
+                  });
+                }
+              }
+            }
+          );
+        } else if(res.dismiss){
+            Swal.fire('Etapa internacional cancelada', '', 'info')
+        }
+      }, 
+      err => {
+        console.log(err);
+      }
+    );
+      console.log(this.internacional + ' internacional');
   }
 
   subirFechasJ(){

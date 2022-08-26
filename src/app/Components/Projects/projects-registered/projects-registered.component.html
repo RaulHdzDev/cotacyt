@@ -42,6 +42,9 @@
             </td>
         </tr>
     </table>
+    <div class="row justify-content-center align-items-center" *ngIf="proyectosTabla.length == 0">
+      <span class="text-center mt-2 mb-4" style="font-size: 30px; font-weight: bold;">No hay datos en la tabla</span>
+    </div>
     <div class="paginator">
         <div class="col-12 d-flex justify-content-center align-items-center">
             <button (click)="previousPage()" class="btn btn-primary"><</button>
@@ -54,7 +57,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="row justify-content-center">
+                    <div class="text-center">
                         <h4>¿Desea eliminar <span *ngIf="proyectoActual" class="text-name-remove">{{proyectoActual.nombre}}</span>?</h4>
                     </div>
                     <div class="row justify-content-center mt-3">
@@ -73,27 +76,27 @@
                 <label for="">Nombre:</label>
                 <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre del proyecto">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="">Asesor:</label>
                 <select formControlName="id_asesores" class="form-control">
                     <option [value]="asesor.id_asesores" *ngFor="let asesor of asesores">{{asesor.nombre + ' ' + asesor.ape_pat + ' ' + asesor.ape_mat}}</option>
                 </select>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="">Sede:</label>
-                <select #sd  formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
+                <select #sd  formControlName="sede" class="form-control" [attr.disabled]="superUser ? 'disabled':null">
                     <option [value]="sede.sede" *ngFor="let sede of sedes">{{sede.sede}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="">Area:</label>
-                <select formControlName="id_areas" class="form-control">
+                <select formControlName="areas" class="form-control">
                     <option [value]="area.area" *ngFor="let area of areas">{{area.area}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="">Categoria:</label>
-                <select formControlName="id_categorias" class="form-control">
+                <select formControlName="categorias" class="form-control">
                     <option [value]="categoria.categoria" *ngFor="let categoria of categorias">{{categoria.categoria}}</option>
                 </select>
             </div>

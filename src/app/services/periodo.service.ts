@@ -16,6 +16,9 @@ export class PeriodoService {
   getStatus():Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/estatal/status');
   }
+  getStatusInternacional():Observable<any> {
+    return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/internacional/status');
+  }
   uploadFechas(inicio: string, fin: string):Observable<any> {
     const body = {
       fecha_inicio: inicio,

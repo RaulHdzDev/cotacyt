@@ -14,4 +14,8 @@ export class EstadisticasService {
   getEstadisticas(): Observable<any> {
     return this.http.get<any>(this.servicesConfig.APP_ENDPOINT + 'api/dashboard/proyectos-por-sede');
   }
+  // apis enlace al otro sistema
+  getEstadisticasProyectosPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/sede`);
+  }
 }

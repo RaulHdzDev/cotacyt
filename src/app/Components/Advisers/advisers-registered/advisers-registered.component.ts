@@ -79,6 +79,7 @@ export class AdvisersRegisteredComponent implements OnInit {
         this.sedes = data.sedes;
       }
     ).add(() => {
+      this.asesoresTabla = [];
       for (let i = 0; i < this.rowPerPage; i++) {
         if (this.asesores[i]) {
           this.asesoresTabla.push(this.asesores[i]);
@@ -92,11 +93,11 @@ export class AdvisersRegisteredComponent implements OnInit {
   }
   deleteAsesor() {
     this.utilService._loading = true;
-    this.asesoresService.deleteAsesor(this.asesorActual.id_asesores)
+    this.asesoresService.delete(this.asesorActual.id_asesores)
       .subscribe(data => {
         Swal.fire({
-          title: 'Se elimino correctamente',
-          icon: 'success'
+          title: data.msg,
+          icon: data.error ? 'error' : 'success'
         });
       },
         err => {
@@ -131,12 +132,12 @@ export class AdvisersRegisteredComponent implements OnInit {
   }
   editarAsesor() {
     this.utilService._loading = true;
-    this.asesoresService.updateAsesor(this.formAsesores.value)
+    this.asesoresService.update(this.formAsesores.value)
       .subscribe(
         data => {
           Swal.fire({
-            title: data,
-            icon: 'success'
+            title: data.msg,
+            icon: data.error ? 'error' : 'success'
           });
           this.ngOnInit();
           this.formAsesores.reset({

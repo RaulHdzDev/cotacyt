@@ -176,6 +176,8 @@
                                             <button class="btn btn-primary" (click)="descargarLista()">Descargar lista de calificaciones</button>
                                         </span>
                                     </div>
+
+                                                
                                     <div class="row justify-content-center">
                                         <table class="table table-lg table-hover" *ngIf="proyectosCalificacion">
                                             <thead class="background-table-projects">
@@ -184,7 +186,13 @@
                                                     <th>Calificación</th>
                                                 </tr>
                                             </thead>
-                                            <tr class="table" *ngFor="let proyecto of proyectosCalificacion;let i = index">
+                                         
+                                                    <div class="row d-flex justify-content-center align-items-center" *ngIf="active" style="margin-top: 10px;">
+                                                        <span style="margin-left: 80px;"><h4>No hay proyectos</h4></span>
+                                                    </div>
+                                               
+                                        
+                                               <tr class="table" *ngFor="let proyecto of proyectosCalificacion;let i = index">
                                                 <td>
                                                     <div class="row">
                                                         <span class="badge badge-position mr-3"> {{i+1}} </span> {{ proyecto.nombre}}

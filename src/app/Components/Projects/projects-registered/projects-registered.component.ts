@@ -67,10 +67,10 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
     this.utilService.loading = true;
     this.formProyecto = this.formBuilder.group({
       id_proyectos: [''],
-      id_asesores: ['', [Validators.required]],
-      id_areas: ['', [Validators.required]],
-      id_sedes: this.sessionData.id_sedes,
-      id_categorias: ['', [Validators.required]],
+      // id_asesores: ['', [Validators.required]],
+      areas: ['', [Validators.required]],
+      sede: this.sessionData.id_sedes,
+      categorias: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
     });
@@ -103,6 +103,7 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
       },
       err => console.log(err)
     ).add(() => {
+      this.proyectosTabla = [];
       for (let i = 0; i < this.rowPerPage; i++) {
         if (this.proyectos[i]) {
           this.proyectosTabla.push(this.proyectos[i]);
@@ -123,11 +124,11 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
   }
   deleteProyectRegistred() {
     this.utilService.loading = true;
-    this.projectsService.deleteProyectsRegistred(this.proyectoActual.id_proyectos)
+    this.projectsService.delete(this.proyectoActual.id_proyectos.toString())
       .subscribe(data => {
         Swal.fire({
-          title: 'Se elimino correctamente',
-          icon: 'success'
+          title: data.msg,
+          icon: data.error ? 'error' : 'success'
         });
         this.ngOnInit();
       },
@@ -144,35 +145,36 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
   }
   openSwal(proyecto: any) {
     this.superUser
-    ? this.formProyecto.patchValue({
-      id_proyectos: proyecto.id_proyectos,
-      id_asesores: proyecto.id_asesores,
-      id_areas: proyecto.areas,
-      id_sedes: this.sessionData.sede,
-      id_categorias: proyecto.categorias,
-      nombre: proyecto.nombre,
-      descripcion: proyecto.resumen,
-    })
-    : this.formProyecto.patchValue({
-      id_proyectos: proyecto.id_proyectos,
-      id_asesores: proyecto.id_asesores,
-      id_areas: proyecto.areas,
-      id_sedes: proyecto.sede,
-      id_categorias: proyecto.categorias,
-      nombre: proyecto.nombre,
-      descripcion: proyecto.resumen,
-    });
+      ? this.formProyecto.patchValue({
+        id_proyectos: proyecto.id_proyectos,
+        // id_asesores: proyecto.id_asesores,
+        areas: proyecto.areas,
+        sede: this.sessionData.sede,
+        categorias: proyecto.categorias,
+        nombre: proyecto.nombre,
+        descripcion: proyecto.resumen,
+      })
+      : this.formProyecto.patchValue({
+        id_proyectos: proyecto.id_proyectos,
+        // id_asesores: proyecto.id_asesores,
+        areas: proyecto.areas,
+        sede: proyecto.sede,
+        categorias: proyecto.categorias,
+        nombre: proyecto.nombre,
+        descripcion: proyecto.resumen,
+      });
     this.swalEdit.fire();
   }
   editarProyecto() {
     this.utilService._loading = true;
-    this.projectsService.updateProyect(this.formProyecto.value)
+    this.projectsService.update(this.formProyecto.value)
       .subscribe(data => {
         Swal.fire({
-          icon: 'success',
-          title: data,
+          icon: data.error ? 'error' : 'success',
+          title: data.msg,
+        }).then(() => {
+          this.ngOnInit();
         });
-        this.ngOnInit();
       }, err => {
         console.log(err);
         Swal.fire({

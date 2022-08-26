@@ -27,7 +27,7 @@ import swal from 'sweetalert2';
 export class JudgesComponent implements OnInit {
 
   @ViewChild('swalid') private swalEdit: SwalComponent;
-  jueces: JudgesRegistered[];
+  jueces: Array<JudgesRegistered> = [];
   juecesFiltro: JudgesRegistered[];
   juezActual: JudgesRegistered;
   sedes: Sedes[];
@@ -39,8 +39,11 @@ export class JudgesComponent implements OnInit {
   settingsProyectosViejos: IDropdownSettings;
   settingsProyectosNuevos: IDropdownSettings;
   superUser: boolean;
-  categoriaActual = '1';
-  sedeActual = '1';
+  categoriaActual = 'petit';
+  sedeActual = 'el mante';
+  juecesTabla: JudgesRegistered[] = [];
+  rowPerPage = 10;
+  currentPage = 1;
   constructor(
     private judgesService: JudgesRegisteredService,
     private utilService: UtilService,
@@ -84,8 +87,8 @@ export class JudgesComponent implements OnInit {
     };
     this.settingsProyectosNuevos = {
       singleSelection: false,
-      idField: 'id_proyectos',
-      textField: 'nombre',
+      idField: 'id',
+      textField: 'titulo',
       allowSearchFilter: true,
       selectAllText: 'Seleccionar todo',
       noDataAvailablePlaceholderText: 'No hay proyectos',
@@ -108,6 +111,12 @@ export class JudgesComponent implements OnInit {
           console.log(err);
         }
       ).add(() => {
+        this.juecesTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.jueces[i]) {
+            this.juecesTabla.push(this.jueces[i]);
+          }
+        }
         this.utilService.loading = false;
       });
     } else {
@@ -123,6 +132,12 @@ export class JudgesComponent implements OnInit {
           console.log(err);
         }
       ).add(() => {
+        this.juecesTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.jueces[i]) {
+            this.juecesTabla.push(this.jueces[i]);
+          }
+        }
         this.utilService.loading = false;
       });
     }
@@ -155,17 +170,17 @@ export class JudgesComponent implements OnInit {
     this.utilService._loading = true;
     forkJoin({
       proyectos: this.superUser
-        ? this.proyectosService.obtenerTodosLosProyectosCategoria(this.juezActual.id_categorias)
-        : this.proyectosService.obtenerProyectosSuperUser(this.juezActual.id_categorias),
+        ? this.proyectosService.getProjectsCatSede(this.juezActual.sede, this.juezActual.categoria)
+        : this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.juezActual.categoria),
       proyectosViejos: this.proyectosService.obtenerProyectosSelect(this.juezActual.id_jueces)
     }).subscribe(
       data => {
-        this.proyectos = data.proyectos;
-        for (let index = 0; index < data.proyectos.length; index++) {
+        this.proyectos = data.proyectos.data;
+        for (let index = 0; index < data.proyectos.data.length; index++) {
           for (const i of Object.keys(data.proyectosViejos)) {
-            if (data.proyectosViejos[i].id_proyectos === data.proyectos[index].id_proyectos) {
-              console.log('se elimino', data.proyectos[index].id_proyectos);
-              this.proyectos.splice(this.proyectos.indexOf(data.proyectos[index]), 1);
+            if (data.proyectosViejos[i].id_proyectos === data.proyectos[index].data.id_proyectos) {
+              console.log('se elimino', data.proyectos[index].data.id_proyectos);
+              this.proyectos.splice(this.proyectos.indexOf(data.proyectos[index].data), 1);
               index--;
               break;
             }
@@ -210,6 +225,31 @@ export class JudgesComponent implements OnInit {
     this.proyectosViejos = [];
     this.proyectos = [];
   }
+  nextPage(): void {
+    const total = Math.round(this.jueces.length / this.rowPerPage) < (this.jueces.length / this.rowPerPage)
+      ? Math.round(this.jueces.length / this.rowPerPage) + 1
+      : Math.round(this.jueces.length / this.rowPerPage);
+    if (this.currentPage < total) {
+      this.juecesTabla = [];
+      for (let i = this.currentPage * this.rowPerPage; i < this.jueces.length; i++) {
+        if (i <= (this.currentPage * this.rowPerPage) + this.rowPerPage) {
+          this.juecesTabla.push(this.jueces[i]);
+        }
+      }
+      this.currentPage++;
+    }
+  }
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.juecesTabla = [];
+      this.currentPage--;
+      for (let i = (this.currentPage * this.rowPerPage) - this.rowPerPage; i < this.jueces.length; i++) {
+        if (i <= ((this.currentPage * this.rowPerPage) + this.rowPerPage) - this.rowPerPage) {
+          this.juecesTabla.push(this.jueces[i]);
+        }
+      }
+    }
+  }
   editarJuez() {
     this.utilService._loading = true;
     this.judgesService.updateJudge(this.formJuez.value)
@@ -243,7 +283,7 @@ export class JudgesComponent implements OnInit {
   }
   dropProyectoNuevo(item) {
     this.proyectosNuevos.map((res, index) => {
-      if (res.id_proyectos === item.id_proyectos) {
+      if (res.id_proyectos === item.id) {
         this.proyectosNuevos.splice(index, 1);
       }
     });
@@ -251,26 +291,70 @@ export class JudgesComponent implements OnInit {
   addProyectoNuevo(item) {
     this.proyectosNuevos.push(item);
   }
-  onChangeSedeActual(value) {
+  onChangesedeActual(value) {
     this.utilService._loading = true;
-    this.sedeActual = value;
-    this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActual, value)
+    switch (value) {
+      case '1':
+        this.sedeActual = 'el mante';
+        break;
+      case '2':
+        this.sedeActual = 'reynosa';
+        break;
+      case '3':
+        this.sedeActual = 'matamoros';
+        break;
+      case '4':
+        this.sedeActual = 'madero';
+        break;
+      case '5':
+        this.sedeActual = 'nuevo laredo';
+        break;
+      case '6':
+        this.sedeActual = 'victoria';
+        break;
+      case '7':
+        this.sedeActual = 'estatal';
+        break;
+      case '8':
+        this.sedeActual = 'internacional';
+        break;
+    }
+    this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
       .subscribe(data => {
-        this.proyectos = data;
+        this.proyectos = data.data;
       }).add(() => this.utilService._loading = false);
   }
-  onChangeCategoriaActual(value) {
+  onChangecategoriaActual(value) {
     this.utilService._loading = true;
-    this.categoriaActual = value;
+    switch (value) {
+      case '1':
+        this.categoriaActual = 'petit';
+        break;
+      case '2':
+        this.categoriaActual = 'kids';
+        break;
+      case '3':
+        this.categoriaActual = 'juvenil';
+        break;
+      case '4':
+        this.categoriaActual = 'Media superior';
+        break;
+      case '5':
+        this.categoriaActual = 'superior';
+        break;
+      case '6':
+        this.categoriaActual = 'posgrado';
+        break;
+    }
     if (this.sessionData.rol === 'superuser') {
-      this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
+      this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
         .subscribe(data => {
-          this.proyectos = data;
+          this.proyectos = data.data;
         }).add(() => this.utilService._loading = false);
     } else {
-      this.proyectosService.obtenerTodosLosProyectosCategoria(value)
+      this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.categoriaActual)
         .subscribe(data => {
-          this.proyectos = data;
+          this.proyectos = data.data;
         }).add(() => this.utilService._loading = false);
     }
   }
@@ -290,18 +374,26 @@ export class JudgesComponent implements OnInit {
         return 6;
     }
   }
-  onChangeSedeActualFiltro(idSede: string) {
-    if (idSede !== 'todo') {
+  onChangeSedeActualFiltro(value: string) {
+    this.jueces = this.juecesFiltro;
+    if (value !== 'todo') {
       const juecesTemp: JudgesRegistered[] = [];
-      this.juecesFiltro.forEach((value, _) => {
-        if (value.id_sedes === idSede) {
-          juecesTemp.push(value);
+      this.jueces.forEach((autor, _) => {
+        if (autor.sede.toLowerCase() === value.toLowerCase()) {
+          juecesTemp.push(autor);
         }
       });
       this.jueces = juecesTemp;
     } else {
       this.jueces = this.juecesFiltro;
     }
+    this.juecesTabla = [];
+    for (let i = 0; i < this.rowPerPage; i++) {
+      if (this.jueces[i]) {
+        this.juecesTabla.push(this.jueces[i]);
+      }
+    }
+    this.currentPage = 1;
   }
 }
 

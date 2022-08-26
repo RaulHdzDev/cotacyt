@@ -121,5 +121,24 @@ export class ProyectosService {
     return this.http.get<ProyectSelect[]>(this.servicesConfig.APP_ENDPOINT
       + 'api/proyectos/all/per-judge?id_jueces=' + idJueces );
   }
+  // apis para enlazar las dos aplicaciones
+  getProjectsCatSede(sede: string, cat: string): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/proyectos/${sede}/${cat}`);
+  }
+  getProjectsCat(cat: string): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/proyectos/${this.sessionData.sede}/${cat}`);
+  }
+  getEstadisticasAsesoresPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/asesores/sede`);
+  }
+  getEstadisticasProyectosPorCategoria(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/categoria`);
+  }
+  getEstadisticasParticipantesPorSede(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/participantes/sede`);
+  }
+  getEstadisticasParticipantesPorCategoria(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/participantes/categoria`);
+  }
 }
 

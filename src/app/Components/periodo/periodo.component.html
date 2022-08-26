@@ -47,6 +47,21 @@
             </div>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <div *ngIf="!internacional" class="alert alert-warning text-center mb-1" role="alert">
+                ACTIVAR ETAPA INTERNACIONAL
+            </div>
+            <div *ngIf="internacional" class="alert alert-success text-center mb-1" role="alert">
+                ETAPA INTERNACIONAL INICIADA
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <button class="btn btn-outline-primary" (click)="iniciarInternacional()" [disabled]="internacional">INICIAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row mt-4 mb-5">
         <div class="col-12">
             <div class="card">
