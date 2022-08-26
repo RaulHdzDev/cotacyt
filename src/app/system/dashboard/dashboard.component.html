@@ -197,7 +197,7 @@
                     <!-- colum derecha -->
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <!-- card grafica -->
-                        <div class="card">
+                        <div class="card" *ngIf="!admingral">
                             <div class="card-header background-table">
                                 <h6>Proyectos por categorias</h6>
                             </div>
@@ -206,6 +206,49 @@
                                     <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [colors]="barChartColors" [chartType]="barChartType">
                                     </canvas>
                                 </div>
+
+                            </div>
+                        </div>
+                        <div class="card" *ngIf="!enlace">
+                            <div class="card-header background-table">
+                                <h6>Estatus Jueces</h6>
+                            </div>
+                            <div class="qualified-projects card-body p-0">
+                                <table class="table">
+                                    <thead class="thead-ligth">
+                                        <tr>
+                                            <th scope="col"> Usuario </th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Proyecto</th>
+                                            <th scope="col"> Calificado </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr *ngFor="let proyectos of estadisticasDeProyectos | sort: 'proyectos.totales'">
+                                            <td>{{proyectos.nombre}}</td>
+                                            <td>
+                                                <div class="progress mb-3" style="height:20px;">
+                                                    <div class="progress-bar bg-custom" role="progressbar" [ngStyle]="getPercent(proyectos.total)"></div>
+                                                </div>
+                                            </td>
+                                            <td>{{proyectos.total | number}}%</td>
+                                        </tr> -->
+                                    
+
+                                    <tr *ngFor="let finalizados of final">
+                                        <td> {{finalizados.usuario}} </td>
+                                        <td> {{finalizados.nombre}} </td>
+                                        <td> {{finalizados['titulo_proyecto']}} </td>
+                                        <div class="d-flex justify-content-center align-items-center" *ngIf="finalizados.termino == '1'">
+                                            <td style="color: rgb(0, 224, 0); font-size: 20px;"> <span><i class="fas fa-check"></i></span> </td>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center"  *ngIf="finalizados.termino == '0'">
+                                            <td style="color: rgb(214, 0, 0); font-size: 20px;"> <span><i class="fas fa-times"></i></span> </td>
+                                        </div>
+                                        
+                                    </tr>
+                                    </tbody>
+                                </table>
 
                             </div>
                         </div>
