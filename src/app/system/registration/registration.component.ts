@@ -86,8 +86,8 @@ export class RegistrationComponent implements OnInit {
         // Settings para proyecto
         this.dropdownSettingsProyecto = {
           singleSelection: false,
-          idField: 'id',
-          textField: 'titulo',
+          idField: 'id_proyectos',
+          textField: 'nombre',
           allowSearchFilter: true,
           noDataAvailablePlaceholderText: 'No hay proyectos',
           searchPlaceholderText: 'Buscar',
@@ -109,8 +109,8 @@ export class RegistrationComponent implements OnInit {
         // Settings para proyecto
         this.dropdownSettingsProyecto = {
           singleSelection: false,
-          idField: 'id',
-          textField: 'titulo',
+          idField: 'id_proyectos',
+          textField: 'nombre',
           allowSearchFilter: true,
           noDataAvailablePlaceholderText: 'No hay proyectos',
           searchPlaceholderText: 'Buscar',

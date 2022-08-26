@@ -736,29 +736,29 @@ export class ProjectsComponent implements OnInit {
 
 
 
-  mostrarInfoTodosLosProyectos(proyecto: ProjectRegistered) {
-    this.utilService._loading = true;
-    if (this.sessionData.rol === 'admin') {
-      this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilService._loading = false;
-      });
-    } else {
-      this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilService._loading = false;
-      });
-    }
-    this.swalInformacion.fire();
-  }
+  // mostrarInfoTodosLosProyectos(proyecto: ProjectRegistered) {
+  //   this.utilService._loading = true;
+  //   if (this.sessionData.rol === 'admin') {
+  //     this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilService._loading = false;
+  //     });
+  //   } else {
+  //     this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilService._loading = false;
+  //     });
+  //   }
+  //   this.swalInformacion.fire();
+  // }
 
   updateValidationProjects() {
     this.projectsJudges.updateEvaluation(this.sessionData.id_jueces).subscribe(
