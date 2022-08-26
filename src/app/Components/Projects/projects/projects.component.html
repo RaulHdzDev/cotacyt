@@ -1,5 +1,5 @@
 <!-- swal tabla informacion -->
-<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
+<!-- <swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
     <div *swalPortal>
         <div>
             <table class="table table-light" *ngFor="let info of informacionDeLosProyectos">
@@ -72,7 +72,7 @@
             </table>
         </div>
     </div>
-</swal>
+</swal> -->
 <!-- swal reproductor de video -->
 <!-- <swal class="swal-wide " #swalid2 title="Demostración del proyecto" [swalOptions]="{customClass: 'clase'}">
     <div *swalPortal>
@@ -111,18 +111,18 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let i of allProjects">
-                                <td> <button class="btn btn-subboton-info mr-3" (click)="mostrarInfoTodosLosProyectos(i)">
+                                <td>
+                                  <!-- <button class="btn btn-subboton-info mr-3" (click)="mostrarInfoTodosLosProyectos(i)">
                                     <i class="fas fa-question-circle"></i>
-                                </button>{{i.nombre}}
+                                </button> -->
+                                {{i.nombre}}
                                 </td>
                                 <td>
                                     <div *ngIf="i.status == '0'" class="custom-btn-danger text-center">Sin calificar</div>
                                     <div *ngIf="i.status == '1'" class="custom-btn-success text-center">Calificado</div>
                                 </td>
                                 <td>
-                                    <button class="btn-edit-project btn-see-projects btn mr-1 mb-1" (click)="traerProyecto(i.id_proyectos)"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-edit-project btn-see-projects btn" (click)="pdf(i.pdf)"><i class="fas fa-file-pdf"></i></button>
-                                    <button class="btn-edit-project btn-see-projects btn" (click)="abrirReproductor($event, i.video)"><i class="fas fa-video"></i></button>
+                                    <button class="btn-edit-project btn-see-projects btn mr-1 mb-1" (click)="traerProyecto(i.id_proyectos)">Calificar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -148,7 +148,9 @@
                             <tr>
                                 <td class="text-center">{{proyectoActual.nombre}}</td>
                                 <td class="text-center">
-                                    <button class="custom-btn-success" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Calificar</button>
+                                    <button class="custom-btn-success mr-2" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Calificar</button>
+                                    <button class="btn-edit-project btn-see-projects btn mr-2 mb-2" (click)="pdf(proyectoActual.pdf)"><i class="fas fa-file-pdf"></i></button>
+                                    <button class="btn-edit-project btn-see-projects btn mb-2" (click)="abrirReproductor($event, proyectoActual.video)"><i class="fas fa-video"></i></button>
                                 </td>
                             </tr>
                         </tbody>

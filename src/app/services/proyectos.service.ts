@@ -43,10 +43,12 @@ export class ProyectosService {
     console.log(idProyectos);
     return this.http.put(this.servicesConfig.APP_ENDPOINT + 'api/proyectos/modificar-status', {id_proyectos: idProyectos});
   }
-  setProyectoCalificado(idProyectos: string, idCategorias): Observable<any> {
+  setProyectoCalificado(proyecto: any): Observable<any> {
     const body = {
-      id_proyectos: idProyectos,
-      id_categorias: idCategorias,
+      id_proyectos: proyecto.id_proyectos,
+      titulo_proyecto: proyecto.nombre,
+      sede: proyecto.sede,
+      categoria: proyecto.categorias,
       id_jueces: this.sessionData.id_jueces
     };
     return this.http.post(this.servicesConfig.APP_ENDPOINT + 'api/proyectos-calificados/nuevo', body);
@@ -139,6 +141,9 @@ export class ProyectosService {
   }
   getEstadisticasParticipantesPorCategoria(): Observable<any> {
     return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/participantes/categoria`);
+  }
+  getProject(id: string): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/proyecto/${id}`);
   }
 }
 

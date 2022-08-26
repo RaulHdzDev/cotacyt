@@ -1,80 +1,4 @@
 <!-- swal tabla informacion -->
-<!-- <swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
-    <div *swalPortal>
-        <div>
-            <table *ngFor="let info of informacionDeLosProyectos" class="table table-light">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Nombre:
-                            </div>
-                        </th>
-                        <td>{{info.nombre}}</td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Autores:
-                            </div>
-                        </th>
-                        <td>{{info.autores}}</td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Asesores:
-                            </div>
-                        </th>
-                        <td>{{info.asesor}} </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Area:
-                            </div>
-                        </th>
-                        <td> {{info.area}} </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Categoria:
-                            </div>
-                        </th>
-                        <td> {{info.categorias}} </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Sede:
-                            </div>
-                        </th>
-                        <td> {{info.sede}} </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Resumen:
-                            </div>
-                        </th>
-                        <td> {{info.resumen}} </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <div class="row">
-                                Calificación:
-                            </div>
-                        </th>
-                        <td> {{info.calificacion | number:'1.0-0'}} </td>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-</swal> -->
-
-
 
 <!-- container -->
 <div class="container-fluid">
@@ -85,14 +9,14 @@
                 <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
 
                     <p class="text-center custom-text">Proyectos</p>
-                    <h1 class="text-h1">{{totales['proyectos']}}</h1>
+                    <h1 class="text-h1">{{totales2.proyectos}}</h1>
 
                 </div>
 
                 <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
 
                     <p class="text-center custom-text">Participantes</p>
-                    <h1 class="text-h1 ">{{totales['autores']}}</h1>
+                    <h1 class="text-h1 ">{{totales2.participantes}}</h1>
 
                 </div>
 
@@ -169,7 +93,7 @@
                                                 <option *ngFor="let sede of sedes" [value]="sede.id_sedes">{{sede.sede}}</option>
                                             </select>
 
-                                            
+
                                     </div>
                                     <div class="row justify-content-center mb-2">
                                         <span>
@@ -177,7 +101,7 @@
                                         </span>
                                     </div>
 
-                                                
+
                                     <div class="row justify-content-center">
                                         <table class="table table-lg table-hover" *ngIf="proyectosCalificacion">
                                             <thead class="background-table-projects">
@@ -186,12 +110,12 @@
                                                     <th>Calificación</th>
                                                 </tr>
                                             </thead>
-                                         
+
                                                     <div class="row d-flex justify-content-center align-items-center" *ngIf="active" style="margin-top: 10px;">
                                                         <span style="margin-left: 80px;"><h4>No hay proyectos</h4></span>
                                                     </div>
-                                               
-                                        
+
+
                                                <tr class="table" *ngFor="let proyecto of proyectosCalificacion;let i = index">
                                                 <td>
                                                     <div class="row">
@@ -209,7 +133,7 @@
 
 
 
-                        <div class="card m-0">
+                        <div class="card m-0" *ngIf="!juez">
                             <div class="card-header background-table">
                                 <h6>Proyectos calificados</h6>
                             </div>
@@ -230,7 +154,7 @@
                             </div>
                         </div>
                         <br>
-                        <div class="card ">
+                        <div class="card " *ngIf="!juez">
                             <div class="card-header background-table">
                                 <h6>Proyectos por calificar</h6>
                             </div>

@@ -4,7 +4,10 @@ export interface Totales {
     jueces: string;
     categorias: string;
 }
-
+export interface Totales2 {
+    proyectos: string;
+    participantes: string;
+  }
 export interface ProyectosCalificados {
     fecha: string;
     id_proyectos: string;
