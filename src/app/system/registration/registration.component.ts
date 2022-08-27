@@ -197,6 +197,7 @@ export class RegistrationComponent implements OnInit {
     this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActua)
       .subscribe(data => {
         this.proyectos = data.data;
+        console.log(this.proyectos)
       }).add(() => this.utilService._loading = false);
   }
   onChangecategoriaActual(value) {

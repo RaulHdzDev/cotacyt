@@ -280,6 +280,7 @@ export class DashboardComponent implements OnInit {
       .add(() => this.utilsService.loading = false);
   }
   onChangeCategoria(value) {
+    this.utilsService._loading = true;
     this.categoriaActual = value;
     this.superUser
       ? this.calificacionesService.listaDeCalificacionesAdmin(value, this.sedeActual)
@@ -301,7 +302,7 @@ export class DashboardComponent implements OnInit {
     const posgrado = data.posgrado;
 
     switch (value) {
-      case '1':
+      case 'petit':
         this.proyectosCalificacion = petit;
         // this.imprimir(this.proyectosCalificacion, 'petit');
         console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
@@ -309,31 +310,31 @@ export class DashboardComponent implements OnInit {
         }));
         this.ocultarTexto(this.proyectosCalificacion);
         break;
-      case '2':
+      case 'kids':
         this.proyectosCalificacion = kids;
         // this.imprimir(this.proyectosCalificacion, 'kids');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
 
-      case '3':
+      case 'juvenil':
         this.proyectosCalificacion = juvenil;
         // this.imprimir(this.proyectosCalificacion, 'juvenil');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
 
-      case '4':
+      case 'media superior':
         this.proyectosCalificacion = mediaSuperior;
         // this.imprimir(this.proyectosCalificacion, 'media-superior');
         this.ocultarTexto(this.proyectosCalificacion);
 
         break;
-      case '5':
+      case 'superior':
         this.proyectosCalificacion = superior;
         // this.imprimir(this.proyectosCalificacion, 'superior');
         this.ocultarTexto(this.proyectosCalificacion);
         break;
 
-      case '6':
+      case 'posgrado':
         this.proyectosCalificacion = posgrado;
         // this.imprimir(this.proyectosCalificacion, 'posgrado');
         this.ocultarTexto(this.proyectosCalificacion);

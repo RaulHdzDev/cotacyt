@@ -81,16 +81,16 @@
 
                                             <select #sc (change)="onChangeCategoria(sc.value)" class="custom-select">
                                                 <option selected disabled>Selecciona una categoria</option>
-                                                <option value="1" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
-                                                <option value="2" *ngIf="sessionData.id_sedes!=='9'">Kids</option>
-                                                <option value="3" *ngIf="sessionData.id_sedes!=='9'">Juvenil</option>
-                                                <option value="4">Media superior</option>
-                                                <option value="5">Superior</option>
-                                                <option value="6"*ngIf="sessionData.id_sedes!=='9'">Posgrado</option>
+                                                <option value="petit" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
+                                                <option value="kids" *ngIf="sessionData.id_sedes!=='9'">Kids</option>
+                                                <option value="juvenil" *ngIf="sessionData.id_sedes!=='9'">Juvenil</option>
+                                                <option value="media superior">Media superior</option>
+                                                <option value="superior">Superior</option>
+                                                <option value="posgrado"*ngIf="sessionData.id_sedes!=='9'">Posgrado</option>
                                             </select>
                                         <select *ngIf="superUser" #sd (change)="onChangeSede(sd.value)" class="custom-select mt-2">
                                                 <option selected disabled>Selecciona una sede</option>
-                                                <option *ngFor="let sede of sedes" [value]="sede.id_sedes">{{sede.sede}}</option>
+                                                <option *ngFor="let sede of sedes" [value]="sede.sede">{{sede.sede}}</option>
                                             </select>
 
 

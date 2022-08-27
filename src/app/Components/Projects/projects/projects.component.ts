@@ -122,6 +122,7 @@ export class ProjectsComponent implements OnInit {
     this.proyectosService.getProject(idProyecto).subscribe(
       data => {
         this.proyectoActual = data.data;
+        console.log(data)
         this.proyectosService.getStatusProyecto(this.proyectoActual.id_proyectos)
           .subscribe((res) => {
             console.log(res)
