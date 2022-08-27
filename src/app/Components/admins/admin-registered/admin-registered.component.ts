@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Session } from '../../../models/session.model';
 import { forkJoin } from 'rxjs';
 import { CoordinadorService } from '../../../services/coordinador.service';
@@ -8,6 +8,9 @@ import { JudgesRegistered } from '../../../models/judges.model';
 import { Sedes } from '../../../models/sedes.model';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { ProyectosService } from 'src/app/services/proyectos.service';
+import { Proyectos } from 'src/app/models/proyectos.model';
 
 @Component({
   selector: 'app-admin-registered',
@@ -16,13 +19,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AdminRegisteredComponent implements OnInit {
 
-
+  @ViewChild('swalid') private swalEdit: SwalComponent;
   sessionData: Session;
   superUser: boolean;
   admins: Array<JudgesRegistered> = [];
   adminActual: JudgesRegistered;
   sedes: Sedes[];
   formAdmin: FormGroup;
+  proyectos: Proyectos[];
   adminsFiltro: JudgesRegistered[];
   categoriaActual = '1';
   sedeActual = '1';
@@ -33,6 +37,7 @@ export class AdminRegisteredComponent implements OnInit {
     private adminsService: CoordinadorService,
     private utilService: UtilService,
     private sedesService: SedesService,
+    private proyectosService: ProyectosService,
     private formBuilder: FormBuilder,
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
@@ -124,6 +129,130 @@ export class AdminRegisteredComponent implements OnInit {
           this.utilService._loading = false;
         });
   }
+
+  vaciarInfo() {
+    this.proyectos = [];
+  }
+
+  open(juez: JudgesRegistered) {
+    this.adminActual = juez;
+    this.superUser
+      ? this.formAdmin.patchValue({
+        id_jueces: this.adminActual.id_jueces,
+        usuario: this.adminActual.usuario,
+        contrasena: this.adminActual.contrasena,
+        nombre: this.adminActual.nombre,
+        id_sedes: this.sessionData.id_sedes,
+        id_categorias: this.adminActual.id_categorias
+      })
+      : this.formAdmin.patchValue({
+        id_jueces: this.adminActual.id_jueces,
+        usuario: this.adminActual.usuario,
+        contrasena: this.adminActual.contrasena,
+        nombre: this.adminActual.nombre,
+        id_sedes: this.adminActual.id_sedes,
+        id_categorias: this.adminActual.id_categorias
+      });
+    this.swalEdit.fire().then(
+      res => {
+        if (res.dismiss === Swal.DismissReason.backdrop) {
+          console.log('se vacio');
+          this.vaciarInfo();
+        }
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  onChangesedeActual(value) {
+    this.utilService._loading = true;
+    switch (value) {
+      case '1':
+        this.sedeActual = 'el mante';
+        break;
+      case '2':
+        this.sedeActual = 'reynosa';
+        break;
+      case '3':
+        this.sedeActual = 'matamoros';
+        break;
+      case '4':
+        this.sedeActual = 'madero';
+        break;
+      case '5':
+        this.sedeActual = 'nuevo laredo';
+        break;
+      case '6':
+        this.sedeActual = 'victoria';
+        break;
+      case '7':
+        this.sedeActual = 'estatal';
+        break;
+      case '8':
+        this.sedeActual = 'internacional';
+        break;
+    }
+    this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
+      .subscribe(data => {
+        this.proyectos = data.data;
+      }).add(() => this.utilService._loading = false);
+  }
+
+  onChangecategoriaActual(value) {
+    this.utilService._loading = true;
+    switch (value) {
+      case '1':
+        this.categoriaActual = 'petit';
+        break;
+      case '2':
+        this.categoriaActual = 'kids';
+        break;
+      case '3':
+        this.categoriaActual = 'juvenil';
+        break;
+      case '4':
+        this.categoriaActual = 'Media superior';
+        break;
+      case '5':
+        this.categoriaActual = 'superior';
+        break;
+      case '6':
+        this.categoriaActual = 'posgrado';
+        break;
+    }
+    if (this.sessionData.rol === 'superuser') {
+      this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
+        .subscribe(data => {
+          this.proyectos = data.data;
+        }).add(() => this.utilService._loading = false);
+    } else {
+      this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.categoriaActual)
+        .subscribe(data => {
+          this.proyectos = data.data;
+        }).add(() => this.utilService._loading = false);
+    }
+  }
+
+  verificarCat(categoria: string) {
+    switch (categoria) {
+      case 'petit':
+        return 1;
+      case 'kids':
+        return 2;
+      case 'juvenil':
+        return 3;
+      case 'media superior':
+        return 4;
+      case 'superior':
+        return 5;
+      case 'posgrado':
+        return 6;
+    }
+  }
+
+
   nextPage(): void {
     const total = Math.round(this.admins.length / this.rowPerPage) < (this.admins.length / this.rowPerPage)
       ? Math.round(this.admins.length / this.rowPerPage) + 1
