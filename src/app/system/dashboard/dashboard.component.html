@@ -153,6 +153,26 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="card m-0" *ngIf="juez">
+                            <div class="card-header background-table">
+                                <h6>Proyectos asignados</h6>
+                            </div>
+                            <div class="qualified-projects-principal card-body m-0 p-0">
+                                <ul class="list-group " *ngFor="let proyecto of proyectosPorCalificar">
+                                    <li class="d-flex list-group-item p-2">{{proyecto.nombre}}
+                                        <!-- <button class="ml-auto  btn btn-subboton-info" (click)="mostrarInfoCalificados(proyecto)">
+                                            <i class="fas fa-question-circle"></i>
+                                        </button> -->
+                                        <button class="ml-auto btn btn-subboton-video" (click)="abrirVideo($event, proyecto.id_proyectos)">
+                                            <i class="fas fa-play-circle"></i>
+                                        </button>
+                                        <button class="ml-1  btn btn-subboton-info" (click)="abrirPdf(proyecto.id_proyectos)">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <br>
                         <div class="card " *ngIf="!juez">
                             <div class="card-header background-table">
@@ -174,22 +194,6 @@
 
                                     </li>
                                 </ul>
-                                <!-- <table class="table table-hover table-sm">
-                                    <thead class="thead-ligth">
-                                        <tr>
-                                            <th scope="col">Proyecto</th>
-                                            <th scope="col">Opción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let proyecto of proyectosPorCalificar">
-                                            <td>{{proyecto.nombre}}<br><small>{{proyecto.resumen}}</small></td>
-                                            <td><button class="btn-see-projects btn btn-success">Calificar</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table> -->
-
-
                             </div>
                         </div>
                     </div>
@@ -233,7 +237,7 @@
                                             </td>
                                             <td>{{proyectos.total | number}}%</td>
                                         </tr> -->
-                                    
+
 
                                     <tr *ngFor="let finalizados of final">
                                         <td> {{finalizados.usuario}} </td>
@@ -245,7 +249,7 @@
                                         <div class="d-flex justify-content-center align-items-center"  *ngIf="finalizados.termino == '0'">
                                             <td style="color: rgb(214, 0, 0); font-size: 20px;"> <span><i class="fas fa-times"></i></span> </td>
                                         </div>
-                                        
+
                                     </tr>
                                     </tbody>
                                 </table>
@@ -254,7 +258,7 @@
                         </div>
                         <br>
                         <!-- card estadisticas -->
-                        <div class="card">
+                        <div class="card" *ngIf="!juez">
                             <div class="card-header background-table">
                                 <h6>Estadistica de proyectos</h6>
 

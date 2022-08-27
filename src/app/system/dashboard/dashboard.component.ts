@@ -194,9 +194,9 @@ export class DashboardComponent implements OnInit {
           this.estadisticasDeProyectos = data.estadisticas;
           this.construirGrafica(data.grafica.estadisticas);
           this.final = data.finalizado;
-          
+
           console.log(this.final);
-          
+
         },
         err => {
           console.log(err);
@@ -205,18 +205,19 @@ export class DashboardComponent implements OnInit {
       this.admingral = true;
       this.enlace = false;
     } else {
+      this.enlace = true;
       forkJoin({
         // proyectosCalificados: this.dashboardService.getProyectosCalificados(),
         totales: this.dashboardService.getTotales(),
         totales2: this.dashboardService.getTotalesProyectosParticipantesPorSede(),
-        // proyectosPorCalificar: this.dashboardService.getProyectosPorCalificar(),
+        proyectosPorCalificar: this.dashboardService.getProyectosPorCalificar(),
         // estadisticas: this.calificacionesService.proyectosEstadisticasJuez(),
         grafica: this.dashboardService.getEstadisticasProyectosPorCategoriaPorSede()
       }).subscribe(
         data => {
           this.totales2 = data.totales2.data;
           // this.proyectosCalificados = data.proyectosCalificados;
-          // this.proyectosPorCalificar = data.proyectosPorCalificar;
+          this.proyectosPorCalificar = data.proyectosPorCalificar;
           // this.estadisticasDeProyectos = data.estadisticas.estadisticas;
           this.construirGrafica(data.grafica.estadisticas);
           this.totales = data.totales;
@@ -415,6 +416,23 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  abrirVideo(evento: any, id: string) {
+    this.utilsService._loading = true;
+    this.dashboardService.getProject(id).subscribe(data => {
+      if (!data.error) {
+        window.open(data.data.video, '_blank');
+      }
+    }).add(() => this.utilsService._loading = false);
+  }
+
+  abrirPdf(id: string) {
+    this.utilsService._loading = true;
+    this.dashboardService.getProject(id).subscribe(data => {
+      if (!data.error) {
+        window.open('http://plataforma.cotacyt.gob.mx/expociencias/creatividad/' + data.data.pdf, '_blank');
+      }
+    }).add(() => this.utilsService._loading = false);
+  }
   abrirReproductor(evento: any, id) {
     window.open(id, '_blank');
   }
