@@ -13,6 +13,9 @@ export class PeriodoService {
   initEstatal(): Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/estatal/activar');
   }
+  initInternacional(): Observable<any> {
+    return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/internacional/activar');
+  }
   getStatus():Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/estatal/status');
   }

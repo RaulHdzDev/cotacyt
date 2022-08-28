@@ -18,6 +18,9 @@ import Swal from 'sweetalert2';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Session } from '../../../models/session.model';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+import { ExcelService } from 'src/app/services/excel.service';
+import { InfoExcel } from 'src/app/models/info-excel.model';
 
 
 @Component({
@@ -32,6 +35,8 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
   proyectosTabla: ProjectRegistered[] = [];
   proyectosFiltro: ProjectRegistered[] = [];
   proyectoActual: ProjectRegistered;
+  infoExcel: InfoExcel[];
+  proyectosExcel: InfoExcel[] = [];
   formProyecto: FormGroup;
   areas: Areas[];
   sedes: Sedes[];
@@ -55,10 +60,12 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
     public router: Router,
     private asesoresService: AsesoresService,
     private categoriasServices: CategoriasService,
-    private obtenerProyecto: ProyectosService
+    private obtenerProyecto: ProyectosService,
+    private excelService:ExcelService
   ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.proyectos = new Array<ProjectRegistered>();
+    this.infoExcel = new Array<InfoExcel>();
     this.areas = new Array<Areas>();
     this.sedes = new Array<Sedes>();
     this.lenght = 0;
@@ -88,6 +95,7 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         sedes: this.sedesService.getSedes(),
         categorias: this.categoriasServices.getAllCategrias(),
         asesores: this.asesoresService.getAllAsesores(),
+        infoExcel: this.excelService.getProjectsExcel(),
         proyectos: this.superUser
           ? this.projectsService.getAllProjectsSede()
           : this.projectsService.getAllProjects()
@@ -100,15 +108,25 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         this.asesores = data.asesores.asesores;
         this.proyectos = data.proyectos.proyectos;
         this.proyectosFiltro = data.proyectos.proyectos;
+        this.infoExcel = data.infoExcel.data;
+        console.log(data.infoExcel);
+        console.log(data.infoExcel.data);
       },
       err => console.log(err)
     ).add(() => {
       this.proyectosTabla = [];
+      this.proyectosExcel = [];
       for (let i = 0; i < this.rowPerPage; i++) {
         if (this.proyectos[i]) {
           this.proyectosTabla.push(this.proyectos[i]);
         }
       }
+      for (let i = 0; i < this.infoExcel.length; i++) {
+        if (this.infoExcel[i]) {
+          this.proyectosExcel.push(this.infoExcel[i]);
+        }
+      }
+      console.log(this.proyectosExcel);
       this.utilService._loading = false;
     });
   }
@@ -228,5 +246,16 @@ export class ProjectsRegisteredComponent implements OnInit, AfterViewInit {
         }
       }
     }
+  }
+
+  exportarExcel(): void {
+    // let element = document.getElementById('proyectos');
+    // const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    // const book: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
+
+    // XLSX.writeFile(book, "Proyectos.xlsx");
+    this.excelService.exportAsExcelFile(this.proyectosExcel, 'proyectos');
   }
 }

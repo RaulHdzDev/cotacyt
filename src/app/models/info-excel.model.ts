@@ -1,0 +1,33 @@
+export interface InfoExcel {
+    id_autores: string;
+    nombre: string;
+    ape_pat: string;
+    ape_mat: string;
+    domicilio: string;
+    curp: string;
+    rfc: string;
+    telefono: string;
+    email: string;
+    nivel_ingles: string;
+    escuela: string;
+    municipio: string;
+    localidad: string;
+    id_proyectos: string;
+    sede: string;
+    modalidad: string;
+    titulo: string;
+    resumen: string;
+    area: string;
+    categoria: string;
+    NombreAsesor: string;
+    ApellidoPAsesor: string;
+    ApellidoMAsesor: string;
+    DomicilioAsesor: string;
+    CiudadAsesor: string;
+    EstadoAsesor: string;
+    CURPAsesor: string;
+    RFCAsesor: string;
+    TelefonoAsesor: string;
+    CorreoAsesor: string;
+    DescripcionAsesor: string;
+}
