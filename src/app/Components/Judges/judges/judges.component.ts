@@ -87,8 +87,8 @@ export class JudgesComponent implements OnInit {
     };
     this.settingsProyectosNuevos = {
       singleSelection: false,
-      idField: 'id',
-      textField: 'titulo',
+      idField: 'id_proyectos',
+      textField: 'nombre',
       allowSearchFilter: true,
       selectAllText: 'Seleccionar todo',
       noDataAvailablePlaceholderText: 'No hay proyectos',
@@ -178,9 +178,9 @@ export class JudgesComponent implements OnInit {
         this.proyectos = data.proyectos.data;
         for (let index = 0; index < data.proyectos.data.length; index++) {
           for (const i of Object.keys(data.proyectosViejos)) {
-            if (data.proyectosViejos[i].id_proyectos === data.proyectos[index].data.id_proyectos) {
-              console.log('se elimino', data.proyectos[index].data.id_proyectos);
-              this.proyectos.splice(this.proyectos.indexOf(data.proyectos[index].data), 1);
+            if (data.proyectosViejos[i].id_proyectos === data.proyectos.data[index].id_proyectos) {
+              console.log('se elimino', data.proyectos.data[index].id_proyectos);
+              this.proyectos.splice(this.proyectos.indexOf(data.proyectos.data[index]), 1);
               index--;
               break;
             }

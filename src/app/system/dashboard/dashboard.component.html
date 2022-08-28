@@ -81,16 +81,16 @@
 
                                             <select #sc (change)="onChangeCategoria(sc.value)" class="custom-select">
                                                 <option selected disabled>Selecciona una categoria</option>
-                                                <option value="1" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
-                                                <option value="2" *ngIf="sessionData.id_sedes!=='9'">Kids</option>
-                                                <option value="3" *ngIf="sessionData.id_sedes!=='9'">Juvenil</option>
-                                                <option value="4">Media superior</option>
-                                                <option value="5">Superior</option>
-                                                <option value="6"*ngIf="sessionData.id_sedes!=='9'">Posgrado</option>
+                                                <option value="petit" *ngIf="sessionData.id_sedes!=='9'">Petit</option>
+                                                <option value="kids" *ngIf="sessionData.id_sedes!=='9'">Kids</option>
+                                                <option value="juvenil" *ngIf="sessionData.id_sedes!=='9'">Juvenil</option>
+                                                <option value="media superior">Media superior</option>
+                                                <option value="superior">Superior</option>
+                                                <option value="posgrado"*ngIf="sessionData.id_sedes!=='9'">Posgrado</option>
                                             </select>
                                         <select *ngIf="superUser" #sd (change)="onChangeSede(sd.value)" class="custom-select mt-2">
                                                 <option selected disabled>Selecciona una sede</option>
-                                                <option *ngFor="let sede of sedes" [value]="sede.id_sedes">{{sede.sede}}</option>
+                                                <option *ngFor="let sede of sedes" [value]="sede.sede">{{sede.sede}}</option>
                                             </select>
 
 
@@ -153,6 +153,26 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="card m-0" *ngIf="juez">
+                            <div class="card-header background-table">
+                                <h6>Proyectos asignados</h6>
+                            </div>
+                            <div class="qualified-projects-principal card-body m-0 p-0">
+                                <ul class="list-group " *ngFor="let proyecto of proyectosPorCalificar">
+                                    <li class="d-flex list-group-item p-2">{{proyecto.nombre}}
+                                        <!-- <button class="ml-auto  btn btn-subboton-info" (click)="mostrarInfoCalificados(proyecto)">
+                                            <i class="fas fa-question-circle"></i>
+                                        </button> -->
+                                        <button class="ml-auto btn btn-subboton-video" (click)="abrirVideo($event, proyecto.id_proyectos)">
+                                            <i class="fas fa-play-circle"></i>
+                                        </button>
+                                        <button class="ml-1  btn btn-subboton-info" (click)="abrirPdf(proyecto.id_proyectos)">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         <br>
                         <div class="card " *ngIf="!juez">
                             <div class="card-header background-table">
@@ -174,22 +194,6 @@
 
                                     </li>
                                 </ul>
-                                <!-- <table class="table table-hover table-sm">
-                                    <thead class="thead-ligth">
-                                        <tr>
-                                            <th scope="col">Proyecto</th>
-                                            <th scope="col">Opción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let proyecto of proyectosPorCalificar">
-                                            <td>{{proyecto.nombre}}<br><small>{{proyecto.resumen}}</small></td>
-                                            <td><button class="btn-see-projects btn btn-success">Calificar</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table> -->
-
-
                             </div>
                         </div>
                     </div>
@@ -197,7 +201,7 @@
                     <!-- colum derecha -->
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <!-- card grafica -->
-                        <div class="card">
+                        <div class="card" *ngIf="!admingral">
                             <div class="card-header background-table">
                                 <h6>Proyectos por categorias</h6>
                             </div>
@@ -209,9 +213,52 @@
 
                             </div>
                         </div>
+                        <div class="card" *ngIf="!enlace">
+                            <div class="card-header background-table">
+                                <h6>Estatus Jueces</h6>
+                            </div>
+                            <div class="qualified-projects card-body p-0">
+                                <table class="table">
+                                    <thead class="thead-ligth">
+                                        <tr>
+                                            <th scope="col"> Usuario </th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Proyecto</th>
+                                            <th scope="col"> Calificado </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr *ngFor="let proyectos of estadisticasDeProyectos | sort: 'proyectos.totales'">
+                                            <td>{{proyectos.nombre}}</td>
+                                            <td>
+                                                <div class="progress mb-3" style="height:20px;">
+                                                    <div class="progress-bar bg-custom" role="progressbar" [ngStyle]="getPercent(proyectos.total)"></div>
+                                                </div>
+                                            </td>
+                                            <td>{{proyectos.total | number}}%</td>
+                                        </tr> -->
+
+
+                                    <tr *ngFor="let finalizados of final">
+                                        <td> {{finalizados.usuario}} </td>
+                                        <td> {{finalizados.nombre}} </td>
+                                        <td> {{finalizados['titulo_proyecto']}} </td>
+                                        <div class="d-flex justify-content-center align-items-center" *ngIf="finalizados.termino == '1'">
+                                            <td style="color: rgb(0, 224, 0); font-size: 20px;"> <span><i class="fas fa-check"></i></span> </td>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center"  *ngIf="finalizados.termino == '0'">
+                                            <td style="color: rgb(214, 0, 0); font-size: 20px;"> <span><i class="fas fa-times"></i></span> </td>
+                                        </div>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
                         <br>
                         <!-- card estadisticas -->
-                        <div class="card">
+                        <div class="card" *ngIf="!juez">
                             <div class="card-header background-table">
                                 <h6>Estadistica de proyectos</h6>
 

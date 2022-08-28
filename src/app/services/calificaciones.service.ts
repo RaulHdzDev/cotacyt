@@ -38,13 +38,13 @@ export class CalificacionesService {
     // if (this.sessionData.id_sedes === '8') {
     //   return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
     //     + 'api/calificaciones-generales-por-sede-estatales');
-    // } else 
+    // } else
     if (this.sessionData.id_sedes === '9') {
       return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
         + 'api/calificaciones-generales-por-sede-internacionales');
     } else {
       return this.http.get<Calificaciones[]>(this.servicesConfig.APP_ENDPOINT
-        + 'api/calificaciones-generales-por-sede?id_sedes=' + this.sessionData.id_sedes);
+        + 'api/calificaciones-generales-por-sede?id_sedes=' + this.sessionData.sede);
     }
   }
   // obtener calificaciones por categorias
@@ -62,7 +62,7 @@ export class CalificacionesService {
       return this.http.get < CalificacionesPorCategoria[]>(
         this.servicesConfig.APP_ENDPOINT
         + 'api/calificaciones-generales-por-categoria?id_sedes='
-        + this.sessionData.id_sedes
+        + this.sessionData.sede
         + '&id_categorias=' + idCategoria);
     }
   }
