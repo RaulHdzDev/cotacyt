@@ -19,7 +19,7 @@ export class PeriodoComponent implements OnInit {
   formFechaProyectos: FormGroup;
   estatal: boolean;
   internacional: boolean;
-  status: any = 0;
+  status: boolean;
   statusInter: any = 0;
   valPass: any;
   constructor(
@@ -44,10 +44,11 @@ export class PeriodoComponent implements OnInit {
     this.periodoService.getStatus().subscribe(
       data => {
         this.status = data;
-        if(this.status == 0) {
+        console.log(data);
+        if(!this.status) {
           this.estatal = false;
         }
-        else if(this.status == 1){
+        else if(this.status){
           this.estatal = true;
         }
       }
@@ -92,17 +93,21 @@ export class PeriodoComponent implements OnInit {
               if(resultado.value){
                 let pass = resultado.value;
                 this.valPass = JSON.parse(localStorage.getItem('session'))
-                console.log(this.valPass.contrasena);
                 if(this.valPass.contrasena === resultado.value){
                   this.utilService.loading = true;
                   this.periodoService.initEstatal().subscribe(
                     data => {
-                      console.log(data.error);
+                      console.log(data);
+                      this.periodoService.saveEstatal(data).subscribe(
+                        dara => {
+                          console.log(dara);
+                        }
+                      ).add(() => {
+                        this.utilService.loading = false;
+                        window.location.reload();
+                      });
                     }
-                  ).add(() => {
-                    this.utilService.loading = false;
-                    window.location.reload();
-                  });
+                  );
                 } else {
                   Swal.fire({
                     icon: 'warning',
