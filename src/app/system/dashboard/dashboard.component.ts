@@ -187,16 +187,12 @@ export class DashboardComponent implements OnInit {
         finalizado: this.dashboardService.getJudgesFinish(),
       }).subscribe(
         data => {
-          console.log(data);
           this.totales = data.totales;
           this.totales2 = data.totales2.data;
           this.adminProjects(data.proyectos.proyectos);
           this.estadisticasDeProyectos = data.estadisticas;
           this.construirGrafica(data.grafica.estadisticas);
           this.final = data.finalizado;
-
-          console.log(this.final);
-
         },
         err => {
           console.log(err);

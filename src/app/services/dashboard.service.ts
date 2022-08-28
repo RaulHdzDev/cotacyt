@@ -59,7 +59,7 @@ export class DashboardService {
   }
 
   getJudgesFinish(): Observable<any> {
-    return this.http.get<any>(this.servicesConfig.APP_ENDPOINT + 'api/jueces-termino');
+    return this.http.get<any>(this.servicesConfig.APP_ENDPOINT + 'api/jueces-termino?sede='+ this.sessionData.sede);
   }
 
   // apis que conectan con el otro sistema
