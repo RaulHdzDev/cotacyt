@@ -15,17 +15,19 @@ import { PeriodoService } from '../../services/periodo.service';
 export class LoginComponent implements OnInit {
 
   inicio: '';
-  fin: ''
+  fin: '';
   status: boolean;
   statusInter: boolean;
-  estatal: boolean = false;
-  internacional: boolean = false;
+  estatal = false;
+  internacional = false;
   public formLoginJudge: FormGroup;
-  constructor(public formBuilder: FormBuilder,
-              private juecesService: JuecesService,
-              private router: Router,
-              private utilService: UtilService,
-              private periodoService: PeriodoService) {
+  constructor(
+    public formBuilder: FormBuilder,
+    private juecesService: JuecesService,
+    private router: Router,
+    private utilService: UtilService,
+    private periodoService: PeriodoService,
+  ) {
 
     this.formLoginJudge = formBuilder.group({
       usuario: ['', [Validators.required]],
@@ -51,64 +53,69 @@ export class LoginComponent implements OnInit {
               console.log(currentDate);
               console.log(completeDateI);
               console.log(completeDateF);
-              if(data.rol != 'juez'){
+              if (data.rol !== 'juez') {
                 this.router.navigateByUrl('home');
                 localStorage.setItem('session', JSON.stringify(data));
-              } else if(data.rol == 'juez'){
+              } else if (data.rol === 'juez') {
                 this.periodoService.getStatus().subscribe(
                   data2 => {
                     this.status = data2;
-                    if(!this.status) {
+                    if (!this.status) {
                       this.estatal = false;
-                    }
-                    else if(this.status){
+                    } else if (this.status) {
                       this.estatal = true;
                     }
                     this.periodoService.getStatusInternacional().subscribe(
                       data3 => {
                         this.statusInter = data3;
-                        if( !this.statusInter){
+                        if (!this.statusInter) {
                           this.internacional = false;
-                        } else if(this.statusInter){
+                        } else if (this.statusInter) {
                           this.internacional = true;
                         }
-                          if(currentDate >= completeDateI && currentDate <= completeDateF){
-                            console.log(this.estatal);
-                            console.log(this.internacional);
-                            console.log(data.id_sedes);
-                            if(this.estatal && !this.internacional && data.id_sedes == 8){
-                              this.router.navigateByUrl('home');
-                              localStorage.setItem('session', JSON.stringify(data));
-                            } else if(this.internacional && this.estatal && data.id_sedes == 9){
-                              this.router.navigateByUrl('home');
-                              localStorage.setItem('session', JSON.stringify(data));
-                            } else if(!this.estatal && !this.internacional && data.id_sedes < 8){
-                              this.router.navigateByUrl('home');
-                              localStorage.setItem('session', JSON.stringify(data));
-                            } else {
-                              swal.fire({
-                                icon: 'warning',
-                                text: 'Actualmente no tienes acceso al sistema '
-                              });
-                            }
-                            // this.router.navigateByUrl('home');
-                            // localStorage.setItem('session', JSON.stringify(data));
-                          } else if(currentDate < completeDateI){
+                        if (currentDate >= completeDateI && currentDate <= completeDateF) {
+                          if (this.estatal && !this.internacional && data.id_sedes == 8) {
+                            // entra login juez estatal
+                            this.router.navigateByUrl('home');
+                            localStorage.setItem('session', JSON.stringify(data));
+                          } else if (this.internacional && this.estatal && data.id_sedes == 9) {
+                            // entra login juez internacional
+                            this.router.navigateByUrl('home');
+                            localStorage.setItem('session', JSON.stringify(data));
+                          } else if (!this.estatal && !this.internacional && data.id_sedes < 8) {
+                            // entra login juez regional
+                            this.juecesService.getValidarTermino(data.id_jueces).subscribe(res => {
+                              if (res.termino !== '1') {
+                                this.router.navigateByUrl('home');
+                                localStorage.setItem('session', JSON.stringify(data));
+                              } else {
+                                swal.fire('', 'Ya terminaste de evaluar tus proyectos', 'warning');
+                              }
+                            }, err => console.log(err));
+                          } else {
                             swal.fire({
-                              icon: 'info',
-                              text: 'Aun no inicia el periodo de evaluacion'
-                            });
-                          } else if(currentDate > completeDateF){
-                            swal.fire({
-                              icon: 'info',
-                              text: 'Ya termino el periodo de evaluacion'
+                              icon: 'warning',
+                              text: 'Actualmente no tienes acceso al sistema '
                             });
                           }
+                          // this.router.navigateByUrl('home');
+                          // localStorage.setItem('session', JSON.stringify(data));
+                        } else if (currentDate < completeDateI) {
+                          swal.fire({
+                            icon: 'info',
+                            text: 'Aun no inicia el periodo de evaluacion'
+                          });
+                        } else if (currentDate > completeDateF) {
+                          swal.fire({
+                            icon: 'info',
+                            text: 'Ya termino el periodo de evaluacion'
+                          });
+                        }
                       }
                     );
                   }
                 );
- 
+
               } else {
                 console.log('No valido');
               }

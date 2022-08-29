@@ -769,7 +769,7 @@ export class ProjectsComponent implements OnInit {
           title: data,
           text: 'Se cerrara la sesion',
           icon: 'success'
-        });
+        }).then(() => window.location.reload());
       },
       err => {
         console.log(err);
