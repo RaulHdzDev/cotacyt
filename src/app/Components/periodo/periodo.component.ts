@@ -17,10 +17,10 @@ export class PeriodoComponent implements OnInit {
   sessionData: Session;
   formFechaJueces: FormGroup;
   formFechaProyectos: FormGroup;
-  estatal: boolean;
-  internacional: boolean;
+  estatal: boolean = false;
+  internacional: boolean = false;
   status: boolean;
-  statusInter: any = 0;
+  statusInter: boolean;
   valPass: any;
   constructor(
     public formBuilder: FormBuilder,
@@ -44,7 +44,6 @@ export class PeriodoComponent implements OnInit {
     this.periodoService.getStatus().subscribe(
       data => {
         this.status = data;
-        console.log(data);
         if(!this.status) {
           this.estatal = false;
         }
@@ -58,12 +57,12 @@ export class PeriodoComponent implements OnInit {
     this.periodoService.getStatusInternacional().subscribe(
       data => {
         this.statusInter = data;
-        if(this.statusInter == 0)
+        if( !this.statusInter)
           this.internacional = false;
-        else if(this.statusInter == 1)
+        else if(this.statusInter)
           this.internacional = true;
       }
-    )
+    );
   }
 
   iniciarEstatal(){
@@ -97,7 +96,6 @@ export class PeriodoComponent implements OnInit {
                   this.utilService.loading = true;
                   this.periodoService.initEstatal().subscribe(
                     data => {
-                      console.log(data);
                       this.periodoService.saveEstatal(data).subscribe(
                         dara => {
                           console.log(dara);
@@ -156,17 +154,20 @@ export class PeriodoComponent implements OnInit {
               if(resultado.value){
                 let pass = resultado.value;
                 this.valPass = JSON.parse(localStorage.getItem('session'))
-                console.log(this.valPass.contrasena);
                 if(this.valPass.contrasena === resultado.value){
                   this.utilService.loading = true;
-                  this.periodoService.initEstatal().subscribe(
+                  this.periodoService.initInternacional().subscribe(
                     data => {
-                      console.log(data.error);
+                      this.periodoService.saveInternacional(data).subscribe(
+                        dara => {
+                          console.log(dara);
+                        }
+                      ).add(() => {
+                        this.utilService.loading = false;
+                        window.location.reload();
+                      });
                     }
-                  ).add(() => {
-                    this.utilService.loading = false;
-                    window.location.reload();
-                  });
+                  );
                 } else {
                   Swal.fire({
                     icon: 'warning',

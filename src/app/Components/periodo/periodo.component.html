@@ -57,7 +57,7 @@
             </div>
             <div class="card">
                 <div class="card-body text-center">
-                    <button class="btn btn-outline-primary" (click)="iniciarInternacional()" [disabled]="internacional">INICIAR</button>
+                    <button class="btn btn-outline-primary" (click)="iniciarInternacional()" [disabled]="!(!internacional && estatal)">INICIAR</button>
                 </div>
             </div>
         </div>
