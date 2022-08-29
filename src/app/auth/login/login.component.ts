@@ -16,6 +16,10 @@ export class LoginComponent implements OnInit {
 
   inicio: '';
   fin: ''
+  status: boolean;
+  statusInter: boolean;
+  estatal: boolean = false;
+  internacional: boolean = false;
   public formLoginJudge: FormGroup;
   constructor(public formBuilder: FormBuilder,
               private juecesService: JuecesService,
@@ -51,25 +55,62 @@ export class LoginComponent implements OnInit {
                 this.router.navigateByUrl('home');
                 localStorage.setItem('session', JSON.stringify(data));
               } else if(data.rol == 'juez'){
-                if(currentDate >= completeDateI && currentDate <= completeDateF){
-                  this.router.navigateByUrl('home');
-                  localStorage.setItem('session', JSON.stringify(data));
-                  console.log('El juez Es valido');
-                  this.router.navigateByUrl('home');
-                  localStorage.setItem('session', JSON.stringify(data));
-                } else if(currentDate < completeDateI){
-                  swal.fire({
-                    icon: 'info',
-                    text: 'Aun no inicia el periodo de evaluacion'
-                  });
-                } else if(currentDate > completeDateF){
-                  swal.fire({
-                    icon: 'info',
-                    text: 'Ya termino el periodo de evaluacion'
-                  });
-                }
+                this.periodoService.getStatus().subscribe(
+                  data2 => {
+                    this.status = data2;
+                    if(!this.status) {
+                      this.estatal = false;
+                    }
+                    else if(this.status){
+                      this.estatal = true;
+                    }
+                    this.periodoService.getStatusInternacional().subscribe(
+                      data3 => {
+                        this.statusInter = data3;
+                        if( !this.statusInter){
+                          this.internacional = false;
+                        } else if(this.statusInter){
+                          this.internacional = true;
+                        }
+                          if(currentDate >= completeDateI && currentDate <= completeDateF){
+                            console.log(this.estatal);
+                            console.log(this.internacional);
+                            console.log(data.id_sedes);
+                            if(this.estatal && !this.internacional && data.id_sedes == 8){
+                              this.router.navigateByUrl('home');
+                              localStorage.setItem('session', JSON.stringify(data));
+                            } else if(this.internacional && this.estatal && data.id_sedes == 9){
+                              this.router.navigateByUrl('home');
+                              localStorage.setItem('session', JSON.stringify(data));
+                            } else if(!this.estatal && !this.internacional && data.id_sedes < 8){
+                              this.router.navigateByUrl('home');
+                              localStorage.setItem('session', JSON.stringify(data));
+                            } else {
+                              swal.fire({
+                                icon: 'warning',
+                                text: 'Actualmente no tienes acceso al sistema '
+                              });
+                            }
+                            // this.router.navigateByUrl('home');
+                            // localStorage.setItem('session', JSON.stringify(data));
+                          } else if(currentDate < completeDateI){
+                            swal.fire({
+                              icon: 'info',
+                              text: 'Aun no inicia el periodo de evaluacion'
+                            });
+                          } else if(currentDate > completeDateF){
+                            swal.fire({
+                              icon: 'info',
+                              text: 'Ya termino el periodo de evaluacion'
+                            });
+                          }
+                      }
+                    );
+                  }
+                );
+ 
               } else {
-                console.log('No valida');
+                console.log('No valido');
               }
             }
           );
