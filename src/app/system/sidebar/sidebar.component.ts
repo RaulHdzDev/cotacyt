@@ -10,7 +10,7 @@ import { UtilService } from 'src/app/services/util.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  @ViewChild('mobile', {static: true}) mobile: ElementRef;
+  @ViewChild('mobile', { static: true }) mobile: ElementRef;
   public toggleClass: boolean = false;
   public categoria: string;
   sessionData: Session;
@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private categoriasService: CategoriasService,
-    private _utilService: UtilService ) {
+    private _utilService: UtilService) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.categoria = 'Cargando...';
   }
@@ -27,12 +27,12 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.admin = false;
     this.superuser = false;
-    this.categoriasService.getCategorias().subscribe( data => {
+    this.categoriasService.getCategorias().subscribe(data => {
       this.categoria = data.categoria;
-      if ( this.sessionData.rol === 'admin') {
+      if (this.sessionData.rol === 'admin') {
         this.admin = true;
         this._utilService._cargo = true;
-      } else if(this.sessionData.rol === 'superuser') {
+      } else if (this.sessionData.rol === 'superuser') {
         this.admin = true;
         this.superuser = true;
         this._utilService._cargo = true;
@@ -54,10 +54,10 @@ export class SidebarComponent implements OnInit {
     }, 2000);
   }
 
-  toggle(){
-    if(!this.toggleClass){
+  toggle() {
+    if (!this.toggleClass) {
       this.toggleClass = true;
-    }else{
+    } else {
       this.toggleClass = false;
     }
   }
