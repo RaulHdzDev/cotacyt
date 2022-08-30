@@ -44,6 +44,8 @@ import { SortPipe } from './pipes/sort.pipe';
 import { PeriodoComponent } from './Components/periodo/periodo.component';
 import { RoundPipePipe } from './pipes/round-pipe.pipe';
 import { CeliPipePipe } from './pipes/celi-pipe.pipe';
+import { GeneroComponent } from './Graphics/genero/genero.component';
+import { AreaComponent } from './Graphics/area/area.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { CeliPipePipe } from './pipes/celi-pipe.pipe';
     PeriodoComponent,
     RoundPipePipe,
     CeliPipePipe,
+    GeneroComponent,
+    AreaComponent,
   ],
   imports: [
     BrowserModule,

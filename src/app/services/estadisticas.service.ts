@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class EstadisticasService {
 
-  constructor( private http: HttpClient, private servicesConfig: ServicesConfig ) { }
+  constructor(private http: HttpClient, private servicesConfig: ServicesConfig) { }
 
   getEstadisticas(): Observable<any> {
     return this.http.get<any>(this.servicesConfig.APP_ENDPOINT + 'api/dashboard/proyectos-por-sede');
@@ -17,5 +17,11 @@ export class EstadisticasService {
   // apis enlace al otro sistema
   getEstadisticasProyectosPorSede(): Observable<any> {
     return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/sede`);
+  }
+  getEstadisticasParticipantesPorGenero(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/participantes/genero`);
+  }
+  getEstadisticasProyectosPorArea(): Observable<any> {
+    return this.http.get(`${this.servicesConfig.APP_ENDPOINT_LOCAL2}/estadisticas/proyectos/area`);
   }
 }
