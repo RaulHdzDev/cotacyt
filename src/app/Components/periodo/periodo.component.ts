@@ -159,6 +159,11 @@ export class PeriodoComponent implements OnInit {
                   this.periodoService.saveInternacional().subscribe(
                     dara => {
                       console.log(dara);
+                      if (!dara.error) {
+                        this.periodoService.initInternacional().subscribe(da => {
+                          console.log(da);
+                        }, err => console.log(err));
+                      }
                     }
                   ).add(() => {
                     this.utilService.loading = false;
