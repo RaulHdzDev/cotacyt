@@ -277,11 +277,11 @@ export class DashboardComponent implements OnInit {
   descargarLista() {
     console.log(this.categoriaActual);
     console.log(this.sedeActual);
-
+    
    this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
       .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
       .add(() => this.utilsService.loading = false);
-
+      
   }
   onChangeSede(value) {
 
@@ -370,6 +370,10 @@ export class DashboardComponent implements OnInit {
   }
 
   descargarListaCalificaiones(data: any, value) {
+    
+    console.log(value + ' value');
+    
+    
     this.proyectosCalificadosPorCategoria = data;
     const petit = data.petit;
     const kids = data.kids;
@@ -378,30 +382,32 @@ export class DashboardComponent implements OnInit {
     const superior = data.superior;
     const posgrado = data.posgrado;
     switch (value) {
-      case '1':
+      case 'petit':
         this.proyectosCalificacion = petit;
+        console.log(this.proyectosCalificacion);
+        
         this.imprimir(this.proyectosCalificacion, 'petit');
         console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
           return next.total - prev.total;
         }));
         break;
-      case '2':
+      case 'kids':
         this.proyectosCalificacion = kids;
         this.imprimir(this.proyectosCalificacion, 'kids');
         break;
-      case '3':
+      case 'juvenil':
         this.proyectosCalificacion = juvenil;
         this.imprimir(this.proyectosCalificacion, 'juvenil');
         break;
-      case '4':
+      case 'media superior':
         this.proyectosCalificacion = mediaSuperior;
         this.imprimir(this.proyectosCalificacion, 'media-superior');
         break;
-      case '5':
+      case 'superior':
         this.proyectosCalificacion = superior;
         this.imprimir(this.proyectosCalificacion, 'superior');
         break;
-      case '6':
+      case 'posgrado':
         this.proyectosCalificacion = posgrado;
         this.imprimir(this.proyectosCalificacion, 'posgrado');
         break;
