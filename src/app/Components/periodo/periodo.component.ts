@@ -27,7 +27,7 @@ export class PeriodoComponent implements OnInit {
     private sedesService: SedesService,
     private periodoService: PeriodoService,
     private utilService: UtilService,
-  ) { 
+  ) {
     this.formFechaJueces = formBuilder.group({
       fechaInicioJ: ['', Validators.required],
       fechaFinJ: ['', Validators.required]
@@ -44,28 +44,28 @@ export class PeriodoComponent implements OnInit {
     this.periodoService.getStatus().subscribe(
       data => {
         this.status = data;
-        if(!this.status) {
+        if (!this.status) {
           this.estatal = false;
         }
-        else if(this.status){
+        else if (this.status) {
           this.estatal = true;
         }
       }
-    ).add(()=>{
+    ).add(() => {
       this.utilService.loading = false;
     });
     this.periodoService.getStatusInternacional().subscribe(
       data => {
         this.statusInter = data;
-        if( !this.statusInter)
+        if (!this.statusInter)
           this.internacional = false;
-        else if(this.statusInter)
+        else if (this.statusInter)
           this.internacional = true;
       }
     );
   }
 
-  iniciarEstatal(){
+  iniciarEstatal() {
     Swal.fire({
       icon: 'warning',
       title: 'ETAPA ESTATAL',
@@ -74,7 +74,7 @@ export class PeriodoComponent implements OnInit {
       showConfirmButton: true,
     }).then(
       res => {
-        if(res.isConfirmed){
+        if (res.isConfirmed) {
           Swal.fire({
             title: 'Ingrese la contraseña',
             input: 'password',
@@ -82,17 +82,17 @@ export class PeriodoComponent implements OnInit {
             showConfirmButton: true,
             inputValidator: psw => {
               if (!psw) {
-                  return "Por favor escribe la contraseña";
+                return "Por favor escribe la contraseña";
               } else {
-                  return undefined;
+                return undefined;
               }
             }
           }).then(
             resultado => {
-              if(resultado.value){
+              if (resultado.value) {
                 let pass = resultado.value;
                 this.valPass = JSON.parse(localStorage.getItem('session'))
-                if(this.valPass.contrasena === resultado.value){
+                if (this.valPass.contrasena === resultado.value) {
                   this.utilService.loading = true;
                   this.periodoService.initEstatal().subscribe(
                     data => {
@@ -115,19 +115,19 @@ export class PeriodoComponent implements OnInit {
               }
             }
           );
-        } else if(res.dismiss){
-            Swal.fire('Etapa estatal cancelada', '', 'info')
+        } else if (res.dismiss) {
+          Swal.fire('Etapa estatal cancelada', '', 'info')
         }
-      }, 
+      },
       err => {
         console.log(err);
       }
     );
-      // this.estatal = JSON.parse(localStorage.getItem('estatal'));
-      console.log(this.estatal + ' estatal');
+    // this.estatal = JSON.parse(localStorage.getItem('estatal'));
+    console.log(this.estatal + ' estatal');
   }
 
-  iniciarInternacional(){
+  iniciarInternacional() {
     Swal.fire({
       icon: 'warning',
       title: 'ETAPA INTERNACIONAL',
@@ -136,7 +136,7 @@ export class PeriodoComponent implements OnInit {
       showConfirmButton: true,
     }).then(
       res => {
-        if(res.isConfirmed){
+        if (res.isConfirmed) {
           Swal.fire({
             title: 'Ingrese la contraseña',
             input: 'password',
@@ -144,30 +144,26 @@ export class PeriodoComponent implements OnInit {
             showConfirmButton: true,
             inputValidator: psw => {
               if (!psw) {
-                  return "Por favor escribe la contraseña";
+                return 'Por favor escribe la contraseña';
               } else {
-                  return undefined;
+                return undefined;
               }
             }
           }).then(
             resultado => {
-              if(resultado.value){
+              if (resultado.value) {
                 let pass = resultado.value;
                 this.valPass = JSON.parse(localStorage.getItem('session'))
-                if(this.valPass.contrasena === resultado.value){
+                if (this.valPass.contrasena === resultado.value) {
                   this.utilService.loading = true;
-                  this.periodoService.initInternacional().subscribe(
-                    data => {
-                      this.periodoService.saveInternacional(data).subscribe(
-                        dara => {
-                          console.log(dara);
-                        }
-                      ).add(() => {
-                        this.utilService.loading = false;
-                        window.location.reload();
-                      });
+                  this.periodoService.saveInternacional().subscribe(
+                    dara => {
+                      console.log(dara);
                     }
-                  );
+                  ).add(() => {
+                    this.utilService.loading = false;
+                    window.location.reload();
+                  });
                 } else {
                   Swal.fire({
                     icon: 'warning',
@@ -177,19 +173,19 @@ export class PeriodoComponent implements OnInit {
               }
             }
           );
-        } else if(res.dismiss){
-            Swal.fire('Etapa internacional cancelada', '', 'info')
+        } else if (res.dismiss) {
+          Swal.fire('Etapa internacional cancelada', '', 'info');
         }
-      }, 
+      },
       err => {
         console.log(err);
       }
     );
-      console.log(this.internacional + ' internacional');
+    console.log(this.internacional + ' internacional');
   }
 
-  subirFechasJ(){
-    if(this.formFechaJueces.value.fechaInicioJ != '' && this.formFechaJueces.value.fechaFinJ != ''){
+  subirFechasJ() {
+    if (this.formFechaJueces.value.fechaInicioJ != '' && this.formFechaJueces.value.fechaFinJ != '') {
       console.log(this.formFechaJueces.value.fechaInicioJ);
       console.log(this.formFechaJueces.value.fechaFinJ);
       this.periodoService.uploadFechas(this.formFechaJueces.value.fechaInicioJ, this.formFechaJueces.value.fechaFinJ).subscribe(
@@ -197,12 +193,12 @@ export class PeriodoComponent implements OnInit {
           // this.swalid1.dismiss();
           console.log(data);
         }
-       ).add(()=>{
+      ).add(() => {
         Swal.fire({
           icon: 'success',
           text: 'Fechas ingresadas'
         });
-       });
+      });
     } else {
       Swal.fire({
         icon: 'warning',
@@ -210,21 +206,21 @@ export class PeriodoComponent implements OnInit {
       });
       console.log('ok');
     }
-    
+
   }
-  subirFechasP(){
-    if(this.formFechaProyectos.value.fechaInicioP != '' && this.formFechaProyectos.value.fechaFinP != ''){
+  subirFechasP() {
+    if (this.formFechaProyectos.value.fechaInicioP != '' && this.formFechaProyectos.value.fechaFinP != '') {
       this.periodoService.uploadFechasP(this.formFechaProyectos.value.fechaInicioP, this.formFechaProyectos.value.fechaFinP).subscribe(
         data => {
           // this.swalid1.dismiss();
           console.log(data);
         }
-       ).add(()=>{
+      ).add(() => {
         Swal.fire({
           icon: 'success',
           text: 'Fechas ingresadas'
         });
-       });
+      });
     } else {
       Swal.fire({
         icon: 'warning',
@@ -233,7 +229,7 @@ export class PeriodoComponent implements OnInit {
       console.log('ok');
     }
   }
-  executeDeleteSystem(){
+  executeDeleteSystem() {
     Swal.fire({
       icon: 'warning',
       title: 'Reinicio',
@@ -244,33 +240,33 @@ export class PeriodoComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(
       res => {
-        if(res.isConfirmed){
+        if (res.isConfirmed) {
           Swal.fire({
             title: 'Ingrese la contraseña',
-              input: 'password',
-              showCancelButton: true,
-              showConfirmButton: true,
-              inputValidator: psw => {
-                if (!psw) {
-                    return "Por favor escribe la contraseña";
-                } else {
-                    return undefined;
-                }
+            input: 'password',
+            showCancelButton: true,
+            showConfirmButton: true,
+            inputValidator: psw => {
+              if (!psw) {
+                return "Por favor escribe la contraseña";
+              } else {
+                return undefined;
               }
-          }).then( resultado => {
-            if(resultado.value){
+            }
+          }).then(resultado => {
+            if (resultado.value) {
               let pass = resultado.value;
               this.valPass = JSON.parse(localStorage.getItem('session'))
               console.log(this.valPass.contrasena);
-              if(this.valPass.contrasena === resultado.value){
+              if (this.valPass.contrasena === resultado.value) {
                 this.utilService.loading = true;
                 this.periodoService.executeDeleteSystem().subscribe(
                   data => {
                     console.log(data);
                   }
                 ).add(() => {
-                this.utilService.loading = false;
-                window.location.reload();
+                  this.utilService.loading = false;
+                  window.location.reload();
                 });
               } else {
                 Swal.fire({
@@ -280,7 +276,7 @@ export class PeriodoComponent implements OnInit {
               }
             }
           });
-        } else if(res.isDismissed){
+        } else if (res.isDismissed) {
           Swal.fire('Reinicio del sistema cancelado', '', 'info')
         }
       },
@@ -288,6 +284,6 @@ export class PeriodoComponent implements OnInit {
         console.log(err);
       }
     );
-    
+
   }
 }

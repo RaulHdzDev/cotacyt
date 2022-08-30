@@ -22,11 +22,8 @@ export class PeriodoService {
   initInternacional(): Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/internacional/activar');
   }
-  saveInternacional(body: any): Observable<any> {
-    const data = {
-      calificaciones: body
-    }
-    return this.http.post(this.servicesConfig.APP_ENDPOINT_LOCAL2 + '/fases/internacional', data);
+  saveInternacional(): Observable<any> {
+    return this.http.get(this.servicesConfig.APP_ENDPOINT_LOCAL2 + '/fases/internacional');
   }
   getStatus():Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/estatal/status');
