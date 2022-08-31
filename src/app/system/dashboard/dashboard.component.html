@@ -5,35 +5,25 @@
 	<!-- Primera seccion -->
 	<div class="row">
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-			<div class="row">
+			<div *ngIf="totales2 && totales" class="row">
 				<div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
-
 					<p class="text-center custom-text">Proyectos</p>
 					<h1 class="text-h1">{{totales2.proyectos}}</h1>
-
 				</div>
-
 				<div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
-
 					<p class="text-center custom-text">Participantes</p>
 					<h1 class="text-h1 ">{{totales2.participantes}}</h1>
-
 				</div>
-
 				<div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
 					<p class="text-center custom-text">Categorías</p>
 					<h1 class="text-h1">{{totales['categorias']}}</h1>
-
 				</div>
-
 				<div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
 					<p class="text-center custom-text">Jueces</p>
 					<h1 class="text-h1 ">{{totales['jueces']}}</h1>
 				</div>
-
 			</div>
 		</div>
-
 		<!-- CRONOMETRO -->
 		<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 			<div class="card-clock card">
@@ -45,14 +35,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="row justify-content-around p-1">
-                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                       <h6> Fecha inicio: <span><h6 class="text-h6">10/05/2020</h6></span></h6>
-                   </div>
-                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                    <h6>Fecha final: <span><h6 class="text-h6">10/05/2020</h6></span></h6>
-                </div>
-               </div> -->
 		</div>
 		<!-- FIN CRONOMETRO -->
 	</div>
@@ -79,12 +61,12 @@
 									<div class="row justify-content-center mb-2">
 										<select #sc (change)="onChangeCategoria(sc.value)" class="custom-select">
 											<option selected disabled>Selecciona una categoria</option>
-											<option value="petit" >Petit</option>
-											<option value="kids" >Kids</option>
-											<option value="juvenil" >Juvenil</option>
+											<option value="petit">Petit</option>
+											<option value="kids">Kids</option>
+											<option value="juvenil">Juvenil</option>
 											<option value="media superior">Media superior</option>
 											<option value="superior">Superior</option>
-											<option value="posgrado" >Posgrado
+											<option value="posgrado">Posgrado
 											</option>
 										</select>
 										<select *ngIf="superUser" #sd (change)="onChangeSede(sd.value)"
@@ -246,12 +228,14 @@
 											<div class="d-flex justify-content-center align-items-center"
 												*ngIf="finalizados.termino == '1'">
 												<td style="color: rgb(0, 224, 0); font-size: 20px;"> <span><i
-															class="fas fa-check"></i></span> </td>
+															class="fas fa-check"></i></span>
+												</td>
 											</div>
 											<div class="d-flex justify-content-center align-items-center"
 												*ngIf="finalizados.termino == '0'">
 												<td style="color: rgb(214, 0, 0); font-size: 20px;"> <span><i
-															class="fas fa-times"></i></span> </td>
+															class="fas fa-times"></i></span>
+												</td>
 											</div>
 
 										</tr>

@@ -38,8 +38,6 @@ export class DashboardComponent implements OnInit {
 
 
   @ViewChild('swalid') private swalCalificaciones: SwalComponent;
-  // @ViewChild('swalid1') private swalInformacion: SwalComponent;
-  // @ViewChild('swalid2') private swalReproductor: SwalComponent;
   @ViewChild('video') private videoTag: any;
 
 
@@ -159,7 +157,6 @@ export class DashboardComponent implements OnInit {
         sedes: this.sedeService.getSedes(),
       }).subscribe(
         data => {
-          console.log(data);
           this.totales = data.totales;
           this.totales2 = data.totales2.data;
           this.adminProjects(data.proyectos.proyectos);
@@ -277,11 +274,11 @@ export class DashboardComponent implements OnInit {
   descargarLista() {
     console.log(this.categoriaActual);
     console.log(this.sedeActual);
-    
+
    this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
       .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
       .add(() => this.utilsService.loading = false);
-      
+
   }
   onChangeSede(value) {
 
@@ -370,10 +367,7 @@ export class DashboardComponent implements OnInit {
   }
 
   descargarListaCalificaiones(data: any, value) {
-    
-    console.log(value + ' value');
-    
-    
+
     this.proyectosCalificadosPorCategoria = data;
     const petit = data.petit;
     const kids = data.kids;
@@ -385,7 +379,7 @@ export class DashboardComponent implements OnInit {
       case 'petit':
         this.proyectosCalificacion = petit;
         console.log(this.proyectosCalificacion);
-        
+
         this.imprimir(this.proyectosCalificacion, 'petit');
         console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
           return next.total - prev.total;
