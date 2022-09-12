@@ -100,7 +100,7 @@
                     <i class="fas fa-user-check"></i><span> Autores <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
 
-                <a *ngIf="admin" [routerLink]="['add-estadistics']" routerLinkActive="active" class="menu-btn">
+                <a *ngIf="superuser" [routerLink]="['add-estadistics']" routerLinkActive="active" class="menu-btn">
                     <i class="fas fa-chart-line"></i><span> Estadísticas <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
                 <a *ngIf="superuser" [routerLink]="['periodos']" routerLinkActive="active" class="menu-btn">
