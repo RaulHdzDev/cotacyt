@@ -95,6 +95,7 @@ export class DashboardComponent implements OnInit {
   sedes: Sedes[];
   superUser: boolean;
   admingral: boolean;
+  sedeEnlace: string;
   enlace: boolean;
   juez: boolean;
   constructor(
@@ -197,6 +198,9 @@ export class DashboardComponent implements OnInit {
       ).add(() => this.utilsService._loading = false);
       this.admingral = true;
       this.enlace = false;
+      this.sedeEnlace = this.sessionData.sede;
+      console.log(this.sedeEnlace);
+      
     } else {
       this.enlace = true;
       forkJoin({
@@ -275,11 +279,18 @@ export class DashboardComponent implements OnInit {
     console.log(this.categoriaActual);
     console.log(this.sedeActual);
 
-   this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
+    if (this.sessionData.rol === 'admin') {
+   this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeEnlace)
       .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
       .add(() => this.utilsService.loading = false);
+    } else {
+      this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
+      .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
+      .add(() => this.utilsService.loading = false);
+    }
 
   }
+
   onChangeSede(value) {
 
     this.sedeActual = value;

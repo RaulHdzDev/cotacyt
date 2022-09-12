@@ -90,6 +90,8 @@ export class LoginComponent implements OnInit {
                                 localStorage.setItem('session', JSON.stringify(data));
                               } else {
                                 swal.fire('', 'Ya terminaste de evaluar tus proyectos', 'warning');
+                                console.log("hola");
+                                
                               }
                             }, err => console.log(err));
                           } else {
