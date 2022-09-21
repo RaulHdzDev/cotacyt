@@ -49,24 +49,9 @@
                         </div>
                         <div class="form-group">
                             <label for="">Sede:</label>
-                            <select #sd (change)="onChangesedeActual(sd.value)" formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? null: 'disabled'">
+                            <select formControlName="id_sedes" class="form-control" [attr.disabled]="superUser ? null: 'disabled'">
                                 <option [value]="sede.id_sedes" *ngFor="let sede of sedes">{{sede.sede}}</option>
                             </select>
-                        </div>
-                        <div class="form-group" *ngIf="tipoJ">
-                            <label for="">Categoria:</label>
-                            <select #s (change)="onChangecategoriaActual(s.value)" formControlName="id_categorias" class="form-control">
-                                <option value="1">Petit</option>
-                                <option value="2">Kids</option>
-                                <option value="3">Juvenil</option>
-                                <option value="4">Media superior</option>
-                                <option value="5">Superior</option>
-                                <option value="6">Posgrado</option>
-                            </select>
-                        </div>
-                        <div class="form-group" *ngIf="tipoJ">
-                            <label for="" >Proyectos:</label>
-                            <ng-multiselect-dropdown formControlName="ids_proyectos" [settings]="dropdownSettingsProyecto" [data]="proyectos" (onSelect)="addProyecto($event)" (onDeSelect)="dropProyecto($event)"></ng-multiselect-dropdown>
                         </div>
                         <div class="form-group">
                             <label for="">Contraseña:</label>

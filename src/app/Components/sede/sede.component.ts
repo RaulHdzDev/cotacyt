@@ -22,10 +22,7 @@ export class SedeComponent implements OnInit {
   @ViewChild('swalid3') private swalid1: SwalComponent;
 
   sessionData: Session;
-  proyectos: Proyectos[];
-  proyectosSeleccionados: Proyectos[];
   sedes: Sedes[];
-  dropdownSettingsProyecto: IDropdownSettings;
   superUser: boolean;
   sedeActual = '1';
   categoriaActua = '1';
@@ -38,11 +35,8 @@ export class SedeComponent implements OnInit {
     public formBuilder: FormBuilder,
     private juecesService: JuecesService,
     private sedesService: SedesService,
-    private proyectosService: ProyectosService,
     private utilService: UtilService
   ) {
-    this.proyectos = new Array<Proyectos>();
-    this.proyectosSeleccionados = new Array<Proyectos>();
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.formsRegistroJuez = formBuilder.group({
       id_categorias: [1, [Validators.required]],
@@ -65,43 +59,23 @@ export class SedeComponent implements OnInit {
     this.superUser = this.sessionData.rol === 'superuser';
     if ( this.sessionData.rol === 'superuser') {
       forkJoin({
-        proyectos: this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActua, this.sedeActual),
         sedes: this.sedesService.getSedes()
       }).subscribe(
         data => {
-          this.proyectos = data.proyectos;
           this.sedes = data.sedes;
         }
         ).add(() => {
           this.utilService._loading = false;
-          // Settings para proyecto
-          this.dropdownSettingsProyecto = {
-            singleSelection: false,
-            idField: 'id_proyectos',
-            textField: 'nombre',
-            allowSearchFilter: true,
-            noDataAvailablePlaceholderText: 'No hay proyectos'
-          };
         });
     } else {
       forkJoin({
-        proyectos: this.proyectosService.obtenerTodosLosProyectosCategoria('1'),
         sedes: this.sedesService.getSedes()
       }).subscribe(
         data => {
-          this.proyectos = data.proyectos;
           this.sedes = data.sedes;
         }
         ).add(() => {
           this.utilService._loading = false;
-          // Settings para proyecto
-          this.dropdownSettingsProyecto = {
-            singleSelection: false,
-            idField: 'id_proyectos',
-            textField: 'nombre',
-            allowSearchFilter: true,
-            noDataAvailablePlaceholderText: 'No hay proyectos'
-          };
         });
     }
   }
@@ -132,39 +106,6 @@ export class SedeComponent implements OnInit {
     ).add(() => {
       this.utilService.loading = false;
     });
-  }
-  onChangecategoriaActual(value) {
-    this.utilService._loading = true;
-    this.categoriaActua = value;
-    if ( this.sessionData.rol === 'superuser') {
-      this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
-        .subscribe( data => {
-          this.proyectos = data;
-        }).add(() => this.utilService._loading = false );
-      } else {
-        this.proyectosService.obtenerTodosLosProyectosCategoria(value)
-          .subscribe( data => {
-            this.proyectos = data;
-          }).add(() => this.utilService._loading = false);
-      }
-  }
-  addProyecto(item: any) {
-    this.proyectosSeleccionados.push(item);
-  }
-  dropProyecto(item: any) {
-    this.proyectosSeleccionados.map( (res, index) => {
-      if (res.id_proyectos === item.id_proyectos) {
-        this.proyectosSeleccionados.splice(index, 1);
-      }
-    });
-  }
-  onChangesedeActual(value) {
-    this.utilService._loading = true;
-    this.sedeActual = value;
-    this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActua, value)
-        .subscribe( data => {
-          this.proyectos = data;
-        }).add(() => this.utilService._loading = false);
   }
   onChangeTipo(value) {
     this.utilService._loading = true;
