@@ -99,13 +99,13 @@ export class JudgesComponent implements OnInit {
       forkJoin({
         jueces: this.judgesService.getJudgesSueperUser(),
         sedes: this.sedesService.getSedes(),
-        proyectos: this.proyectosService.obtenerProyectosSuperUser('1'),
+        // proyectos: this.proyectosService.obtenerProyectosSuperUser('1'),
       }).subscribe(
         data => {
           this.jueces = data.jueces;
           this.sedes = data.sedes;
           this.juecesFiltro = this.jueces;
-          this.proyectos = data.proyectos;
+          // this.proyectos = data.proyectos;
         },
         err => {
           console.log(err);
