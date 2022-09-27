@@ -89,7 +89,6 @@ export class AuthorsRegisteredComponent implements OnInit {
         this.sedes = data.sedes;
         this.autores = data.autores.autores;
         this.autoresFiltro = data.autores.autores;
-        console.log(this.autores);
       }, err => {
         console.log(err);
       }).add(() => {
@@ -168,7 +167,6 @@ export class AuthorsRegisteredComponent implements OnInit {
 
   editarAutor() {
     this.utils._loading = true;
-    console.log(this.formEditAutor.value);
     this.autoresService.update(this.formEditAutor.value)
       .subscribe(
         data => {

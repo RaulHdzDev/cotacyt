@@ -126,7 +126,6 @@ export class AdvisersRegisteredComponent implements OnInit {
     this.formAsesores.get('localidad').setValue(this.asesorActual.localidad);
     this.formAsesores.get('descripcion').setValue(this.asesorActual.descripcion);
     this.formAsesores.get('id_asesores').setValue(this.asesorActual.id_asesores);
-    console.log(this.asesorActual);
     this.utilService._loading = false;
     this.swalEdit.fire();
   }
