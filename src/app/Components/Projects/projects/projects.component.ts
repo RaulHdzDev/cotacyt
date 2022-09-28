@@ -125,7 +125,7 @@ export class ProjectsComponent implements OnInit {
         this.proyectosService.getStatusProyecto(this.proyectoActual.id_proyectos)
           .subscribe((res) => {
             console.log(res)
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.getCalificacionesProyecto(this.categoria, Number(this.proyectoActual.id_proyectos))
                 .subscribe(calificaciones => {
                   this.categoria = this.categoria.toLowerCase();
@@ -273,7 +273,7 @@ export class ProjectsComponent implements OnInit {
         this.categoria = this.categoria.toLowerCase();
         switch (this.categoria) {
           case 'petit':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesPetit(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -336,7 +336,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'kids':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesKids(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -397,7 +397,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'juvenil':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesJvenil(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -459,7 +459,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'media superior':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesMediaSuperior(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -526,7 +526,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'superior':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesSuperior(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -591,7 +591,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'posgrado':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesPosgrado(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
