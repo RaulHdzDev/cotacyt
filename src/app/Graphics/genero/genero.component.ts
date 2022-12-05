@@ -31,7 +31,7 @@ export class GeneroComponent implements OnInit {
   };
 
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c' },
+    { backgroundColor: '#B58F78' },
   ];
   public barChartLabels: Label[] = ['Hombre', 'Mujer'];
   public barChartType: ChartType = 'bar';

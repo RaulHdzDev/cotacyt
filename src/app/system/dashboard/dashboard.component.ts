@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
     }
   };
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c' },
+    { backgroundColor: '#B18B79' },
   ];
   public barChartLabels: Label[] = ['Petit', 'Kids', 'Juvenil', 'Media Superior', 'Superior', 'Posgrado'];
   public barChartType: ChartType = 'bar';

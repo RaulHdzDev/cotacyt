@@ -24,7 +24,7 @@ export class GraForSGComponent implements OnInit {
   };
 
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c'},
+    { backgroundColor: '#B58F78'},
   ];
   public barChartLabels: Label[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
   public barChartType: ChartType = 'bar';
@@ -67,7 +67,7 @@ export class GraForSGComponent implements OnInit {
     var canvas: any = document.getElementById('graficaProy2');
     //creates image
     var canvasImg = canvas.toDataURL("image/jpeg", 1.0);
-    
+
     //creates PDF from img
     var doc = new jsPDF('landscape');
     doc.setFontSize(20);

@@ -32,7 +32,7 @@ export class AreaComponent implements OnInit {
   };
 
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c' },
+    { backgroundColor: '#B58F78' },
   ];
   public barChartLabels: Label[] = ['Ciencias Exactas y Naturales',
   'Medicina y Salud',

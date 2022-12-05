@@ -25,7 +25,7 @@ export class GraForProyComponent implements OnInit {
   };
 
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c'},
+    { backgroundColor: '#B58F78'},
   ];
   public barChartLabels: Label[] = ['Petit', 'Kids', 'Juvenil', 'Media superior', 'Superior', 'Posgrado'];
   public barChartType: ChartType = 'bar';

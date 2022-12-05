@@ -31,7 +31,7 @@ export class EstadisticsComponent implements OnInit {
     }
   };
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c'},
+    { backgroundColor: '#B58F78'},
   ];
   public barChartLabels: Label[] = ['El Mante', 'Madero', 'Matamoros', 'Nuevo Laredo', 'Reynosa', 'Victoria'];
   public barChartType: ChartType = 'bar';

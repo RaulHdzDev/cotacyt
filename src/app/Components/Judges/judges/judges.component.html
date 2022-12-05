@@ -73,7 +73,7 @@
         <form *swalPortal [formGroup]="formJuez">
             <div class="form-group">
                 <label for="">Categoria:</label>
-                <select #s (change)="onChangecategoriaActual(s.value)" [value]="verificarCat(juezActual.categoria)" formControlName="id_categorias" class="form-control">
+                <select #s (change)="onChangecategoriaActual(s.value)" [value]="verificarCat(juezActual.categoria)" formControlName="id_categorias" class="form-control" [attr.disabled]="superUser ? 'disabled': null">
                     <option value="1">Petit</option>
                     <option value="2">Kids</option>
                     <option value="3">Juvenil</option>
