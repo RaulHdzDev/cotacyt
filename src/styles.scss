@@ -5,7 +5,7 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-
+@import './variables';
 @font-face {
     font-family: 'Novecento wide';
     src: url('assets/cotacytResources/fonts/Novecentowide-Normal.eot');
@@ -66,18 +66,20 @@ body::-webkit-scrollbar{
     width: 5px;
 }
 body::-webkit-scrollbar-thumb{
-    background:  rgb(0,100,167);
+    background:  $pricipal-color;
 }
 
 .background-table{
-    background:  rgb(0,100,167);
+    background:  $pricipal-color;
     color: #FFF;
+    position: sticky;
+    top: -1px;
 }
 
 .subtitle{
     color: #FFF;
     padding: 16px;
-    background-color: #97c83c;
+    background-color: $secondary-color;
     border-radius: .5em;
 }
 

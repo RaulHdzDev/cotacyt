@@ -6,5 +6,6 @@ export interface Session {
     contrasena: string;
     nombre: string;
     rol: string;
+    sede: string;
     termino: number;
 }

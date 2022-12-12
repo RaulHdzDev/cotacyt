@@ -4,7 +4,7 @@
         <div class=" sidebar-menu">
             <!-- logo tamaulipas -->
             <div class="profile">
-                <img src="../../../assets/cotacytResources/loginImages/logotam.png" alt="">
+                <img src="assets/cotacytResources/loginImages/logotam.png" alt="">
                 <!-- <p>Hola, Bienvenido</p> -->
                 <p>CP. <span>{{sessionData['nombre']}}</span></p>
                 <hr>
@@ -57,7 +57,7 @@
         <div class="sidebar-menu">
             <!-- logo tamaulipas -->
             <div class="profile">
-                <img src="../../../assets/cotacytResources/loginImages/logotam.png" alt="">
+                <img src="assets/cotacytResources/loginImages/logotam.png" alt="">
                 <!-- <p>Hola, Bienvenido</p> -->
                 <p><span>{{sessionData['nombre']}}</span></p>
                 <hr>
@@ -69,7 +69,7 @@
                 <a [routerLink]="['dashboard']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="menu-btn">
                     <i class="fas fa-home"></i><span> Inicio <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
-                <a *ngIf="!admin" class="menu-btn" [routerLink]="['projects']" routerLinkActive="active">
+                <a *ngIf="!admin && sessionData.id_sedes != '9'" class="menu-btn" [routerLink]="['projects']" routerLinkActive="active">
                     <i class="fas fa-tasks"></i><span> Proyectos <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
             </li>
@@ -82,7 +82,7 @@
 
             <li class="item">
                 <a *ngIf="superuser" [routerLink]="['sede']" routerLinkActive="active" class="menu-btn">
-                    <i class="fas fa-balance-scale"></i><span> Sedes <i
+                    <i class="fas fa-balance-scale"></i><span> Enlaces <i
                             class="fas fa-chevron-right drop-down"></i></span>
                 </a>
                 <a *ngIf="admin" [routerLink]="['judges']" routerLinkActive="active" class="menu-btn">
@@ -100,7 +100,7 @@
                     <i class="fas fa-user-check"></i><span> Autores <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
 
-                <a *ngIf="admin" [routerLink]="['add-estadistics']" routerLinkActive="active" class="menu-btn">
+                <a *ngIf="superuser" [routerLink]="['add-estadistics']" routerLinkActive="active" class="menu-btn">
                     <i class="fas fa-chart-line"></i><span> Estadísticas <i class="fas fa-chevron-right drop-down"></i></span>
                 </a>
                 <a *ngIf="superuser" [routerLink]="['periodos']" routerLinkActive="active" class="menu-btn">
@@ -129,7 +129,7 @@
     </div>
 
 </div>
-<!-- 
+<!--
 
 <script type="text/javascript">
 	$(document).ready(function () {

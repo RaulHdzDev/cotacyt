@@ -6,18 +6,10 @@ export interface Asesores {
     email: string;
     sede: string;
     telefono: string;
-    colonia: string;
     domicilio: string;
     localidad: string;
     municipio: string;
-    img_ine: string;
     curp: string;
     rfc: string;
-    cp: string;
-    escuela: string;
-    twitter: string;
-    facebook: string;
-    id_sedes: string;
     descripcion: string;
-    proyecto: string;
 }

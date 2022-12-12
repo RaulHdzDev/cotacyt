@@ -41,7 +41,7 @@ export class ProjectsComponent implements OnInit {
   video: string;
   proyectosCalificados: ProyectosCalificados[];
   proyectosPorCalificar: ProyectosPorCalificar[];
-  proyectoActual: Proyectos;
+  proyectoActual: any;
   formPuntos: FormGroup;
   valores: any;
   obtenido1: number;
@@ -113,18 +113,19 @@ export class ProjectsComponent implements OnInit {
   }
 
   pdf(event) {
-    window.open('https://mante.hosting.acm.org/api-cecit-2021/uploads/' + event, '_blank');
+    window.open('http://plataforma.cotacyt.gob.mx/expociencias/creatividad/' + event, '_blank');
   }
 
   traerProyecto(idProyecto: string) {
     this.isCollapsed = true;
     this.utilService.loading = true;
-    this.proyectosService.obtenerProyecto(idProyecto).subscribe(
+    this.proyectosService.getProject(idProyecto).subscribe(
       data => {
-        this.proyectoActual = data;
+        this.proyectoActual = data.data;
         this.proyectosService.getStatusProyecto(this.proyectoActual.id_proyectos)
           .subscribe((res) => {
-            if (res[0].status === '1') {
+            console.log(res)
+            if (res[0].status == '1') {
               this.getCalificacionesProyecto(this.categoria, Number(this.proyectoActual.id_proyectos))
                 .subscribe(calificaciones => {
                   this.categoria = this.categoria.toLowerCase();
@@ -272,7 +273,7 @@ export class ProjectsComponent implements OnInit {
         this.categoria = this.categoria.toLowerCase();
         switch (this.categoria) {
           case 'petit':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesPetit(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -319,7 +320,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -335,7 +336,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'kids':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesKids(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -381,7 +382,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -396,7 +397,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'juvenil':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesJvenil(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -443,7 +444,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -458,7 +459,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'media superior':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesMediaSuperior(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -510,7 +511,7 @@ export class ProjectsComponent implements OnInit {
                     icon: 'error'
                   });
                 });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -525,7 +526,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'superior':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesSuperior(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -575,7 +576,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -590,7 +591,7 @@ export class ProjectsComponent implements OnInit {
             }
             break;
           case 'posgrado':
-            if (res[0].status === '1') {
+            if (res[0].status == '1') {
               this.calificarProyectoService.putCalificacionesPosgrado(
                 Number(this.proyectoActual.id_proyectos),
                 this.valores.obtenido1,
@@ -640,7 +641,7 @@ export class ProjectsComponent implements OnInit {
                       icon: 'error'
                     });
                   });
-              this.proyectosService.setProyectoCalificado(this.proyectoActual.id_proyectos, this.proyectoActual.id_categorias)
+              this.proyectosService.setProyectoCalificado(this.proyectoActual)
                 .subscribe(data => {
                   console.log(data);
                 }, err => {
@@ -662,7 +663,7 @@ export class ProjectsComponent implements OnInit {
       });
   }
   generarForm(categoria: string) {
-    const expReg = RegExp('^[0-9]+$');
+    const expReg = RegExp('^([0-9]{1,2}(\.[0-9]{1,2})?)$');
     categoria = categoria.toLowerCase();
     switch (categoria) {
       case 'petit':
@@ -719,12 +720,12 @@ export class ProjectsComponent implements OnInit {
         break;
       case 'posgrado':
         this.formPuntos = this.formBuilder.group({
-          obtenido1: [0, [Validators.required, Validators.max(10), Validators.min(0), Validators.pattern(expReg)]],
+          obtenido1: [0, [Validators.required, Validators.max(25), Validators.min(0), Validators.pattern(expReg)]],
           obtenido2: [0, [Validators.required, Validators.max(30), Validators.min(0), Validators.pattern(expReg)]],
           obtenido3: [0, [Validators.required, Validators.max(5), Validators.min(0), Validators.pattern(expReg)]],
-          obtenido4: [0, [Validators.required, Validators.max(15), Validators.min(0), Validators.pattern(expReg)]],
-          obtenido5: [0, [Validators.required, Validators.max(15), Validators.min(0), Validators.pattern(expReg)]],
-          obtenido6: [0, [Validators.required, Validators.max(15), Validators.min(0), Validators.pattern(expReg)]],
+          obtenido4: [0, [Validators.required, Validators.max(10), Validators.min(0), Validators.pattern(expReg)]],
+          obtenido5: [0, [Validators.required, Validators.max(10), Validators.min(0), Validators.pattern(expReg)]],
+          obtenido6: [0, [Validators.required, Validators.max(10), Validators.min(0), Validators.pattern(expReg)]],
           obtenido7: [0, [Validators.required, Validators.max(5), Validators.min(0), Validators.pattern(expReg)]],
           obtenido8: [0, [Validators.required, Validators.max(5), Validators.min(0), Validators.pattern(expReg)]],
         });
@@ -735,29 +736,29 @@ export class ProjectsComponent implements OnInit {
 
 
 
-  mostrarInfoTodosLosProyectos(proyecto: ProjectRegistered) {
-    this.utilService._loading = true;
-    if (this.sessionData.rol === 'admin') {
-      this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilService._loading = false;
-      });
-    } else {
-      this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilService._loading = false;
-      });
-    }
-    this.swalInformacion.fire();
-  }
+  // mostrarInfoTodosLosProyectos(proyecto: ProjectRegistered) {
+  //   this.utilService._loading = true;
+  //   if (this.sessionData.rol === 'admin') {
+  //     this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilService._loading = false;
+  //     });
+  //   } else {
+  //     this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
+  //       data => {
+  //         this.informacionDeLosProyectos = data;
+  //       },
+  //       err => console.log(err)
+  //     ).add(() => {
+  //       this.utilService._loading = false;
+  //     });
+  //   }
+  //   this.swalInformacion.fire();
+  // }
 
   updateValidationProjects() {
     this.projectsJudges.updateEvaluation(this.sessionData.id_jueces).subscribe(
@@ -767,14 +768,7 @@ export class ProjectsComponent implements OnInit {
           title: data,
           text: 'Se cerrara la sesion',
           icon: 'success'
-        }).then(() => {
-          const doc = new jsPDF('p', 'in', 'letter');
-          doc.addImage('assets/cotacytResources/image/acuse.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-          doc.text(this.titlecasePipe.transform(this.sessionData.nombre), 4.2, 6.9, { align: 'center' })
-            .setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-          doc.save('Acuse de recibo.pdf');
-          window.location.reload();
-        });
+        }).then(() => window.location.reload());
       },
       err => {
         console.log(err);

@@ -1,0 +1,30 @@
+@import '../../../../variables';
+.text-name-remove{
+  color: $pricipal-color-black;
+}
+.btn-edit{
+  background: $pricipal-color;
+  color: #fff;
+}
+
+.btn-save{
+  background: $pricipal-color;
+  color: #fff;
+}
+
+.text-name-remove{
+  color: $pricipal-color;
+}
+.scroll{
+  min-height:80px;
+  max-height:80px;
+  overflow-y: scroll;
+  text-align: justify;
+}
+.scroll::-webkit-scrollbar{
+  width: 10px;
+}
+.scroll::-webkit-scrollbar-thumb{
+  background:$pricipal-color;
+  border-radius: 5px;
+}

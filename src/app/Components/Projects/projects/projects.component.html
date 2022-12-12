@@ -1,5 +1,5 @@
 <!-- swal tabla informacion -->
-<swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
+<!-- <swal class="swal-wide" #swalid1 title="Información del proyecto" [swalOptions]="{customClass: 'clase', width: '800px'}">
     <div *swalPortal>
         <div>
             <table class="table table-light" *ngFor="let info of informacionDeLosProyectos">
@@ -72,7 +72,7 @@
             </table>
         </div>
     </div>
-</swal>
+</swal> -->
 <!-- swal reproductor de video -->
 <!-- <swal class="swal-wide " #swalid2 title="Demostración del proyecto" [swalOptions]="{customClass: 'clase'}">
     <div *swalPortal>
@@ -111,18 +111,18 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let i of allProjects">
-                                <td> <button class="btn btn-subboton-info mr-3" (click)="mostrarInfoTodosLosProyectos(i)">
+                                <td>
+                                  <!-- <button class="btn btn-subboton-info mr-3" (click)="mostrarInfoTodosLosProyectos(i)">
                                     <i class="fas fa-question-circle"></i>
-                                </button>{{i.nombre}}
+                                </button> -->
+                                {{i.nombre}}
                                 </td>
                                 <td>
                                     <div *ngIf="i.status == '0'" class="custom-btn-danger text-center">Sin calificar</div>
                                     <div *ngIf="i.status == '1'" class="custom-btn-success text-center">Calificado</div>
                                 </td>
                                 <td>
-                                    <button class="btn-edit-project btn-see-projects btn mr-1 mb-1" (click)="traerProyecto(i.id_proyectos)"><i class="fas fa-edit"></i></button>
-                                    <button class="btn-edit-project btn-see-projects btn" (click)="pdf(i.pdf)"><i class="fas fa-file-pdf"></i></button>
-                                    <button class="btn-edit-project btn-see-projects btn" (click)="abrirReproductor($event, i.video)"><i class="fas fa-video"></i></button>
+                                    <button class="btn-edit-project btn-see-projects btn mr-1 mb-1" (click)="traerProyecto(i.id_proyectos)">Calificar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -148,7 +148,9 @@
                             <tr>
                                 <td class="text-center">{{proyectoActual.nombre}}</td>
                                 <td class="text-center">
-                                    <button class="custom-btn-success" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Calificar</button>
+                                    <button class="custom-btn-success mr-2" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">Calificar</button>
+                                    <button class="btn-edit-project btn-see-projects btn mr-2 mb-2" (click)="pdf(proyectoActual.pdf)"><i class="fas fa-file-pdf"></i></button>
+                                    <button class="btn-edit-project btn-see-projects btn mb-2" (click)="abrirReproductor($event, proyectoActual.video)"><i class="fas fa-video"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -168,292 +170,292 @@
                                     </thead>
                                     <tbody *ngSwitchCase="'petit'">
                                         <tr>
-                                            <td>Calidad del resumen documental</td>
+                                            <td>Calidad del proyecto en extenso</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
-                                            <td>Presentación del prototipo</td>
+                                            <td>Presentación del proyecto (video)</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido2" max="40" formControlName="obtenido2">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido2" max="40" formControlName="obtenido2">
                                             </td>
                                             <td>40</td>
                                         </tr>
                                         <tr>
                                             <td>Identificación del problema</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido3" max="10" formControlName="obtenido3">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido3" max="10" formControlName="obtenido3">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
                                             <td>Propuesta de solución</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido4" max="20" formControlName="obtenido4">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido4" max="20" formControlName="obtenido4">
                                             </td>
                                             <td>20</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento creativo</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
                                             </td>
                                             <td>20</td>
                                         </tr>
                                     </tbody>
                                     <tbody *ngSwitchCase="'kids'">
                                         <tr>
-                                            <td>Calidad del resumen documental</td>
+                                            <td>Calidad del proyecto en extenso</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
-                                            <td>Presentación del prototipo</td>
+                                            <td>Presentación del proyecto (video)</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido2" max="40" formControlName="obtenido2">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido2" max="40" formControlName="obtenido2">
                                             </td>
                                             <td>40</td>
                                         </tr>
                                         <tr>
                                             <td>Identificación del problema</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido3" max="10" formControlName="obtenido3">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido3" max="10" formControlName="obtenido3">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
                                             <td>Propuesta de solución</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido4" max="20" formControlName="obtenido4">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido4" max="20" formControlName="obtenido4">
                                             </td>
                                             <td>20</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento creativo</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
                                             </td>
                                             <td>20</td>
                                         </tr>
                                     </tbody>
                                     <tbody *ngSwitchCase="'juvenil'">
                                         <tr>
-                                            <td>Calidad del resumen documental</td>
+                                            <td>Calidad del proyecto en extenso</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
-                                            <td>Presentación del prototipo</td>
+                                            <td>Presentación del proyecto (video)</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
                                             </td>
                                             <td>30</td>
                                         </tr>
                                         <tr>
                                             <td>Identificación del problema</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
                                             <td>Propuesta de solución</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento creativo</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido5" max="20" formControlName="obtenido5">
                                             </td>
                                             <td>20</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento de innovación</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido6" max="20" formControlName="obtenido6">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido6" max="20" formControlName="obtenido6">
                                             </td>
                                             <td>20</td>
                                         </tr>
                                     </tbody>
                                     <tbody *ngSwitchCase="'media superior'">
                                         <tr>
-                                            <td>Calidad del resumen documental</td>
+                                            <td>Calidad del proyecto en extenso</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
-                                            <td>Presentación del prototipo</td>
+                                            <td>Presentación del proyecto (video)</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
                                             </td>
                                             <td>30</td>
                                         </tr>
                                         <tr>
                                             <td>Identificación del problema</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
                                             <td>Propuesta de solución</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento creativo</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento de innovación</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Factibilidad técnica-financiera</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
-                                            <td>Definicíon de mercado y comercialización</td>
+                                            <td>Definicíón de mercado y comercialización</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                     </tbody>
                                     <tbody *ngSwitchCase="'superior'">
                                         <tr>
-                                            <td>Calidad del resumen documental</td>
+                                            <td>Calidad del proyecto en extenso</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido1" max="25" formControlName="obtenido1">
                                             </td>
                                             <td>10</td>
                                         </tr>
                                         <tr>
-                                            <td>Presentación del prototipo</td>
+                                            <td>Presentación del proyecto (video)</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
                                             </td>
                                             <td>30</td>
                                         </tr>
                                         <tr>
                                             <td>Identificación del problema</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
                                             <td>Propuesta de solución</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido4" max="10" formControlName="obtenido4">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento creativo</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido5" max="10" formControlName="obtenido5">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento de innovación</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido6" max="10" formControlName="obtenido6">
                                             </td>
                                             <td>15</td>
                                         </tr>
                                         <tr>
                                             <td>Factibilidad técnica-financiera</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
-                                            <td>Definicíon de mercado y comercialización</td>
+                                            <td>Definicíón de mercado y comercialización</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                     </tbody>
                                     <tbody *ngSwitchCase="'posgrado'">
                                         <tr>
-                                            <td>Calidad del resumen documental</td>
+                                            <td>Calidad del proyecto en extenso</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido1" max="10" formControlName="obtenido1">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido1" max="25" formControlName="obtenido1">
                                             </td>
-                                            <td>10</td>
+                                            <td>25</td>
                                         </tr>
                                         <tr>
-                                            <td>Presentación del prototipo</td>
+                                            <td>Presentación del proyecto (video)</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido2" max="30" formControlName="obtenido2">
                                             </td>
                                             <td>30</td>
                                         </tr>
                                         <tr>
                                             <td>Identificación del problema</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido3" max="5" formControlName="obtenido3">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
                                             <td>Propuesta de solución</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido4" max="15" formControlName="obtenido4">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido4" max="10" formControlName="obtenido4">
                                             </td>
-                                            <td>15</td>
+                                            <td>10</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento creativo</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido5" max="15" formControlName="obtenido5">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido5" max="10" formControlName="obtenido5">
                                             </td>
-                                            <td>15</td>
+                                            <td>10</td>
                                         </tr>
                                         <tr>
                                             <td>Elemento de innovación</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido6" max="15" formControlName="obtenido6">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido6" max="10" formControlName="obtenido6">
                                             </td>
-                                            <td>15</td>
+                                            <td>10</td>
                                         </tr>
                                         <tr>
                                             <td>Factibilidad técnica-financiera</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido7" max="5" formControlName="obtenido7">
                                             </td>
                                             <td>5</td>
                                         </tr>
                                         <tr>
-                                            <td>Definicíon de mercado y comercialización</td>
+                                            <td>Definicíón de mercado y comercialización</td>
                                             <td>
-                                                <input min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
+                                                <input step="0.01" min="0" type="number" [value]="obtenido8" max="5" formControlName="obtenido8">
                                             </td>
                                             <td>5</td>
                                         </tr>

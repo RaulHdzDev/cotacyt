@@ -109,12 +109,4 @@ export class FormAuthorComponent implements OnInit {
   rfcUpperCase(): void {
     this.formRegistroAutores.get('rfc').setValue(this.formRegistroAutores.get('rfc').value.toUpperCase());
   }
-  saveAsPdf() {
-    const doc = new jsPDF();
-    doc.addImage('assets/cotacytResources/image/certificadoJurado.jpg', 'jpg', 0, 0, 210, 300);
-    doc.text(this.sessionData.nombre, 65, 185);
-    doc.setFontSize(16);
-    doc.setFont('Arial');
-    doc.save('constancia.pdf');
-  }
 }

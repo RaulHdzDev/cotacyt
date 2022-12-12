@@ -19,6 +19,7 @@ export interface Autores {
     twitter: string;
     facebook: string;
     email: string;
+    sede: string;
 }
 export interface AutoresSelect {
     id_autores: string;

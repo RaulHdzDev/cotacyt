@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Session } from '../../../models/session.model';
 import { forkJoin } from 'rxjs';
 import { CoordinadorService } from '../../../services/coordinador.service';
@@ -8,6 +8,9 @@ import { JudgesRegistered } from '../../../models/judges.model';
 import { Sedes } from '../../../models/sedes.model';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { ProyectosService } from 'src/app/services/proyectos.service';
+import { Proyectos } from 'src/app/models/proyectos.model';
 
 @Component({
   selector: 'app-admin-registered',
@@ -16,35 +19,39 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AdminRegisteredComponent implements OnInit {
 
-
+  @ViewChild('swalid') private swalEdit: SwalComponent;
   sessionData: Session;
   superUser: boolean;
-  admins: JudgesRegistered[];
+  admins: Array<JudgesRegistered> = [];
   adminActual: JudgesRegistered;
   sedes: Sedes[];
   formAdmin: FormGroup;
+  proyectos: Proyectos[];
   adminsFiltro: JudgesRegistered[];
   categoriaActual = '1';
   sedeActual = '1';
-
+  adminsTabla: JudgesRegistered[] = [];
+  rowPerPage = 10;
+  currentPage = 1;
   constructor(
     private adminsService: CoordinadorService,
     private utilService: UtilService,
     private sedesService: SedesService,
+    private proyectosService: ProyectosService,
     private formBuilder: FormBuilder,
-  ) { 
+  ) {
     this.sessionData = JSON.parse(localStorage.getItem('session'));
     this.admins = new Array<JudgesRegistered>();
     this.utilService.loading = true;
     this.formAdmin = this.formBuilder.group({
-      id_jueces:            [''],
-      id_categorias:        ['', [Validators.required]],
-      id_sedes:             ['', [Validators.required]],
-      usuario:              ['', [Validators.required]],
-      contrasena:           ['', [Validators.required]],
+      id_jueces: [''],
+      id_categorias: ['', [Validators.required]],
+      id_sedes: ['', [Validators.required]],
+      usuario: ['', [Validators.required]],
+      contrasena: ['', [Validators.required]],
       ids_proyectos_viejos: [''],
       ids_proyectos_nuevos: [''],
-      nombre:               ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
     });
   }
 
@@ -61,34 +68,22 @@ export class AdminRegisteredComponent implements OnInit {
       }).subscribe(
         data => {
           this.admins = data.jueces;
-          console.log(data.jueces);
-          console.log(data);
           this.sedes = data.sedes;
+          this.adminsFiltro = this.admins;
         },
         err => {
           console.log(err);
         }
       ).add(() => {
+        this.adminsTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.admins[i]) {
+            this.adminsTabla.push(this.admins[i]);
+          }
+        }
         this.utilService.loading = false;
       });
-    } 
-    
-    // else {
-    //   forkJoin({
-    //     jueces: this.judgesService.getJudgesDetails(),
-    //     sedes: this.sedesService.getSedes(),
-    //   }).subscribe(
-    //     data => {
-    //       this.jueces = data.jueces;
-    //       this.sedes = data.sedes;
-    //     },
-    //     err => {
-    //       console.log(err);
-    //     }
-    //   ).add(() => {
-    //     this.utilService.loading = false;
-    //   });
-    // }
+    }
   }
   setJudge(admin: JudgesRegistered) {
     this.adminActual = admin;
@@ -113,54 +108,6 @@ export class AdminRegisteredComponent implements OnInit {
           this.ngOnInit();
         });
   }
-
-  // open(juez: JudgesRegistered) {
-  //   this.adminActual = juez;
-  //   this.utilService._loading = true;
-  //   forkJoin({
-  //     proyectos: this.superUser
-  //     ? this.proyectosService.obtenerTodosLosProyectosCategoria(this.adminActual.id_categorias)
-  //     : this.proyectosService.obtenerProyectosSuperUser(this.adminActual.id_categorias),
-  //     proyectosViejos: this.proyectosService.obtenerProyectosSelect(this.adminActual.id_categorias)
-  //   }).subscribe(
-  //     data => {
-  //       this.proyectos = data.proyectos;
-  //       this.proyectosViejos = data.proyectosViejos;
-  //     }
-  //   ).add(() => this.utilService._loading = false);
-  //   this.superUser
-  //   ? this.formAdmin.patchValue({
-  //     id_jueces: this.adminActual.id_jueces,
-  //     usuario: this.adminActual.usuario,
-  //     contrasena: this.adminActual.contrasena,
-  //     nombre: this.adminActual.nombre,
-  //     id_sedes: this.sessionData.id_sedes,
-  //     id_categorias: this.verificarCat(this.adminActual.categoria)
-  //   })
-  //   : this.formAdmin.patchValue({
-  //     id_jueces: this.adminActual.id_jueces,
-  //     usuario: this.adminActual.usuario,
-  //     contrasena: this.adminActual.contrasena,
-  //     nombre: this.adminActual.nombre,
-  //     id_sedes: this.adminActual.id_sedes,
-  //     id_categorias: this.verificarCat(this.adminActual.categoria)
-  //   });
-  //   this.swalEdit.fire().then(
-  //     res => {
-  //       if (res.dismiss === Swal.DismissReason.backdrop) {
-  //         this.vaciarInfo();
-  //       }
-  //     },
-  //     err => {
-  //       console.error(err);
-  //     }
-  //   );
-  // }
-  // vaciarInfo() {
-  //   this.proyectosNuevos = [];
-  //   this.proyectosViejos = [];
-  //   this.proyectos = [];
-  // }
   editarJuez() {
     this.utilService._loading = true;
     this.adminsService.updateJudge(this.formAdmin.value)
@@ -182,49 +129,112 @@ export class AdminRegisteredComponent implements OnInit {
           this.utilService._loading = false;
         });
   }
-  // dropProyectoViejo(item) {
-  //   this.proyectosViejos.map( (res, index) => {
-  //     if (res.id_proyectos === item.id_proyectos) {
-  //       this.proyectosViejos.splice(index, 1);
-  //     }
-  //   });
-  // }
-  // addProyectoViejo(item) {
-  //   this.proyectosViejos.push(item);
-  // }
-  // dropProyectoNuevo(item) {
-  //   this.proyectosNuevos.map( (res, index) => {
-  //     if (res.id_proyectos === item.id_proyectos) {
-  //       this.proyectosNuevos.splice(index, 1);
-  //     }
-  //   });
-  // }
-  // addProyectoNuevo(item) {
-  //   this.proyectosNuevos.push(item);
-  // }
-  onChangeSedeActual(value) {
-    this.utilService._loading = true;
-    this.sedeActual = value;
-    // this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActual, value)
-    // .subscribe( data => {
-    //   this.proyectos = data;
-    // }).add(() => this.utilService._loading = false);
+
+  vaciarInfo() {
+    this.proyectos = [];
   }
-  onChangeCategoriaActual(value) {
+
+  open(juez: JudgesRegistered) {
+    this.adminActual = juez;
+    this.superUser
+      ? this.formAdmin.patchValue({
+        id_jueces: this.adminActual.id_jueces,
+        usuario: this.adminActual.usuario,
+        contrasena: this.adminActual.contrasena,
+        nombre: this.adminActual.nombre,
+        id_sedes: this.sessionData.id_sedes,
+        id_categorias: this.adminActual.id_categorias
+      })
+      : this.formAdmin.patchValue({
+        id_jueces: this.adminActual.id_jueces,
+        usuario: this.adminActual.usuario,
+        contrasena: this.adminActual.contrasena,
+        nombre: this.adminActual.nombre,
+        id_sedes: this.adminActual.id_sedes,
+        id_categorias: this.adminActual.id_categorias
+      });
+    this.swalEdit.fire().then(
+      res => {
+        if (res.dismiss === Swal.DismissReason.backdrop) {
+          console.log('se vacio');
+          this.vaciarInfo();
+        }
+      },
+      err => {
+        console.error(err);
+      }
+    );
+  }
+
+  onChangesedeActual(value) {
     this.utilService._loading = true;
-    this.categoriaActual = value;
+    switch (value) {
+      case '1':
+        this.sedeActual = 'el mante';
+        break;
+      case '2':
+        this.sedeActual = 'reynosa';
+        break;
+      case '3':
+        this.sedeActual = 'matamoros';
+        break;
+      case '4':
+        this.sedeActual = 'madero';
+        break;
+      case '5':
+        this.sedeActual = 'nuevo laredo';
+        break;
+      case '6':
+        this.sedeActual = 'victoria';
+        break;
+      case '7':
+        this.sedeActual = 'estatal';
+        break;
+      case '8':
+        this.sedeActual = 'internacional';
+        break;
+    }
+    this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
+      .subscribe(data => {
+        this.proyectos = data.data;
+      }).add(() => this.utilService._loading = false);
+  }
+
+  onChangecategoriaActual(value) {
+    this.utilService._loading = true;
+    switch (value) {
+      case '1':
+        this.categoriaActual = 'petit';
+        break;
+      case '2':
+        this.categoriaActual = 'kids';
+        break;
+      case '3':
+        this.categoriaActual = 'juvenil';
+        break;
+      case '4':
+        this.categoriaActual = 'Media superior';
+        break;
+      case '5':
+        this.categoriaActual = 'superior';
+        break;
+      case '6':
+        this.categoriaActual = 'posgrado';
+        break;
+    }
     if (this.sessionData.rol === 'superuser') {
-      // this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
-      // .subscribe( data => {
-      //   this.proyectos = data;
-      // }).add(() => this.utilService._loading = false);
+      this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
+        .subscribe(data => {
+          this.proyectos = data.data;
+        }).add(() => this.utilService._loading = false);
     } else {
-      // this.proyectosService.obtenerTodosLosProyectosCategoria(value)
-      // .subscribe( data => {
-      //   this.proyectos = data;
-      // }).add(() => this.utilService._loading = false);
+      this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.categoriaActual)
+        .subscribe(data => {
+          this.proyectos = data.data;
+        }).add(() => this.utilService._loading = false);
     }
   }
+
   verificarCat(categoria: string) {
     switch (categoria) {
       case 'petit':
@@ -241,121 +251,54 @@ export class AdminRegisteredComponent implements OnInit {
         return 6;
     }
   }
-  // saveAsPdf(juez: JudgesRegistered) {
-  //   this.juezActual = juez;
-  //   switch (this.juezActual.sede) {
-  //     case 'El mante':
-  //       const doc = new jsPDF('p', 'in', 'letter');
-  //       doc.addImage('assets/image/ReconocimientoJuradoMante.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       // doc.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-  //       // doc.addImage('assets/image/DirectorMante.png', 'png', 5.7, 8, 1.3, 1);
-  //       doc.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Reynosa':
-  //       const doc1 = new jsPDF('p', 'in', 'letter');
-  //       doc1.addImage('assets/image/ReconocimientoJuradoReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc1.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       // doc1.addImage('assets/image/DirectorReynosa.png', 'png', 5.7, 7.8, 1.3, 1.3);
-  //       // doc1.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-  //       doc1.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Matamoros':
-  //       const doc2 = new jsPDF('p', 'in', 'letter');
-  //       doc2.addImage('assets/image/ReconocimientoJuradoMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc2.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       // doc2.addImage('assets/image/DirectorMatamoros.png', 'png', 5.7, 8, 1.3, 1);
-  //       // doc2.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-  //       doc2.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Madero':
-  //       const doc3 = new jsPDF('p', 'in', 'letter');
-  //       doc3.addImage('assets/image/ReconocimientoJuradoMadero.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc3.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       doc3.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Jaumave':
-  //       const doc4 = new jsPDF('p', 'in', 'letter');
-  //       doc4.addImage('assets/image/ReconocimientoJuradoJaumave.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc4.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.73, {align: 'center'});
-  //       doc4.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Nuevo Laredo':
-  //       const doc5 = new jsPDF('p', 'in', 'letter');
-  //       doc5.addImage('assets/image/ReconocimientoJuradoNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc5.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       doc5.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Victoria':
-  //       const doc6 = new jsPDF('p', 'in', 'letter');
-  //       doc6.addImage('assets/image/ReconocimientoJuradoVictoria.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc6.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       // doc6.addImage('assets/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-  //       // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-  //       doc6.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Estatal':
-  //       const doc7 = new jsPDF('p', 'in', 'letter');
-  //       doc7.addImage('assets/image/ReconocimientoJuradoEstatal.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
-  //       // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-  //       doc7.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
-  //       break;
-  //     case 'Internacional':
-  //       const doc8 = new jsPDF('p', 'in', 'letter');
-  //       if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'superior') {
-  //       doc8.addImage('assets/image/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
-  //       .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //       doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //       doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-  //       // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-  //       doc8.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
-  //       } else {
-  //         if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'media superior') {
-  //           doc8.addImage('assets/image/ReconocimientoJuradoInternacionalMS.jpg', 'jpg', 0, 0, 8.5, 11)
-  //           .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-  //           doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.6, {align: 'center'});
-  //           doc8.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-  //           // doc1.addImage('assets/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-  //           doc8.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
-  //         } else {
-  //           swal.fire({
-  //             title: 'No se encontro la constancia',
-  //             icon: 'error',
-  //           });
-  //         }
-  //       }
-  //       break;
-  //     default:
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: 'No se encontró la sede'
-  //       });
-  //       break;
-  //   }
-  // }
 
-  onChangeSedeActualFiltro(idSede: string) {
-    if (idSede !== 'todo') {
-      const juecesTemp: JudgesRegistered[] = [];
-      this.adminsFiltro.forEach((value, _) => {
-        if (value.id_sedes === idSede) {
-          juecesTemp.push(value);
+
+  nextPage(): void {
+    const total = Math.round(this.admins.length / this.rowPerPage) < (this.admins.length / this.rowPerPage)
+      ? Math.round(this.admins.length / this.rowPerPage) + 1
+      : Math.round(this.admins.length / this.rowPerPage);
+    if (this.currentPage < total) {
+      this.adminsTabla = [];
+      for (let i = this.currentPage * this.rowPerPage; i < this.admins.length; i++) {
+        if (i <= (this.currentPage * this.rowPerPage) + this.rowPerPage) {
+          this.adminsTabla.push(this.admins[i]);
+        }
+      }
+      this.currentPage++;
+    }
+  }
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.adminsTabla = [];
+      this.currentPage--;
+      for (let i = (this.currentPage * this.rowPerPage) - this.rowPerPage; i < this.admins.length; i++) {
+        if (i <= ((this.currentPage * this.rowPerPage) + this.rowPerPage) - this.rowPerPage) {
+          this.adminsTabla.push(this.admins[i]);
+        }
+      }
+    }
+  }
+
+  onChangeSedeActualFiltro(value: string) {
+    this.admins = this.adminsFiltro;
+    if (value !== 'todo') {
+      const adminsTemp: JudgesRegistered[] = [];
+      this.admins.forEach((admin, _) => {
+        if (admin.sede.toLowerCase() === value.toLowerCase()) {
+          adminsTemp.push(admin);
         }
       });
-      this.admins = juecesTemp;
+      this.admins = adminsTemp;
     } else {
       this.admins = this.adminsFiltro;
     }
+    this.adminsTabla = [];
+    for (let i = 0; i < this.rowPerPage; i++) {
+      if (this.admins[i]) {
+        this.adminsTabla.push(this.admins[i]);
+      }
+    }
+    this.currentPage = 1;
   }
 
 }

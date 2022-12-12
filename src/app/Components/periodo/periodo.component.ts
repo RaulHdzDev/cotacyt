@@ -17,14 +17,17 @@ export class PeriodoComponent implements OnInit {
   sessionData: Session;
   formFechaJueces: FormGroup;
   formFechaProyectos: FormGroup;
-  estatal: boolean;
-  status: any = 0;
+  estatal: boolean = false;
+  internacional: boolean = false;
+  status: boolean;
+  statusInter: boolean;
+  valPass: any;
   constructor(
     public formBuilder: FormBuilder,
     private sedesService: SedesService,
     private periodoService: PeriodoService,
     private utilService: UtilService,
-  ) { 
+  ) {
     this.formFechaJueces = formBuilder.group({
       fechaInicioJ: ['', Validators.required],
       fechaFinJ: ['', Validators.required]
@@ -41,20 +44,28 @@ export class PeriodoComponent implements OnInit {
     this.periodoService.getStatus().subscribe(
       data => {
         this.status = data;
-        if(this.status == 0) {
+        if (!this.status) {
           this.estatal = false;
         }
-        else if(this.status == 1){
+        else if (this.status) {
           this.estatal = true;
         }
       }
-    ).add(()=>{
+    ).add(() => {
       this.utilService.loading = false;
     });
-    
+    this.periodoService.getStatusInternacional().subscribe(
+      data => {
+        this.statusInter = data;
+        if (!this.statusInter)
+          this.internacional = false;
+        else if (this.statusInter)
+          this.internacional = true;
+      }
+    );
   }
 
-  iniciarEstatal(){
+  iniciarEstatal() {
     Swal.fire({
       icon: 'warning',
       title: 'ETAPA ESTATAL',
@@ -63,41 +74,136 @@ export class PeriodoComponent implements OnInit {
       showConfirmButton: true,
     }).then(
       res => {
-        if(res.isConfirmed){
-          this.utilService.loading = true;
-          this.periodoService.initEstatal().subscribe(
-            data => {
-              console.log(data.error);
+        if (res.isConfirmed) {
+          Swal.fire({
+            title: 'Ingrese la contraseña',
+            input: 'password',
+            showCancelButton: true,
+            showConfirmButton: true,
+            inputValidator: psw => {
+              if (!psw) {
+                return "Por favor escribe la contraseña";
+              } else {
+                return undefined;
+              }
             }
-          ).add(() => {
-            this.utilService.loading = false;
-            window.location.reload();
-          });
-        } else if(res.dismiss){
-            Swal.fire('Etapa estatal cancelada', '', 'info')
+          }).then(
+            resultado => {
+              if (resultado.value) {
+                let pass = resultado.value;
+                this.valPass = JSON.parse(localStorage.getItem('session'))
+                if (this.valPass.contrasena === resultado.value) {
+                  this.utilService.loading = true;
+                  this.periodoService.initEstatal().subscribe(
+                    data => {
+                      this.periodoService.saveEstatal(data).subscribe(
+                        dara => {
+                          console.log(dara);
+                        }
+                      ).add(() => {
+                        this.utilService.loading = false;
+                        window.location.reload();
+                      });
+                    }
+                  );
+                } else {
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Contraseña incorrecta'
+                  });
+                }
+              }
+            }
+          );
+        } else if (res.dismiss) {
+          Swal.fire('Etapa estatal cancelada', '', 'info')
         }
-      }, 
+      },
       err => {
         console.log(err);
       }
     );
-      // this.estatal = JSON.parse(localStorage.getItem('estatal'));
-      console.log(this.estatal + ' estatal');
+    // this.estatal = JSON.parse(localStorage.getItem('estatal'));
+    console.log(this.estatal + ' estatal');
   }
 
-  subirFechasJ(){
-    if(this.formFechaJueces.value.fechaInicioJ != '' && this.formFechaJueces.value.fechaFinJ != ''){
+  iniciarInternacional() {
+    Swal.fire({
+      icon: 'warning',
+      title: 'ETAPA INTERNACIONAL',
+      text: 'Esta a punto de iniciar la etapa internacional',
+      showCancelButton: true,
+      showConfirmButton: true,
+    }).then(
+      res => {
+        if (res.isConfirmed) {
+          Swal.fire({
+            title: 'Ingrese la contraseña',
+            input: 'password',
+            showCancelButton: true,
+            showConfirmButton: true,
+            inputValidator: psw => {
+              if (!psw) {
+                return 'Por favor escribe la contraseña';
+              } else {
+                return undefined;
+              }
+            }
+          }).then(
+            resultado => {
+              if (resultado.value) {
+                let pass = resultado.value;
+                this.valPass = JSON.parse(localStorage.getItem('session'))
+                if (this.valPass.contrasena === resultado.value) {
+                  this.utilService.loading = true;
+                  this.periodoService.saveInternacional().subscribe(
+                    dara => {
+                      console.log(dara);
+                      if (!dara.error) {
+                        this.periodoService.initInternacional().subscribe(da => {
+                          console.log(da);
+                        }, err => console.log(err));
+                      }
+                    }
+                  ).add(() => {
+                    this.utilService.loading = false;
+                    window.location.reload();
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Contraseña incorrecta'
+                  });
+                }
+              }
+            }
+          );
+        } else if (res.dismiss) {
+          Swal.fire('Etapa internacional cancelada', '', 'info');
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    console.log(this.internacional + ' internacional');
+  }
+
+  subirFechasJ() {
+    if (this.formFechaJueces.value.fechaInicioJ != '' && this.formFechaJueces.value.fechaFinJ != '') {
+      console.log(this.formFechaJueces.value.fechaInicioJ);
+      console.log(this.formFechaJueces.value.fechaFinJ);
       this.periodoService.uploadFechas(this.formFechaJueces.value.fechaInicioJ, this.formFechaJueces.value.fechaFinJ).subscribe(
         data => {
           // this.swalid1.dismiss();
           console.log(data);
         }
-       ).add(()=>{
+      ).add(() => {
         Swal.fire({
           icon: 'success',
           text: 'Fechas ingresadas'
         });
-       });
+      });
     } else {
       Swal.fire({
         icon: 'warning',
@@ -105,21 +211,21 @@ export class PeriodoComponent implements OnInit {
       });
       console.log('ok');
     }
-    
+
   }
-  subirFechasP(){
-    if(this.formFechaProyectos.value.fechaInicioP != '' && this.formFechaProyectos.value.fechaFinP != ''){
+  subirFechasP() {
+    if (this.formFechaProyectos.value.fechaInicioP != '' && this.formFechaProyectos.value.fechaFinP != '') {
       this.periodoService.uploadFechasP(this.formFechaProyectos.value.fechaInicioP, this.formFechaProyectos.value.fechaFinP).subscribe(
         data => {
           // this.swalid1.dismiss();
           console.log(data);
         }
-       ).add(()=>{
+      ).add(() => {
         Swal.fire({
           icon: 'success',
           text: 'Fechas ingresadas'
         });
-       });
+      });
     } else {
       Swal.fire({
         icon: 'warning',
@@ -128,7 +234,7 @@ export class PeriodoComponent implements OnInit {
       console.log('ok');
     }
   }
-  executeDeleteSystem(){
+  executeDeleteSystem() {
     Swal.fire({
       icon: 'warning',
       title: 'Reinicio',
@@ -139,17 +245,43 @@ export class PeriodoComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(
       res => {
-        if(res.isConfirmed){
-          this.utilService.loading = true;
-          this.periodoService.executeDeleteSystem().subscribe(
-            data => {
-              console.log(data);
+        if (res.isConfirmed) {
+          Swal.fire({
+            title: 'Ingrese la contraseña',
+            input: 'password',
+            showCancelButton: true,
+            showConfirmButton: true,
+            inputValidator: psw => {
+              if (!psw) {
+                return "Por favor escribe la contraseña";
+              } else {
+                return undefined;
+              }
             }
-          ).add(() => {
-            this.utilService.loading = false;
-            window.location.reload();
+          }).then(resultado => {
+            if (resultado.value) {
+              let pass = resultado.value;
+              this.valPass = JSON.parse(localStorage.getItem('session'))
+              console.log(this.valPass.contrasena);
+              if (this.valPass.contrasena === resultado.value) {
+                this.utilService.loading = true;
+                this.periodoService.executeDeleteSystem().subscribe(
+                  data => {
+                    console.log(data);
+                  }
+                ).add(() => {
+                  this.utilService.loading = false;
+                  window.location.reload();
+                });
+              } else {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Contraseña incorrecta'
+                });
+              }
+            }
           });
-        } else if(res.isDismissed){
+        } else if (res.isDismissed) {
           Swal.fire('Reinicio del sistema cancelado', '', 'info')
         }
       },
@@ -157,6 +289,6 @@ export class PeriodoComponent implements OnInit {
         console.log(err);
       }
     );
-    
+
   }
 }

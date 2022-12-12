@@ -27,7 +27,7 @@ import swal from 'sweetalert2';
 export class JudgesComponent implements OnInit {
 
   @ViewChild('swalid') private swalEdit: SwalComponent;
-  jueces: JudgesRegistered[];
+  jueces: Array<JudgesRegistered> = [];
   juecesFiltro: JudgesRegistered[];
   juezActual: JudgesRegistered;
   sedes: Sedes[];
@@ -39,8 +39,11 @@ export class JudgesComponent implements OnInit {
   settingsProyectosViejos: IDropdownSettings;
   settingsProyectosNuevos: IDropdownSettings;
   superUser: boolean;
-  categoriaActual = '1';
-  sedeActual = '1';
+  categoriaActual = 'petit';
+  sedeActual = 'el mante';
+  juecesTabla: JudgesRegistered[] = [];
+  rowPerPage = 10;
+  currentPage = 1;
   constructor(
     private judgesService: JudgesRegisteredService,
     private utilService: UtilService,
@@ -96,18 +99,24 @@ export class JudgesComponent implements OnInit {
       forkJoin({
         jueces: this.judgesService.getJudgesSueperUser(),
         sedes: this.sedesService.getSedes(),
-        proyectos: this.proyectosService.obtenerProyectosSuperUser('1'),
+        // proyectos: this.proyectosService.obtenerProyectosSuperUser('1'),
       }).subscribe(
         data => {
           this.jueces = data.jueces;
           this.sedes = data.sedes;
           this.juecesFiltro = this.jueces;
-          this.proyectos = data.proyectos;
+          // this.proyectos = data.proyectos;
         },
         err => {
           console.log(err);
         }
       ).add(() => {
+        this.juecesTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.jueces[i]) {
+            this.juecesTabla.push(this.jueces[i]);
+          }
+        }
         this.utilService.loading = false;
       });
     } else {
@@ -123,6 +132,12 @@ export class JudgesComponent implements OnInit {
           console.log(err);
         }
       ).add(() => {
+        this.juecesTabla = [];
+        for (let i = 0; i < this.rowPerPage; i++) {
+          if (this.jueces[i]) {
+            this.juecesTabla.push(this.jueces[i]);
+          }
+        }
         this.utilService.loading = false;
       });
     }
@@ -155,17 +170,17 @@ export class JudgesComponent implements OnInit {
     this.utilService._loading = true;
     forkJoin({
       proyectos: this.superUser
-        ? this.proyectosService.obtenerTodosLosProyectosCategoria(this.juezActual.id_categorias)
-        : this.proyectosService.obtenerProyectosSuperUser(this.juezActual.id_categorias),
+        ? this.proyectosService.getProjectsCatSede(this.juezActual.sede, this.juezActual.categoria)
+        : this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.juezActual.categoria),
       proyectosViejos: this.proyectosService.obtenerProyectosSelect(this.juezActual.id_jueces)
     }).subscribe(
       data => {
-        this.proyectos = data.proyectos;
-        for (let index = 0; index < data.proyectos.length; index++) {
+        this.proyectos = data.proyectos.data;
+        for (let index = 0; index < data.proyectos.data.length; index++) {
           for (const i of Object.keys(data.proyectosViejos)) {
-            if (data.proyectosViejos[i].id_proyectos === data.proyectos[index].id_proyectos) {
-              console.log('se elimino', data.proyectos[index].id_proyectos);
-              this.proyectos.splice(this.proyectos.indexOf(data.proyectos[index]), 1);
+            if (data.proyectosViejos[i].id_proyectos === data.proyectos.data[index].id_proyectos) {
+              console.log('se elimino', data.proyectos.data[index].id_proyectos);
+              this.proyectos.splice(this.proyectos.indexOf(data.proyectos.data[index]), 1);
               index--;
               break;
             }
@@ -210,6 +225,31 @@ export class JudgesComponent implements OnInit {
     this.proyectosViejos = [];
     this.proyectos = [];
   }
+  nextPage(): void {
+    const total = Math.round(this.jueces.length / this.rowPerPage) < (this.jueces.length / this.rowPerPage)
+      ? Math.round(this.jueces.length / this.rowPerPage) + 1
+      : Math.round(this.jueces.length / this.rowPerPage);
+    if (this.currentPage < total) {
+      this.juecesTabla = [];
+      for (let i = this.currentPage * this.rowPerPage; i < this.jueces.length; i++) {
+        if (i <= (this.currentPage * this.rowPerPage) + this.rowPerPage) {
+          this.juecesTabla.push(this.jueces[i]);
+        }
+      }
+      this.currentPage++;
+    }
+  }
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.juecesTabla = [];
+      this.currentPage--;
+      for (let i = (this.currentPage * this.rowPerPage) - this.rowPerPage; i < this.jueces.length; i++) {
+        if (i <= ((this.currentPage * this.rowPerPage) + this.rowPerPage) - this.rowPerPage) {
+          this.juecesTabla.push(this.jueces[i]);
+        }
+      }
+    }
+  }
   editarJuez() {
     this.utilService._loading = true;
     this.judgesService.updateJudge(this.formJuez.value)
@@ -243,7 +283,7 @@ export class JudgesComponent implements OnInit {
   }
   dropProyectoNuevo(item) {
     this.proyectosNuevos.map((res, index) => {
-      if (res.id_proyectos === item.id_proyectos) {
+      if (res.id_proyectos === item.id) {
         this.proyectosNuevos.splice(index, 1);
       }
     });
@@ -251,26 +291,70 @@ export class JudgesComponent implements OnInit {
   addProyectoNuevo(item) {
     this.proyectosNuevos.push(item);
   }
-  onChangeSedeActual(value) {
+  onChangesedeActual(value) {
     this.utilService._loading = true;
-    this.sedeActual = value;
-    this.proyectosService.obtenerProyectosSuperUserTemp(this.categoriaActual, value)
+    switch (value) {
+      case '1':
+        this.sedeActual = 'el mante';
+        break;
+      case '2':
+        this.sedeActual = 'reynosa';
+        break;
+      case '3':
+        this.sedeActual = 'matamoros';
+        break;
+      case '4':
+        this.sedeActual = 'madero';
+        break;
+      case '5':
+        this.sedeActual = 'nuevo laredo';
+        break;
+      case '6':
+        this.sedeActual = 'victoria';
+        break;
+      case '7':
+        this.sedeActual = 'estatal';
+        break;
+      case '8':
+        this.sedeActual = 'internacional';
+        break;
+    }
+    this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
       .subscribe(data => {
-        this.proyectos = data;
+        this.proyectos = data.data;
       }).add(() => this.utilService._loading = false);
   }
-  onChangeCategoriaActual(value) {
+  onChangecategoriaActual(value) {
     this.utilService._loading = true;
-    this.categoriaActual = value;
+    switch (value) {
+      case '1':
+        this.categoriaActual = 'petit';
+        break;
+      case '2':
+        this.categoriaActual = 'kids';
+        break;
+      case '3':
+        this.categoriaActual = 'juvenil';
+        break;
+      case '4':
+        this.categoriaActual = 'Media superior';
+        break;
+      case '5':
+        this.categoriaActual = 'superior';
+        break;
+      case '6':
+        this.categoriaActual = 'posgrado';
+        break;
+    }
     if (this.sessionData.rol === 'superuser') {
-      this.proyectosService.obtenerProyectosSuperUserTemp(value, this.sedeActual)
+      this.proyectosService.getProjectsCatSede(this.sedeActual, this.categoriaActual)
         .subscribe(data => {
-          this.proyectos = data;
+          this.proyectos = data.data;
         }).add(() => this.utilService._loading = false);
     } else {
-      this.proyectosService.obtenerTodosLosProyectosCategoria(value)
+      this.proyectosService.getProjectsCatSede(this.sessionData.sede, this.categoriaActual)
         .subscribe(data => {
-          this.proyectos = data;
+          this.proyectos = data.data;
         }).add(() => this.utilService._loading = false);
     }
   }
@@ -290,114 +374,26 @@ export class JudgesComponent implements OnInit {
         return 6;
     }
   }
-  saveAsPdf(juez: JudgesRegistered) {
-    this.juezActual = juez;
-    switch (this.juezActual.sede) {
-      case 'El Mante':
-        const doc = new jsPDF('p', 'in', 'letter');
-        doc.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoMante.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        // doc.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        // doc.addImage('assets/cotacytResources/image/DirectorMante.png', 'png', 5.7, 8, 1.3, 1);
-        doc.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Reynosa':
-        const doc1 = new jsPDF('p', 'in', 'letter');
-        doc1.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoReynosa.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc1.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        // doc1.addImage('assets/cotacytResources/image/DirectorReynosa.png', 'png', 5.7, 7.8, 1.3, 1.3);
-        // doc1.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        doc1.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Matamoros':
-        const doc2 = new jsPDF('p', 'in', 'letter');
-        doc2.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoMatamoros.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc2.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6, {align: 'center'});
-        // doc2.addImage('assets/cotacytResources/image/DirectorMatamoros.png', 'png', 5.7, 8, 1.3, 1);
-        // doc2.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        doc2.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Madero':
-        const doc3 = new jsPDF('p', 'in', 'letter');
-        doc3.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoMadero.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc3.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        doc3.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Nuevo Laredo':
-        const doc5 = new jsPDF('p', 'in', 'letter');
-        doc5.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoNuevoLaredo.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc5.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        doc5.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Victoria':
-        const doc6 = new jsPDF('p', 'in', 'letter');
-        doc6.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoVictoria.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc6.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        // doc6.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 1.8, 7.8, 1.3, 1.3);
-        // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-        doc6.save('constancia Juez ' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Estatal':
-        const doc7 = new jsPDF('p', 'in', 'letter');
-        doc7.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoEstatal.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc7.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.35, {align: 'center'});
-        //doc7.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 3.45, 7.6, 1.7, 1.7);
-        // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-        doc7.save('Constancia Juez Estatal' + this.juezActual.nombre + '.pdf');
-        break;
-      case 'Internacional':
-        const doc8 = new jsPDF('p', 'in', 'letter');
-        if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'superior') {
-        doc8.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoInternacionalSuperior.jpg', 'jpg', 0, 0, 8.5, 11)
-        .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-        doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-        //doc8.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-        // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-        doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
-        } else {
-          if (this.sessionData.id_sedes === '9' && this.juezActual.categoria === 'media superior') {
-            doc8.addImage('assets/cotacytResources/image/reconocimientoJurado/ReconocimientoJuradoInternacionalMS.jpg', 'jpg', 0, 0, 8.5, 11)
-            .setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-            doc8.text(this.titlecasePipe.transform(this.juezActual.nombre), 4.2, 6.3, {align: 'center'});
-            //doc8.addImage('assets/cotacytResources/image/DirectorGeneral.png', 'png', 3.45, 7.9, 1.7, 1.7);
-            // doc1.addImage('assets/cotacytResources/image/DirectorVictoria.png', 'png', 5.7, 8, 1.3, 1);
-            doc8.save('Constancia Juez Internacional' + this.juezActual.nombre + '.pdf');
-          } else {
-            swal.fire({
-              title: 'No se encontro la constancia',
-              icon: 'error',
-            });
-          }
-        }
-        break;
-      default:
-        Swal.fire({
-          icon: 'error',
-          title: 'No se encontró la sede'
-        });
-        break;
-    }
-  }
-
-  onChangeSedeActualFiltro(idSede: string) {
-    if (idSede !== 'todo') {
+  onChangeSedeActualFiltro(value: string) {
+    this.jueces = this.juecesFiltro;
+    if (value !== 'todo') {
       const juecesTemp: JudgesRegistered[] = [];
-      this.juecesFiltro.forEach((value, _) => {
-        if (value.id_sedes === idSede) {
-          juecesTemp.push(value);
+      this.jueces.forEach((autor, _) => {
+        if (autor.sede.toLowerCase() === value.toLowerCase()) {
+          juecesTemp.push(autor);
         }
       });
       this.jueces = juecesTemp;
     } else {
       this.jueces = this.juecesFiltro;
     }
+    this.juecesTabla = [];
+    for (let i = 0; i < this.rowPerPage; i++) {
+      if (this.jueces[i]) {
+        this.juecesTabla.push(this.jueces[i]);
+      }
+    }
+    this.currentPage = 1;
   }
 }
 

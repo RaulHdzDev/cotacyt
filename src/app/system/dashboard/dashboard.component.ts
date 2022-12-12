@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
-import { Totales, ProyectosCalificados, ProyectosPorCalificar } from '../../models/dashboard.model';
+import { Totales, ProyectosCalificados, ProyectosPorCalificar, Totales2 } from '../../models/dashboard.model';
 import { Session } from 'src/app/models/session.model';
 import { CategoriasService } from '../../services/categorias.service';
 import { CalificacionesService } from '../../services/calificaciones.service';
@@ -38,9 +38,8 @@ export class DashboardComponent implements OnInit {
 
 
   @ViewChild('swalid') private swalCalificaciones: SwalComponent;
-  @ViewChild('swalid1') private swalInformacion: SwalComponent;
-  @ViewChild('swalid2') private swalReproductor: SwalComponent;
   @ViewChild('video') private videoTag: any;
+
 
 
   public video: string;
@@ -60,7 +59,7 @@ export class DashboardComponent implements OnInit {
     }
   };
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c' },
+    { backgroundColor: '#B18B79' },
   ];
   public barChartLabels: Label[] = ['Petit', 'Kids', 'Juvenil', 'Media Superior', 'Superior', 'Posgrado'];
   public barChartType: ChartType = 'bar';
@@ -73,11 +72,15 @@ export class DashboardComponent implements OnInit {
   public hs;
   public util: Util;
 
+  active: boolean =  true;
+
   totales: Totales[];
+  totales2: Totales2;
   categoria: string;
-  proyectosCalificados: ProyectosCalificados[];
-  proyectosPorCalificar: ProyectosPorCalificar[];
+  proyectosCalificados: any[];
+  proyectosPorCalificar: any[];
   estadisticasDeProyectos: Calificaciones[];
+  final: any[];
 
   proyectosCalificadosPorCategoria: CalificacionesPorCategoria[];
   informacionDeLosProyectos: InformacionDeLosProyectos[];
@@ -91,6 +94,9 @@ export class DashboardComponent implements OnInit {
   categoriaActual: string;
   sedes: Sedes[];
   superUser: boolean;
+  admingral: boolean;
+  sedeEnlace: string;
+  enlace: boolean;
   juez: boolean;
   constructor(
     private dashboardService: DashboardService,
@@ -144,19 +150,20 @@ export class DashboardComponent implements OnInit {
     ];
     if (this.sessionData.rol === 'superuser') {
       forkJoin({
-        proyectos: this.dashboardService.getProyectosSuperUser(),
+        proyectos: this.dashboardService.getAllProjects(),
         totales: this.dashboardService.getTotalesSuperUser(),
-        // estadisticas: this.calificacionesService.proyectosEstadisticas(),
-        grafica: this.dashboardService.getProyectosPorCategorias(),
+        totales2: this.dashboardService.getTotalesProyectosParticipantes(),
+        estadisticas: this.calificacionesService.proyectosEstadisticas(),
+        grafica: this.dashboardService.getEstadisticasProyectosPorCategoria(),
         sedes: this.sedeService.getSedes(),
       }).subscribe(
         data => {
-          console.log(data);
           this.totales = data.totales;
-          this.adminProjects(data.proyectos);
-          // this.estadisticasDeProyectos = data.estadisticas;
+          this.totales2 = data.totales2.data;
+          this.adminProjects(data.proyectos.proyectos);
+          this.estadisticasDeProyectos = data.estadisticas;
           this.sedes = data.sedes,
-            this.construirGrafica(data.grafica);
+            this.construirGrafica(data.grafica.estadisticas);
         }
       ).add(() => this.utilsService._loading = false);
       this.dashboardService.getTotalesSuperUser().subscribe(
@@ -165,37 +172,51 @@ export class DashboardComponent implements OnInit {
         },
         err => console.log(err)
       );
+
+      this.admingral = false;
+      this.enlace = true;
     } else if (this.sessionData.rol === 'admin') {
       forkJoin({
         totales: this.dashboardService.getTotalesAdmin(),
-        proyectos: this.projectsService.getProjects(),
+        totales2: this.dashboardService.getTotalesProyectosParticipantesPorSede(),
+        proyectos: this.projectsService.getAllProjectsSede(),
         estadisticas: this.calificacionesService.proyectosEstadisticasAdmin(),
-        grafica: this.dashboardService.getProyectosPorCategoriasAdmin(),
+        grafica: this.dashboardService.getEstadisticasProyectosPorCategoriaPorSede(),
+        finalizado: this.dashboardService.getJudgesFinish(),
       }).subscribe(
         data => {
-          console.log(data);
           this.totales = data.totales;
-          this.adminProjects(data.proyectos);
+          this.totales2 = data.totales2.data;
+          this.adminProjects(data.proyectos.proyectos);
           this.estadisticasDeProyectos = data.estadisticas;
-          this.construirGrafica(data.grafica);
+          this.construirGrafica(data.grafica.estadisticas);
+          this.final = data.finalizado;
         },
         err => {
           console.log(err);
         }
       ).add(() => this.utilsService._loading = false);
+      this.admingral = true;
+      this.enlace = false;
+      this.sedeEnlace = this.sessionData.sede;
+      console.log(this.sedeEnlace);
+
     } else {
+      this.enlace = true;
       forkJoin({
-        proyectosCalificados: this.dashboardService.getProyectosCalificados(),
+        // proyectosCalificados: this.dashboardService.getProyectosCalificados(),
         totales: this.dashboardService.getTotales(),
+        totales2: this.dashboardService.getTotalesProyectosParticipantesPorSede(),
         proyectosPorCalificar: this.dashboardService.getProyectosPorCalificar(),
-        estadisticas: this.calificacionesService.proyectosEstadisticasJuez(),
-        grafica: this.dashboardService.getProyectosPorCategoriasAdmin()
+        // estadisticas: this.calificacionesService.proyectosEstadisticasJuez(),
+        grafica: this.dashboardService.getEstadisticasProyectosPorCategoriaPorSede()
       }).subscribe(
         data => {
-          this.proyectosCalificados = data.proyectosCalificados;
+          this.totales2 = data.totales2.data;
+          // this.proyectosCalificados = data.proyectosCalificados;
           this.proyectosPorCalificar = data.proyectosPorCalificar;
-          this.estadisticasDeProyectos = data.estadisticas;
-          this.construirGrafica(data.grafica);
+          // this.estadisticasDeProyectos = data.estadisticas.estadisticas;
+          this.construirGrafica(data.grafica.estadisticas);
           this.totales = data.totales;
         },
         err => {
@@ -210,25 +231,6 @@ export class DashboardComponent implements OnInit {
       this.categoria = data.categoria;
     });
 
-    // this.sedeService.getFechas(this.sessionData.id_sedes).subscribe(
-    //   data => {
-    //     this.fechaI = new Date(data.fecha_inicio.replace(/-/g, '\/'));
-    //     this.fechaF = new Date(data.fecha_fin.replace(/-/g, '\/'));
-    //     this.fechaH = new Date();
-    //     this.fechaH.setHours(0, 0, 0, 0);
-    //     if ((this.fechaI.getTime() > this.fechaH.getTime() || this.fechaF.getTime() < this.fechaH.getTime())
-    //     && this.sessionData.rol == 'juez') {
-    //       localStorage.removeItem('session');
-    //       Swal.fire({
-    //         title: 'Plataforma deshabilitada',
-    //         text: 'Se cerrara la sesion',
-    //         icon: 'success'
-    //       }).then(() => {
-    //         window.location.reload();
-    //       });
-    //     }
-    //   }
-    // );
   }
   construirGrafica(data: any) {
     const petit = data.petit;
@@ -241,11 +243,12 @@ export class DashboardComponent implements OnInit {
       { data: [petit, kids, juvenil, mediaSuperior, superior, posgrado], label: 'Proyectos' }
     ];
   }
+
   adminProjects(proyectos) {
     proyectos.filter((res) => {
       this.proyectosService.getStatusAdmin(res.id_proyectos)
         .subscribe(data => {
-          if (data[0].status === '1') {
+          if (data[0].status == '1') {
             this.proyectosCalificados.push(res);
           } else {
             this.proyectosPorCalificar.push(res);
@@ -271,14 +274,33 @@ export class DashboardComponent implements OnInit {
         console.log(err);
       });
   }
+
+  descargarLista() {
+    console.log(this.categoriaActual);
+    console.log(this.sedeActual);
+
+    if (this.sessionData.rol === 'admin') {
+   this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeEnlace)
+      .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
+      .add(() => this.utilsService.loading = false);
+    } else {
+      this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
+      .subscribe(data => this.descargarListaCalificaiones(data, this.categoriaActual))
+      .add(() => this.utilsService.loading = false);
+    }
+
+  }
+
   onChangeSede(value) {
+
     this.sedeActual = value;
     this.utilsService._loading = true;
-    this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
+     this.calificacionesService.listaDeCalificacionesAdmin(this.categoriaActual, this.sedeActual)
       .subscribe(data => this.mostrarListaCalificaiones(data, this.categoriaActual))
       .add(() => this.utilsService.loading = false);
   }
   onChangeCategoria(value) {
+    this.utilsService._loading = true;
     this.categoriaActual = value;
     this.superUser
       ? this.calificacionesService.listaDeCalificacionesAdmin(value, this.sedeActual)
@@ -289,6 +311,7 @@ export class DashboardComponent implements OnInit {
           err => console.log(err))
         .add(() => this.utilsService.loading = false);
   }
+
   mostrarListaCalificaiones(data: any, value) {
     this.proyectosCalificadosPorCategoria = data;
     const petit = data.petit;
@@ -297,31 +320,99 @@ export class DashboardComponent implements OnInit {
     const mediaSuperior = data['media_superior'];
     const superior = data.superior;
     const posgrado = data.posgrado;
+
     switch (value) {
-      case '1':
+      case 'petit':
         this.proyectosCalificacion = petit;
+        // this.imprimir(this.proyectosCalificacion, 'petit');
+        console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
+          return next.total - prev.total;
+        }));
+        this.ocultarTexto(this.proyectosCalificacion);
+        break;
+      case 'kids':
+        this.proyectosCalificacion = kids;
+        // this.imprimir(this.proyectosCalificacion, 'kids');
+        this.ocultarTexto(this.proyectosCalificacion);
+        break;
+
+      case 'juvenil':
+        this.proyectosCalificacion = juvenil;
+        // this.imprimir(this.proyectosCalificacion, 'juvenil');
+        this.ocultarTexto(this.proyectosCalificacion);
+        break;
+
+      case 'media superior':
+        this.proyectosCalificacion = mediaSuperior;
+        // this.imprimir(this.proyectosCalificacion, 'media-superior');
+        this.ocultarTexto(this.proyectosCalificacion);
+
+        break;
+      case 'superior':
+        this.proyectosCalificacion = superior;
+        // this.imprimir(this.proyectosCalificacion, 'superior');
+        this.ocultarTexto(this.proyectosCalificacion);
+        break;
+
+      case 'posgrado':
+        this.proyectosCalificacion = posgrado;
+        // this.imprimir(this.proyectosCalificacion, 'posgrado');
+        this.ocultarTexto(this.proyectosCalificacion);
+        break;
+
+      default:
+        this.proyectosCalificacion = petit;
+        this.ocultarTexto(this.proyectosCalificacion);
+        break;
+
+    }
+  }
+
+  ocultarTexto(proyectosCalificacion){
+    if(this.proyectosCalificacion.length > 0){
+      this.active = false;
+    } else {
+      this.active = true;
+    }
+
+  }
+
+  descargarListaCalificaiones(data: any, value) {
+
+    this.proyectosCalificadosPorCategoria = data;
+    const petit = data.petit;
+    const kids = data.kids;
+    const juvenil = data.juvenil;
+    const mediaSuperior = data['media_superior'];
+    const superior = data.superior;
+    const posgrado = data.posgrado;
+    switch (value) {
+      case 'petit':
+        this.proyectosCalificacion = petit;
+        console.log(this.proyectosCalificacion);
+
         this.imprimir(this.proyectosCalificacion, 'petit');
         console.log(this.proyectosCalificacion.sort(function (prev: any, next: any) {
           return next.total - prev.total;
         }));
         break;
-      case '2':
+      case 'kids':
         this.proyectosCalificacion = kids;
         this.imprimir(this.proyectosCalificacion, 'kids');
         break;
-      case '3':
+      case 'juvenil':
         this.proyectosCalificacion = juvenil;
         this.imprimir(this.proyectosCalificacion, 'juvenil');
         break;
-      case '4':
+      case 'media superior':
         this.proyectosCalificacion = mediaSuperior;
         this.imprimir(this.proyectosCalificacion, 'media-superior');
         break;
-      case '5':
+      case 'superior':
         this.proyectosCalificacion = superior;
         this.imprimir(this.proyectosCalificacion, 'superior');
         break;
-      case '6':
+      case 'posgrado':
         this.proyectosCalificacion = posgrado;
         this.imprimir(this.proyectosCalificacion, 'posgrado');
         break;
@@ -330,1239 +421,32 @@ export class DashboardComponent implements OnInit {
         break;
     }
   }
-  // mostrar informacion de proyecto seleccionado
-  mostrarInfoCalificados(proyecto: ProyectosCalificados) {
+
+
+  abrirVideo(evento: any, id: string) {
     this.utilsService._loading = true;
-    if (this.sessionData.rol === 'admin') {
-      this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    } else {
-      this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    }
-    this.swalInformacion.fire();
+    this.dashboardService.getProject(id).subscribe(data => {
+      if (!data.error) {
+        window.open(data.data.video, '_blank');
+      }
+    }).add(() => this.utilsService._loading = false);
   }
 
-
-  // mostrar informacion de proyecto seleccionado
-  mostrarInfoPorCalificar(proyecto: ProyectosPorCalificar) {
+  abrirPdf(id: string) {
     this.utilsService._loading = true;
-    if (this.sessionData.rol === 'admin') {
-      this.infoProject.obtenerInformacionDeUnProyectoAdmin(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    } else {
-      this.infoProject.obtenerInformacionDeUnProyecto(proyecto.id_proyectos).subscribe(
-        data => {
-          this.informacionDeLosProyectos = data;
-        },
-        err => console.log(err)
-      ).add(() => {
-        this.utilsService._loading = false;
-      });
-    }
-    this.swalInformacion.fire();
+    this.dashboardService.getProject(id).subscribe(data => {
+      if (!data.error) {
+        window.open('http://plataforma.cotacyt.gob.mx/expociencias/creatividad/' + data.data.pdf, '_blank');
+      }
+    }).add(() => this.utilsService._loading = false);
   }
-
-
-
   abrirReproductor(evento: any, id) {
     window.open(id, '_blank');
   }
 
   pdf(event) {
-    window.open('https://mante.hosting.acm.org/api-cecit-2021/uploads/' + event, '_blank');
+    window.open('http://plataforma.cotacyt.gob.mx/expociencias/creatividad/' + event, '_blank');
   }
-
-  saveAsPdf(index: number, autores: string[], proyecto: any) {
-    this.sessionData = JSON.parse(localStorage.getItem('session'));
-
-    this.sessionData.rol === 'superuser'
-      ? this.metodoImprimir(index, proyecto, autores, this.sedeActual)
-      : this.metodoImprimir(index, proyecto, autores, this.sessionData.id_sedes)
-  }
-  
-  // filtra la informacion para mandarla al metodo de impresion
-  metodoImprimir(index: number, proyecto: any, autores: string[], id_sedes: string) {
-    if (index === 0) {
-      switch (id_sedes) {
-        case '1':
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlace(proyecto, autores, 'mante', 'Mante', 'PetitMante');
-              break;
-            case '2':
-              this.firstPlace(proyecto, autores, 'mante', 'Mante', 'KidsMante');
-              break;
-            case '3':
-              this.firstPlace(proyecto, autores, 'mante', 'Mante', 'JuvenilMante');
-              break;
-            case '4':
-              this.firstPlace(proyecto, autores, 'mante', 'Mante', 'MSMante');
-              break;
-            case '5':
-              this.firstPlace(proyecto, autores, 'mante', 'Mante', 'SuperiorMante');
-              break;
-            case '6':
-              this.firstPlace(proyecto, autores, 'mante', 'Mante', 'PosgradoMante');
-              break;
-            case '7':
-              this.firstPlace(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-          }
-
-          break;
-        case '2':
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlace(proyecto, autores, 'reynosa', 'Reynosa', 'PetitReynosa');
-              break;
-            case '2':
-              this.firstPlace(proyecto, autores, 'reynosa', 'Reynosa', 'KidsReynosa');
-              break;
-            case '3':
-              this.firstPlace(proyecto, autores, 'reynosa', 'Reynosa', 'JuvenilReynosa');
-              break;
-            case '4':
-              this.firstPlace(proyecto, autores, 'reynosa', 'Reynosa', 'MSReynosa');
-              break;
-            case '5':
-              this.firstPlace(proyecto, autores, 'reynosa', 'Reynosa', 'SuperiorReynosa');
-              break;
-            case '6':
-              this.firstPlace(proyecto, autores, 'reynosa', 'Reynosa', 'PosgradoReynosa');
-              break;
-            case '7':
-              this.firstPlace(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-          }
-          break;
-        case '3':
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlace(proyecto, autores, 'matamoros', 'Matamoros', 'PetitMatamoros');
-              break;
-            case '2':
-              this.firstPlace(proyecto, autores, 'matamoros', 'Matamoros', 'KidsMatamoros');
-              break;
-            case '3':
-              this.firstPlace(proyecto, autores, 'matamoros', 'Matamoros', 'JuvenilMatamoros');
-              break;
-            case '4':
-              this.firstPlace(proyecto, autores, 'matamoros', 'Matamoros', 'MSMatamoros');
-              break;
-            case '5':
-              this.firstPlace(proyecto, autores, 'matamoros', 'Matamoros', 'SuperiorMatamoros');
-              break;
-            case '6':
-              this.firstPlace(proyecto, autores, 'matamoros', 'Matamoros', 'PosgradoMatamoros');
-              break;
-            case '7':
-              this.firstPlace(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-          }
-          break;
-        case '4':
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlace(proyecto, autores, 'madero', 'Madero', 'PetitMadero');
-              break;
-            case '2':
-              this.firstPlace(proyecto, autores, 'madero', 'Madero', 'KidsMadero');
-              break;
-            case '3':
-              this.firstPlace(proyecto, autores, 'madero', 'Madero', 'JuvenilMadero');
-              break;
-            case '4':
-              this.firstPlace(proyecto, autores, 'madero', 'Madero', 'MSMadero');
-              break;
-            case '5':
-              this.firstPlace(proyecto, autores, 'madero', 'Madero', 'SuperiorMadero');
-              break;
-            case '6':
-              this.firstPlace(proyecto, autores, 'madero', 'Madero', 'PosgradoMadero');
-              break;
-            case '7':
-              this.firstPlace(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-          }
-          break;
-        case '5':
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'PetitNuevoLaredo');
-              break;
-            case '2':
-              this.firstPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'KidsNuevoLaredo');
-              break;
-            case '3':
-              this.firstPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'JuvenilNuevoLaredo');
-              break;
-            case '4':
-              this.firstPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'MSNuevoLaredo');
-              break;
-            case '5':
-              this.firstPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'SuperiorNuevoLaredo');
-              break;
-            case '6':
-              this.firstPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'PosgradoNuevoLaredo');
-              break;
-            case '7':
-              this.firstPlace(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-          }
-          break;
-        case '6':
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlace(proyecto, autores, 'victoria', 'Victoria', 'PetitVictoria');
-              break;
-            case '2':
-              this.firstPlace(proyecto, autores, 'victoria', 'Victoria', 'KidsVictoria');
-              break;
-            case '3':
-              this.firstPlace(proyecto, autores, 'victoria', 'Victoria', 'JuvenilVictoria');
-              break;
-            case '4':
-              this.firstPlace(proyecto, autores, 'victoria', 'Victoria', 'MSVictoria');
-              break;
-            case '5':
-              this.firstPlace(proyecto, autores, 'victoria', 'Victoria', 'SuperiorVictoria');
-              break;
-            case '6':
-              this.firstPlace(proyecto, autores, 'victoria', 'Victoria', 'PosgradoVictoria');
-              break;
-          }
-        case '8':
-          console.log(this.categoriaActual);
-          switch (this.categoriaActual) {
-            case '1':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PetitEstatal');
-              break;
-            case '2':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'KidsEstatal');
-              break;
-            case '3':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'JuvenilEstatal');
-              break;
-            case '4':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'MSEstatal');
-              break;
-            case '5':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'SuperiorEstatal');
-              break;
-            case '6':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-            case '7':
-              this.firstPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-              break;
-          }
-          break;
-      }
-    } else {
-      if (index === 1) {
-        if (!autores) {
-          swal.fire({
-            icon: 'error',
-            title: 'No tienes autores registrados en este proyecto, agrega para descargar.'
-          });
-        }
-
-        switch (id_sedes) {
-          case '1':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlace(proyecto, autores, 'mante', 'Mante', 'PetitMante');
-                break;
-              case '2':
-                this.secondPlace(proyecto, autores, 'mante', 'Mante', 'KidsMante');
-                break;
-              case '3':
-                this.secondPlace(proyecto, autores, 'mante', 'Mante', 'JuvenilMante');
-                break;
-              case '4':
-                this.secondPlace(proyecto, autores, 'mante', 'Mante', 'MSMante');
-                break;
-              case '5':
-                this.secondPlace(proyecto, autores, 'mante', 'Mante', 'SuperiorMante');
-                break;
-              case '6':
-                this.secondPlace(proyecto, autores, 'mante', 'Mante', 'PosgradoMante');
-                break;
-            }
-
-            break;
-          case '2':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlace(proyecto, autores, 'reynosa', 'Reynosa', 'PetitReynosa');
-                break;
-              case '2':
-                this.secondPlace(proyecto, autores, 'reynosa', 'Reynosa', 'KidsReynosa');
-                break;
-              case '3':
-                this.secondPlace(proyecto, autores, 'reynosa', 'Reynosa', 'JuvenilReynosa');
-                break;
-              case '4':
-                this.secondPlace(proyecto, autores, 'reynosa', 'Reynosa', 'MSReynosa');
-                break;
-              case '5':
-                this.secondPlace(proyecto, autores, 'reynosa', 'Reynosa', 'SuperiorReynosa');
-                break;
-              case '6':
-                this.secondPlace(proyecto, autores, 'reynosa', 'Reynosa', 'PosgradoReynosa');
-                break;
-            }
-            break;
-          case '3':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlace(proyecto, autores, 'matamoros', 'Matamoros', 'PetitMatamoros');
-                break;
-              case '2':
-                this.secondPlace(proyecto, autores, 'matamoros', 'Matamoros', 'KidsMatamoros');
-                break;
-              case '3':
-                this.secondPlace(proyecto, autores, 'matamoros', 'Matamoros', 'JuvenilMatamoros');
-                break;
-              case '4':
-                this.secondPlace(proyecto, autores, 'matamoros', 'Matamoros', 'MSMatamoros');
-                break;
-              case '5':
-                this.secondPlace(proyecto, autores, 'matamoros', 'Matamoros', 'SuperiorMatamoros');
-                break;
-              case '6':
-                this.secondPlace(proyecto, autores, 'matamoros', 'Matamoros', 'PosgradoMatamoros');
-                break;
-            }
-            break;
-          case '4':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlace(proyecto, autores, 'madero', 'Madero', 'PetitMadero');
-                break;
-              case '2':
-                this.secondPlace(proyecto, autores, 'madero', 'Madero', 'KidsMadero');
-                break;
-              case '3':
-                this.secondPlace(proyecto, autores, 'madero', 'Madero', 'JuvenilMadero');
-                break;
-              case '4':
-                this.secondPlace(proyecto, autores, 'madero', 'Madero', 'MSMadero');
-                break;
-              case '5':
-                this.secondPlace(proyecto, autores, 'madero', 'Madero', 'SuperiorMadero');
-                break;
-              case '6':
-                this.secondPlace(proyecto, autores, 'madero', 'Madero', 'PosgradoMadero');
-                break;
-            }
-            break;
-          case '5':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'PetitNuevoLaredo');
-                break;
-              case '2':
-                this.secondPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'KidsNuevoLaredo');
-                break;
-              case '3':
-                this.secondPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'JuvenilNuevoLaredo');
-                break;
-              case '4':
-                this.secondPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'MSNuevoLaredo');
-                break;
-              case '5':
-                this.secondPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'SuperiorNuevoLaredo');
-                break;
-              case '6':
-                this.secondPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'PosgradoNuevoLaredo');
-                break;
-            }
-            break;
-          
-          case '6':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlace(proyecto, autores, 'victoria', 'Victoria', 'PetitVictoria');
-                break;
-              case '2':
-                this.secondPlace(proyecto, autores, 'victoria', 'Victoria', 'KidsVictoria');
-                break;
-              case '3':
-                this.secondPlace(proyecto, autores, 'victoria', 'Victoria', 'JuvenilVictoria');
-                break;
-              case '4':
-                this.secondPlace(proyecto, autores, 'victoria', 'Victoria', 'MSVictoria');
-                break;
-              case '5':
-                this.secondPlace(proyecto, autores, 'victoria', 'Victoria', 'SuperiorVictoria');
-                break;
-              case '6':
-                this.secondPlace(proyecto, autores, 'victoria', 'Victoria', 'PosgradoVictoria');
-                break;
-            }
-            break;
-            case '8':
-            switch (this.categoriaActual) {
-              case '1':
-                this.secondPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PetitEstatal');
-                break;
-              case '2':
-                this.secondPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'KidsEstatal');
-                break;
-              case '3':
-                this.secondPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'JuvenilEstatal');
-                break;
-              case '4':
-                this.secondPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'MSEstatal');
-                break;
-              case '5':
-                this.secondPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'SuperiorEstatal');
-                break;
-              case '6':
-                this.secondPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-                break;
-            }
-            break;
-        }
-      } else {
-        if (index === 2) {
-          if (!autores) {
-            swal.fire({
-              icon: 'error',
-              title: 'No tienes autores registrados en este proyecto, agrega para descargar.'
-            });
-          }
-          switch (id_sedes) {
-            case '1':
-              switch (this.categoriaActual) {
-                case '1':
-                  this.thirdPlace(proyecto, autores, 'mante', 'Mante', 'PetitMante');
-                  break;
-                case '2':
-                  this.thirdPlace(proyecto, autores, 'mante', 'Mante', 'KidsMante');
-                  break;
-                case '3':
-                  this.thirdPlace(proyecto, autores, 'mante', 'Mante', 'JuvenilMante');
-                  break;
-                case '4':
-                  this.thirdPlace(proyecto, autores, 'mante', 'Mante', 'MSMante');
-                  break;
-                case '5':
-                  this.thirdPlace(proyecto, autores, 'mante', 'Mante', 'SuperiorMante');
-                  break;
-                case '6':
-                  this.thirdPlace(proyecto, autores, 'mante', 'Mante', 'PosgradoMante');
-                  break;
-              }
-
-              break;
-            case '2':
-              switch (this.categoriaActual) {
-                case '1':
-                  this.thirdPlace(proyecto, autores, 'reynosa', 'Reynosa', 'PetitReynosa');
-                  break;
-                case '2':
-                  this.thirdPlace(proyecto, autores, 'reynosa', 'Reynosa', 'KidsReynosa');
-                  break;
-                case '3':
-                  this.thirdPlace(proyecto, autores, 'reynosa', 'Reynosa', 'JuvenilReynosa');
-                  break;
-                case '4':
-                  this.thirdPlace(proyecto, autores, 'reynosa', 'Reynosa', 'MSReynosa');
-                  break;
-                case '5':
-                  this.thirdPlace(proyecto, autores, 'reynosa', 'Reynosa', 'SuperiorReynosa');
-                  break;
-                case '6':
-                  this.thirdPlace(proyecto, autores, 'reynosa', 'Reynosa', 'PosgradoReynosa');
-                  break;
-              }
-              break;
-            case '3':
-              switch (this.categoriaActual) {
-                case '1':
-                  this.thirdPlace(proyecto, autores, 'matamoros', 'Matamoros', 'PetitMatamoros');
-                  break;
-                case '2':
-                  this.thirdPlace(proyecto, autores, 'matamoros', 'Matamoros', 'KidsMatamoros');
-                  break;
-                case '3':
-                  this.thirdPlace(proyecto, autores, 'matamoros', 'Matamoros', 'JuvenilMatamoros');
-                  break;
-                case '4':
-                  this.thirdPlace(proyecto, autores, 'matamoros', 'Matamoros', 'MSMatamoros');
-                  break;
-                case '5':
-                  this.thirdPlace(proyecto, autores, 'matamoros', 'Matamoros', 'SuperiorMatamoros');
-                  break;
-                case '6':
-                  this.thirdPlace(proyecto, autores, 'matamoros', 'Matamoros', 'PosgradoMatamoros');
-                  break;
-              }
-              break;
-            case '4':
-              switch (this.categoriaActual) {
-                case '1':
-                  this.thirdPlace(proyecto, autores, 'madero', 'Madero', 'PetitMadero');
-                  break;
-                case '2':
-                  this.thirdPlace(proyecto, autores, 'madero', 'Madero', 'KidsMadero');
-                  break;
-                case '3':
-                  this.thirdPlace(proyecto, autores, 'madero', 'Madero', 'JuvenilMadero');
-                  break;
-                case '4':
-                  this.thirdPlace(proyecto, autores, 'madero', 'Madero', 'MSMadero');
-                  break;
-                case '5':
-                  this.thirdPlace(proyecto, autores, 'madero', 'Madero', 'SuperiorMadero');
-                  break;
-                case '6':
-                  this.thirdPlace(proyecto, autores, 'madero', 'Madero', 'PosgradoMadero');
-                  break;
-              }
-              break;
-            case '5':
-              switch (this.categoriaActual) {
-                case '1':
-                  this.thirdPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'PetitNuevoLaredo');
-                  break;
-                case '2':
-                  this.thirdPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'KidsNuevoLaredo');
-                  break;
-                case '3':
-                  this.thirdPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'JuvenilNuevoLaredo');
-                  break;
-                case '4':
-                  this.thirdPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'MSNuevoLaredo');
-                  break;
-                case '5':
-                  this.thirdPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'SuperiorNuevoLaredo');
-                  break;
-                case '6':
-                  this.thirdPlace(proyecto, autores, 'nuevo-laredo', 'NuevoLaredo', 'PosgradoNuevoLaredo');
-                  break;
-              }
-              break;
-              
-            case '6':
-              switch (this.categoriaActual) {
-                case '1':
-                  this.thirdPlace(proyecto, autores, 'victoria', 'Victoria', 'PetitVictoria');
-                  break;
-                case '2':
-                  this.thirdPlace(proyecto, autores, 'victoria', 'Victoria', 'KidsVictoria');
-                  break;
-                case '3':
-                  this.thirdPlace(proyecto, autores, 'victoria', 'Victoria', 'JuvenilVictoria');
-                  break;
-                case '4':
-                  this.thirdPlace(proyecto, autores, 'victoria', 'Victoria', 'MSVictoria');
-                  break;
-                case '5':
-                  this.thirdPlace(proyecto, autores, 'victoria', 'Victoria', 'SuperiorVictoria');
-                  break;
-                case '6':
-                  this.thirdPlace(proyecto, autores, 'victoria', 'Victoria', 'PosgradoVictoria');
-                  break;
-              }
-              break;
-              case '8':
-            switch (this.categoriaActual) {
-              case '1':
-                this.thirdPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PetitEstatal');
-                break;
-              case '2':
-                this.thirdPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'KidsEstatal');
-                break;
-              case '3':
-                this.thirdPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'JuvenilEstatal');
-                break;
-              case '4':
-                this.thirdPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'MSEstatal');
-                break;
-              case '5':
-                this.thirdPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'SuperiorEstatal');
-                break;
-              case '6':
-                this.thirdPlaceEstatal(proyecto, autores, 'estatal', 'Estatal', 'PosgradoEstatal');
-                break;
-            }
-            break;
-          }
-        } else {
-          swal.fire({
-            icon: 'error',
-            title: 'Solo puedes imprimir los 3 primeros lugares'
-          });
-        }
-      }
-    }
-  }
-
-  // metodos para imprimir los 3 primeros lugares de regional y estatal
-  firstPlace({ nombre = '' }, autores: any[], sede: string = '', sede2: string = '', categoriaSede: string = '') {
-    let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'nuevo-laredo') {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(50, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFontSize(14);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFontSize(14);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-    } else {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    }
-  }
-  firstPlaceEstatal({ nombre = '' }, autores: any[], sede: string = '', sede2: string = '', categoriaSede: string = '') {
-    let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'jaumave' || sede === 'nuevo-laredo') {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(19).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFontSize(14);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFontSize(14);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primer Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-    } else {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Primero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(19).setTextColor('#646464');
-
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Primero Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    }
-  }
-  secondPlace({ nombre = '' }, autores: any[], sede: string, sede2: string = '', categoriaSede: string) {
-    let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'nuevo-laredo') {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFontSize(14);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFontSize(14);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    } else {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-    }
-  }
-  secondPlaceEstatal({ nombre = '' }, autores: any[], sede: string, sede2: string = '', categoriaSede: string) {
-    let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'jaumave' || sede === 'nuevo-laredo') {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFontSize(14);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFontSize(14);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    } else {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Segundo' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(16).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Segundo Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-    }
-  }
-  thirdPlace({ nombre = '' }, autores: any[], sede: string, sede2: string = '', categoriaSede: string) {
-    let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'jaumave' || sede === 'nuevo-laredo') {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.65, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFontSize(14);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFontSize(14);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    } else {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    }
-  }
-  thirdPlaceEstatal({ nombre = '' }, autores: any[], sede: string, sede2: string = '', categoriaSede: string) {
-    let nombresAutores: any[] = autores;
-    if (sede === 'madero' || sede === 'jaumave' || sede === 'nuevo-laredo') {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(17).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text('',0,0).setFontSize(17);
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(17).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text('',0,0).setFontSize(15);
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.65, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        doc7.setFontSize(14);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.setFontSize(14);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    } else {
-      if (!autores) {
-        swal.fire({
-          icon: 'error',
-          title: 'El proyecto no tiene autores registrados'
-        });
-      }
-      const doc7 = new jsPDF('p', 'in', 'letter');
-      doc7.addImage('assets/cotacytResources/image/diploma/' + sede + '/Tercero' + categoriaSede + '.jpg', 'jpg', 0, 0, 8.5, 11).setFont('Helvetica').setFontSize(28).setTextColor('#646464');
-      if (nombresAutores.length == 1) {
-        doc7.text('',0,0).setFontSize(19);
-        doc7.text(nombresAutores[0].autor.toString(), 4.2, 6, { align: "center" }).setFontSize(19).setFont('Helvetica').setTextColor('#646464');
-      } else {
-        if (nombresAutores.length == 2) {
-          doc7.text('',0,0).setFontSize(18);
-          doc7.text(nombresAutores[0].autor.toString(), 4.2, 5.9, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.13, { align: "center" }).setFontSize(18).setFont('Helvetica').setTextColor('#646464');
-        } else {
-          if (nombresAutores.length == 3) {
-            doc7.text('',0,0).setFontSize(15);
-            doc7.text(nombresAutores[0].autor.toString(), 4.2, 6.2, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[1].autor.toString(), 4.2, 6.45, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-            doc7.text(nombresAutores[2].autor.toString(), 4.2, 6.70, { align: "center" }).setFontSize(15).setFont('Helvetica').setTextColor('#646464');
-          }
-        }
-      }
-      if (nombre.length >= 30 && nombre.length <= 120) {
-        //let nombreTemp = nombre.substr(0, 50);
-        let nombreTemp2 = nombre.substr(0, nombre.length);
-        doc7.text('', 0, 0).setFontSize(14);
-        doc7.text(nombreTemp2, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.text(nombreTemp2, 4.2, 7.75, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-        //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-        doc7.setFont('Helvetica');
-        doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-      } else {
-        if (nombre.length > 120) {
-          let nombreTemp = nombre.substr(0, 50);
-          let nombreTemp2 = nombre.substr(50, 50);
-          let nombreTemp3 = nombre.substr(100, nombre.length);
-          doc7.text('', 0, 0).setFontSize(14);
-          doc7.text(nombreTemp, 4.2, 7.3, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp2, 4.2, 7.55, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          doc7.text(nombreTemp3, 4.2, 7.8, { align: "center" }).setFontSize(14).setFont('Helvetica').setTextColor('#646464');
-          //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        } else {
-          doc7.text(nombre, 4.2, 7.3, { align: "center" });
-          //doc7.addImage('assets/image/DirectorGeneral.png', 'png', 3.45, 7.7, 1.7, 1.7);
-          doc7.setFont('Helvetica');
-          doc7.save("constancia Tercer Lugar proyecto " + nombre + ".pdf");
-        }
-      }
-
-    }
-  }
-
-
 
   imprimir(proyecto: any, categoria: any) {
     if (proyecto.length !== 0) {
@@ -1585,10 +469,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalPetit = totalPetit.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombrePetit = nombrePetit.concat(nombre, '\r\n');
               sedePetit2 = proyecto[j].sede;
@@ -1631,10 +515,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalKids = totalKids.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreKids = nombreKids.concat(nombre, '\r\n');
               sedeKids = proyecto[j].sede;
@@ -1678,10 +562,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalJuvenil = totalJuvenil.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreJuvenil = nombreJuvenil.concat(nombre, '\r\n');
               sedeJuvenil = proyecto[j].sede;
@@ -1723,10 +607,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalMS = totalMS.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreMS = nombreMS.concat(nombre, '\r\n');
               sedeMS = proyecto[j].sede;
@@ -1771,10 +655,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalSuperior = totalSuperior.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombreSuperior = nombreSuperior.concat(nombre, '\r\n');
               sedeSuperior = proyecto[j].sede;
@@ -1814,10 +698,10 @@ export class DashboardComponent implements OnInit {
                 nombre = proyecto[j].nombre.substring(0, 60);
                 nombre += '\r\n';
                 nombre += proyecto[j].nombre.substring(60);
-                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n', '\r\n');
+                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n', '\r\n');
               } else {
                 nombre = proyecto[j].nombre;
-                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toString(), '\r\n');
+                totalPosgrado = totalPosgrado.concat(Math.round(parseInt(proyecto[j].total)).toFixed(2).toString(), '\r\n');
               }
               nombrePosgrado = nombrePosgrado.concat(nombre, '\r\n');
               sedePosgrado = proyecto[j].sede;

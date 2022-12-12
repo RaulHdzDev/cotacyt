@@ -42,6 +42,10 @@ import { AddAuthorsComponent } from './Components/Authors/add-authors/add-author
 import { FormAuthorComponent } from './Components/Authors/form-author/form-author.component';
 import { SortPipe } from './pipes/sort.pipe';
 import { PeriodoComponent } from './Components/periodo/periodo.component';
+import { RoundPipePipe } from './pipes/round-pipe.pipe';
+import { CeliPipePipe } from './pipes/celi-pipe.pipe';
+import { GeneroComponent } from './Graphics/genero/genero.component';
+import { AreaComponent } from './Graphics/area/area.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +73,10 @@ import { PeriodoComponent } from './Components/periodo/periodo.component';
     FormAuthorComponent,
     SortPipe,
     PeriodoComponent,
+    RoundPipePipe,
+    CeliPipePipe,
+    GeneroComponent,
+    AreaComponent,
   ],
   imports: [
     BrowserModule,

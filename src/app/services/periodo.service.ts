@@ -13,8 +13,23 @@ export class PeriodoService {
   initEstatal(): Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/estatal/activar');
   }
+  saveEstatal(body: any): Observable<any> {
+    const data = {
+      calificaciones: body
+    }
+    return this.http.post(this.servicesConfig.APP_ENDPOINT_LOCAL2 + '/fases/estatal', data);
+  }
+  initInternacional(): Observable<any> {
+    return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/internacional/activar');
+  }
+  saveInternacional(): Observable<any> {
+    return this.http.get(this.servicesConfig.APP_ENDPOINT_LOCAL2 + '/fases/internacional');
+  }
   getStatus():Observable<any> {
     return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/estatal/status');
+  }
+  getStatusInternacional():Observable<any> {
+    return this.http.get(this.servicesConfig.APP_ENDPOINT + 'api/internacional/status');
   }
   uploadFechas(inicio: string, fin: string):Observable<any> {
     const body = {

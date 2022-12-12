@@ -1,4 +1,6 @@
 
+@import '../../../variables';
+
 input {
     height: 40px;
     width: 100%;
@@ -30,7 +32,7 @@ form{
     // margin: 32px;
     border: 2px solid #eaeaea;
     border-radius: .5em;
-    background-color: #0064A7;
+    background-color: $secondary-color;
     position: relative;
     z-index: 2;
 
@@ -42,7 +44,7 @@ form{
         z-index: 1;
         width: 100%;
         height: 10%;
-        background-color: #0064A7;
+        background-color: $secondary-color;
         border-radius: .5em;
     }
 
@@ -74,26 +76,26 @@ form{
     border: none;
     border-radius: 1em;
     width: 100%;
-    background: #0BB5D8;
+    background: $pricipal-color-black;
     cursor: pointer;
     &:hover{
-        background: #43B4E4;
+        background: $pricipal-color;
     }
 }
 
 .boton-iniciar:disabled{
-    background: #67baca;
+    background: $pricipal-color-ligth-0;
     cursor: default;
 }
 
 
 .btn-judges-registered{
-    color: #0064A7;
-    border: 1px solid #0064A7;
+    color: $pricipal-color-black;
+    border: 1px solid $pricipal-color-black;
     background: #fff;
 }
 
 .btn-judges-registered:hover{
     color: #fff;
-    background: #0064A7;
+    background: $pricipal-color-black;
 }

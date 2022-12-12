@@ -18,7 +18,7 @@ export class GraForCatComponent implements OnInit {
       ticks: {
         beginAtZero: true
         }
-      }] 
+      }]
     },
     plugins: {
       datalabels: {
@@ -30,7 +30,7 @@ export class GraForCatComponent implements OnInit {
   };
 
   public barChartColors: Color[] = [
-    { backgroundColor: '#97c83c'},
+    { backgroundColor: '#B58F78'},
   ];
   public barChartLabels: Label[] = ['Petit', 'Kids', 'Juvenil', 'Media superior', 'Superior', 'Posgrado'];
   public barChartType: ChartType = 'bar';
@@ -48,15 +48,15 @@ export class GraForCatComponent implements OnInit {
       label: 'Proyectos por sede'
     }];
 
-    this.proyectosPorCat.getProyectosPorCategoria().subscribe(
+    this.proyectosPorCat.getEstadisticasProyectosPorCategoria().subscribe(
       data => {
         this.categorias = data;
-        const cat1 = data['petit'];
-        const cat2 = data['kids'];
-        const cat3 = data['juvenil'];
-        const cat4 = data['media-superior'];
-        const cat5 = data['superior'];
-        const cat6 = data['posgrado'];
+        const cat1 = data.estadisticas['petit'];
+        const cat2 = data.estadisticas['kids'];
+        const cat3 = data.estadisticas['juvenil'];
+        const cat4 = data.estadisticas['media-superior'];
+        const cat5 = data.estadisticas['superior'];
+        const cat6 = data.estadisticas['posgrado'];
 
         this.barChartData = [{
           data: [cat1, cat2, cat3, cat4, cat5, cat6],
@@ -83,7 +83,7 @@ export class GraForCatComponent implements OnInit {
     var canvas: any = document.getElementById('graficaProy3');
     //creates image
     var canvasImg = canvas.toDataURL("image/png", 1.0);
-    
+
     //creates PDF from img
     var doc = new jsPDF('landscape');
     doc.setFontSize(20);
